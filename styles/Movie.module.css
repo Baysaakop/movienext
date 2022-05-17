@@ -1,0 +1,133 @@
+.movieCard {    
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.movieCard:hover {    
+    box-shadow: 0 1px 2px -2px rgb(0 0 0 / 16%), 0 3px 6px 0 rgb(0 0 0 / 12%), 0 5px 12px 4px rgb(0 0 0 / 9%);
+}
+
+.movieCard img {
+    border-radius: 2px;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.movieCard .score {
+    position: absolute;
+    bottom: 4px;
+    left: 4px;            
+}
+
+.movieCard .action {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+}
+
+.movieCard .action .btnMore {
+    color: #fff;
+    background: rgba(17, 24, 30, 0.7);
+    width: 36px;
+    height: 36px;
+}
+
+.movieCard .action .btnMore:hover {
+    opacity: 0.5;
+}
+
+.movieCard .drawer .ant-drawer-body {
+    padding: 0px;
+}       
+
+.movieCard .drawer {            
+    display: flex; 
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    height: 100%;
+}
+
+.movieCard .drawer div {
+    height: 25%;    
+}
+
+.movieCard .drawer button {    
+    margin-top: 8px;
+    transition: 0.3s ease-in-out;    
+}
+
+.movieCard .drawer button:hover {    
+    background: rgba(52, 152, 219, 0.2);
+}
+
+.movieFilter {
+    margin-bottom: 16px;
+    background: #fff;
+    border: 1px solid #e5e5e5;
+    border-radius: 4px;
+    padding: 16px 16px 0 16px;
+}
+
+.movieDetail .landscape {
+    margin: auto;
+    width: 100%;
+    position: relative;    
+}
+
+.movieDetail .landscape img.landscape {
+    width: 100%;
+    height: auto;      
+}
+
+.movieDetail .landscape .shadow {
+    width: 100%;
+    position: absolute;
+    bottom: 0px;
+    top: 0px;
+    background: rgb(0, 0, 0);
+    background: rgba(0, 0, 0, 0.4);    
+    box-shadow: inset 0px 0px 6px 6px #f0f2f5;
+}
+
+.movieDetail .movieInfo {
+    padding: 8px;
+}
+
+.movieDetail .movieInfo .container {
+    background: #fff;
+    padding: 16px;
+    border-radius: 4px;
+    border: 1px solid #e5e5e5;
+}
+
+.movieDetail .movieInfo .poster {
+    width: 100%;
+    height: auto;
+    object-fit: fill;    
+    border-radius: 4px;
+}
+
+.movieDetail .movieInfo .action {
+    background: #fff;
+    border: 1px solid #e5e5e5;
+    border-radius: 4px;
+    padding: 8px 4px;
+    margin-bottom: 16px;    
+    display: flex;     
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;    
+}
+
+.movieDetail .movieInfo .action div {    
+    width: 25%;
+    transition: 0.3s ease-in-out;        
+    text-align: center;
+}
+
+.movieDetail .movieInfo .action div button:hover {    
+    background: rgba(52, 152, 219, 0.2);
+}

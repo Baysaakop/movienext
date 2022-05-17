@@ -1,0 +1,11 @@
+.footer {
+  height: 120px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 8px 16px;
+  text-align: center;
+  font-size: 16px;
+  font-family: 'Nunito', sans-serif;
+  border-top: 1px solid #eaeaea;
+}

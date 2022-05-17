@@ -1,0 +1,48 @@
+.articleList .container {
+    background: #fff;
+    border: 1px solid #e5e5e5;
+    border-radius: 4px;
+    padding: 16px;
+    margin-bottom: 16px;
+}
+
+.articleCard {
+    width: 100%;
+    margin-bottom: 24px;
+    border: 1px solid #e5e5e5;
+    border-radius: 4px;
+}
+
+.articleDetail {
+    padding: 8px;
+}
+
+.articleDetail .articleBody {
+    background: #fff;
+    border: 1px solid #e5e5e5;
+    border-radius: 4px;      
+    margin-bottom: 24px;  
+}
+
+.articleDetail .articleBody img {
+    width: 100%; 
+    height: auto;
+    object-fit: fill;
+    border-radius: 4px 4px 0 0;
+}
+
+.articleDetail .articleBody .articleText {
+    padding: 24px;      
+}
+
+.articleDetail .articleBody .articleText .articleAuthor {
+    margin-bottom: 16px;
+}
+
+.articleDetail .container {
+    background: #fff;
+    border: 1px solid #e5e5e5;
+    border-radius: 4px;
+    padding: 16px;
+    margin-bottom: 16px;
+}

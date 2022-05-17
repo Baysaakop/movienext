@@ -1,0 +1,56 @@
+.artistCard {
+    border: 1px solid #e5e5e5;
+    border-radius: 4px;
+}
+
+.artistFilter {
+    background: #fff;
+    padding: 16px 16px 0 16px;
+    border: 1px solid #e5e5e5;
+    border-radius: 4px;
+    margin-bottom: 16px;
+}
+
+.artistDetail {
+    padding: 8px;
+}
+
+.artistDetail .avatar {
+    width: 100%;
+    height: auto;
+    border-radius: 4px;
+    margin-bottom: 16px;
+}
+
+.artistDetail .container  {
+    background: #fff;
+    border: 1px solid #e5e5e5;
+    border-radius: 4px;
+    padding: 16px;
+}
+
+.artistDetail .container .socialmedia {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.artistDetail .container .socialmedia button:hover {
+    background: rgba(52, 152, 219, 0.2);
+}
+
+.artistDetail .container .socialmedia button.facebook:hover {
+    color: #3B5998;
+}
+
+.artistDetail .container .socialmedia button.instagram:hover {
+    color: #125688;
+}
+
+.artistDetail .container .socialmedia button.youtube:hover {
+    color: #bb0000;
+}
+
+.artistDetail .container .socialmedia button.twitter:hover {
+    color: #55ACEE;
+}

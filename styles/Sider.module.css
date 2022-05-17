@@ -1,0 +1,32 @@
+.sider .container {
+    background: #fff;
+    border: 1px solid #e5e5e5;
+    border-radius: 4px;
+    padding: 16px;
+}
+
+.sider .container .socialmedia {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.sider .container .socialmedia button:hover {
+    background: rgba(52, 152, 219, 0.2);
+}
+
+.sider .container .socialmedia button.facebook:hover {
+    color: #3B5998;
+}
+
+.sider .container .socialmedia button.instagram:hover {
+    color: #125688;
+}
+
+.sider .container .socialmedia button.youtube:hover {
+    color: #bb0000;
+}
+
+.sider .container .socialmedia button.twitter:hover {
+    color: #55ACEE;
+}

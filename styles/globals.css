@@ -1,16 +1,118 @@
-html,
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&family=Nunito&display=swap');
+
 body {
-  padding: 0;
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-family: "Nunito", sans-serif;
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
+header {
+  position: fixed;
+  z-index: 100;
+  width: 100%;      
+  top: 0%;
+  background: #fff;
 }
 
-* {
-  box-sizing: border-box;
+main {
+  font-family: "Nunito", sans-serif;
+  background: #f0f2f5;
+  padding: 24px 12px;
+  min-height: 80vh;    
+  margin-top: 64px;
+}
+
+footer {
+  bottom: 0%;
+  background: #fff;
+}
+
+@media screen and (min-width: 1200px) {
+  main {
+      padding: 24px 10%;
+  }
+}
+
+@media screen and (min-width: 1600px) {
+  main {
+      padding: 24px 20%;
+  }
+}
+
+.socialmedia {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+}
+
+.socialmedia button {
+  width: 25%;
+}
+
+.moviescore .ant-progress-circle .ant-progress-inner {
+  background: #000;
+}
+
+.moviescore .ant-progress-circle span.ant-progress-text {
+  color: #fff;    
+}
+
+.moviescore.small .ant-progress-circle .ant-progress-inner {
+  border: 2px solid #000;
+}
+
+.moviescore.default .ant-progress-circle .ant-progress-inner {
+  border: 3px solid #000;
+}
+
+.moviescore.large .ant-progress-circle .ant-progress-inner {
+  border: 4px solid #000;
+}
+
+.moviescore.small .ant-progress-circle span.ant-progress-text {
+  font-size: 13px;
+}
+
+.moviescore.default .ant-progress-circle span.ant-progress-text {
+  font-size: 18px;
+}
+
+.moviescore.large .ant-progress-circle span.ant-progress-text {
+  font-size: 24px;
+}
+
+.ant-rate-star-first, .ant-rate-star-second {
+  color: #bfbfbf;
+}
+
+.trailer .ant-modal-body {
+  padding: 40px 0 0 0;
+}
+
+.trailer .ant-modal-content {
+  background: rgba(0, 0, 0, 0);
+}
+
+.trailer .ant-modal-close {
+  color: #d5d5d5;
+}
+
+.trailer .ant-modal-close:hover {
+  color: #fff;
+}
+
+.ant-timeline.ant-timeline-label .ant-timeline-item-label {
+  width: 40px;
+}
+
+.ant-timeline.ant-timeline-alternate .ant-timeline-item-tail, .ant-timeline.ant-timeline-right .ant-timeline-item-tail, .ant-timeline.ant-timeline-label .ant-timeline-item-tail, .ant-timeline.ant-timeline-alternate .ant-timeline-item-head, .ant-timeline.ant-timeline-right .ant-timeline-item-head, .ant-timeline.ant-timeline-label .ant-timeline-item-head, .ant-timeline.ant-timeline-alternate .ant-timeline-item-head-custom, .ant-timeline.ant-timeline-right .ant-timeline-item-head-custom, .ant-timeline.ant-timeline-label .ant-timeline-item-head-custom {
+  left: 56px;
+}
+
+.ant-timeline.ant-timeline-alternate .ant-timeline-item-left .ant-timeline-item-content, .ant-timeline.ant-timeline-right .ant-timeline-item-left .ant-timeline-item-content, .ant-timeline.ant-timeline-label .ant-timeline-item-left .ant-timeline-item-content {
+  left: 56px;
+  width: calc(100% - 72px);
+}
+
+.ant-card-meta-detail > div:not(:last-child) {
+  margin-bottom: 0px;
 }

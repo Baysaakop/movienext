@@ -1,0 +1,30 @@
+.menu a {    
+    color: #000;
+}
+
+.menu a:hover {    
+    color: rgba(0, 0, 0, 0.8);
+}
+
+.menuItem {        
+    padding: 8px; 
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: .3s;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: 8px;    
+}
+
+.menuItem .icon {
+    width: 24px;
+    font-size: 20px;
+    margin-right: 12px;
+}
+
+.menuItem:hover {        
+    background: rgba(52, 152, 219, 0.2);
+}
