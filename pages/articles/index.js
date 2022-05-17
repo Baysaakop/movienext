@@ -1,11 +1,11 @@
 import { LikeOutlined, MessageOutlined, EyeOutlined } from "@ant-design/icons"
 import { Avatar, Col, Divider, List, Row, Typography, Space } from "antd"
-import ArticleCard from "../../components/Article/ArticleCard"
 import ArticleFilter from "../../components/Article/ArticleFilter"
 import Link from 'next/link'
 import React from 'react'
 
 import styles from '../../styles/Article.module.css'
+import Image from "next/image"
 
 const IconText = ({ icon, text }) => (
     <Space>
@@ -88,16 +88,22 @@ const ArticleList = () => {
                                     <IconText icon={EyeOutlined} text={item.view} key="list-vertical-message" />,
                                 ]}
                                 extra={
-                                    <img alt="example" src={item.image} width={180} />
+                                    <img alt="example" src={item.image} width={180} />                                    
                                 }
                             >
                                 <List.Item.Meta
                                     avatar={<Avatar src={item.avatar} size={48} />}
-                                    title={<a href="/users/1">{item.username}</a>}
+                                    title={
+                                        <Link href="/users/1">
+                                            <a>{item.username}</a>
+                                        </Link>
+                                    }
                                     description={item.date}
                                 />
                                 <Link href="/articles/1">
-                                    <Typography.Title level={4}>{item.title}</Typography.Title>
+                                    <a>
+                                        <Typography.Title level={4}>{item.title}</Typography.Title>
+                                    </a>
                                 </Link>
                                 {item.text}
                             </List.Item>
