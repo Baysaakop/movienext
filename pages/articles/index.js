@@ -77,7 +77,7 @@ const ArticleList = ({ articles, categories }) => {
                                         />
                                         <Typography.Title level={4} style={{ marginTop: '8px' }}>{item.title}</Typography.Title>
                                         { item.tags.map(tag => (
-                                            <Tag color="geekblue">{tag}</Tag>
+                                            <Tag key={tag} color="geekblue">{tag}</Tag>
                                         )) }
                                         <Typography.Paragraph ellipsis={{ rows: 4 }} style={{ marginBottom: 0, marginTop: '8px' }}>
                                             {item.excerpt}

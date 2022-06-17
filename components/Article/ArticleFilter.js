@@ -35,7 +35,7 @@ const ArticleFilter = ({ categories }) => {
                     <Select style={{ width: '100%' }}>
                         <Option value="0">Бүх</Option>
                         { categories.map(cat => (
-                            <Option value={cat.id}>{cat.name}</Option>
+                            <Option key={cat.id} value={cat.id}>{cat.name}</Option>
                         )) }
                     </Select>
                 </Form.Item>

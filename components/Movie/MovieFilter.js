@@ -74,7 +74,7 @@ const MovieFilter = (props) => {
                             <Select defaultValue={0} style={{ width: '100%' }} onSelect={onGenreSelect}>
                                 <Option value={0}>Бүх</Option>
                                 {genres.map(genre => (
-                                    <Option value={genre.id}>{genre.name}</Option>
+                                    <Option key={genre.id} value={genre.id}>{genre.name}</Option>
                                 ))}
                             </Select>
                         </Form.Item>

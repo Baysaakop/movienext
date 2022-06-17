@@ -55,7 +55,7 @@ const ArticleDetail = ({ article }) => {
                     >
                         <Typography.Title level={2}>{article.title}</Typography.Title>
                         { article.tags.map(tag => (
-                            <Tag color="geekblue">{tag}</Tag>
+                            <Tag key={tag} color="geekblue">{tag}</Tag>
                         )) }
                         <div style={{ fontSize: '16px', marginTop: '16px' }} dangerouslySetInnerHTML={{ __html: article.content.html }}></div>    
                         <p style={{ fontStyle: 'italic', textAlign: 'end' }}>
