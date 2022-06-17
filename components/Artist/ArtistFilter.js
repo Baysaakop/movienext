@@ -30,7 +30,7 @@ const ArtistFilter = () => {
                 <Row gutter={16}>
                     <Col xs={24} sm={24} md={8} lg={8}>
                         <Form.Item label="Мэргэжил" name="occupation">
-                            <Select defaultValue="0" style={{ width: '100%' }}>
+                            <Select style={{ width: '100%' }}>
                                 <Option value="0">All</Option>
                                 <Option value="1">Жүжигчин</Option>
                                 <Option value="2">Найруулагч</Option>
@@ -41,7 +41,7 @@ const ArtistFilter = () => {
                     </Col>
                     <Col xs={24} sm={24} md={8} lg={8}>
                         <Form.Item label="Он" name="year">
-                            <Select defaultValue="0" style={{ width: '100%' }}>
+                            <Select style={{ width: '100%' }}>
                                 <Option value="0">2000-с хойш</Option>
                                 <Option value="1">1990~2000</Option>
                                 <Option value="2">1980~1990</Option>
@@ -52,7 +52,7 @@ const ArtistFilter = () => {
                     </Col>
                     <Col xs={24} sm={24} md={8} lg={8}>
                         <Form.Item label="Эрэмбэлэх" name="order">
-                            <Select defaultValue="0" style={{ width: '100%' }}>
+                            <Select style={{ width: '100%' }}>
                                 <Option value="0">Сүүлд нэмэгдсэн</Option>
                                 <Option value="1">Насаар</Option>
                                 <Option value="2">Үсгийн дарааллаар</Option>                                

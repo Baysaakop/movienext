@@ -24,7 +24,7 @@ const UserDetail = () => {
 
     return (
         <div>
-            <Row gutter={[24, 24]}>
+            <Row gutter={[16, 16]}>
                 <Col xs={24} sm={24} md={16}>
                     <div style={{ background: '#fff', padding: '16px', border: '1px solid #e5e5e5', borderRadius: '4px' }}>
                         <Tabs defaultActiveKey="1">
@@ -103,7 +103,7 @@ const UserDetail = () => {
                         </div>         
                         <Button block type='primary' icon={<UserAddOutlined />}>Follow</Button>
                     </div>
-                    <div style={{ background: '#fff', padding: '16px', border: '1px solid #e5e5e5', borderRadius: '4px', marginTop: '24px' }}>
+                    <div style={{ background: '#fff', padding: '16px', border: '1px solid #e5e5e5', borderRadius: '4px', marginTop: '16px' }}>
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', textAlign: 'center', margin: '8px 0' }}>
                             <div>
                                 <Typography.Text style={{ margin: 0, fontWeight: 'bold' }}>Кино:</Typography.Text>
@@ -119,7 +119,7 @@ const UserDetail = () => {
                             </div>
                         </div>         
                     </div>
-                    <div style={{ background: '#fff', padding: '16px', border: '1px solid #e5e5e5', borderRadius: '4px', marginTop: '24px' }}>
+                    <div style={{ background: '#fff', padding: '16px', border: '1px solid #e5e5e5', borderRadius: '4px', marginTop: '16px' }}>
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', textAlign: 'center', margin: '8px 0' }}>
                             <div>
                                 <Typography.Text style={{ fontWeight: 'bold', display: 'block', marginBottom: '8px' }}>Киноны дундаж:</Typography.Text>

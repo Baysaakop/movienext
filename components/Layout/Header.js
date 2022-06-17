@@ -43,18 +43,26 @@ const Header = () => {
                     </div>
                     <div className={styles.right}>
                         <Space size={8} wrap>
-                            <Button 
-                                type='text'
-                                size='large'
-                            >
-                                Нэвтрэх
-                            </Button>
-                            <Button 
-                                type='ghost'
-                                size='large'
-                            >
-                                Бүртгүүлэх
-                            </Button>
+                            <Link href="/auth/login">
+                                <a>
+                                    <Button 
+                                        type='ghost'
+                                        size='large'
+                                    >
+                                        Нэвтрэх
+                                    </Button>
+                                </a>
+                            </Link>
+                            <Link href="/auth/register">
+                                <a>
+                                    <Button 
+                                        type='primary'
+                                        size='large'
+                                    >
+                                        Бүртгүүлэх
+                                    </Button>
+                                </a>
+                            </Link>
                         </Space>
                     </div>
                 </div>
@@ -76,11 +84,15 @@ const Header = () => {
                         </Link>
                     </div>
                     <div className={styles.right}>
-                        <Button 
-                            type='ghost'
-                            size='large'
-                            icon={<UserAddOutlined />}
-                        />                                                    
+                        <Link href="/auth/login">
+                            <a>
+                                <Button 
+                                    type='ghost'
+                                    size='large'
+                                    icon={<UserAddOutlined />}
+                                /> 
+                            </a>                      
+                        </Link>                             
                     </div>
                     <Drawer title="Үндсэн цэс" placement="left" onClose={hideMenu} visible={visible}>
                         <Menu />

@@ -1,10 +1,37 @@
 import { CommentOutlined, EyeOutlined, FacebookFilled, InstagramFilled, LikeOutlined, MediumOutlined, TwitterOutlined, UserAddOutlined, YoutubeFilled } from '@ant-design/icons'
-import { Avatar, Col, Row, Typography, Card, Divider, Space, Button, Statistic } from 'antd'
+import { Avatar, Col, Row, Typography, Card, Divider, Space, Button, Statistic, Tag } from 'antd'
 import Link from 'next/link'
+import Image from 'next/image'
 import ArticleComments from '../../../components/Article/ArticleComments'
 import styles from '../../../styles/Article.module.css'
 
-const ArticleDetail = () => {
+import graphcms from '../../../graphql/graphcms'
+import getArticle from '../../../graphql/Article/getArticle'
+import getArticleSlugs from '../../../graphql/Article/getArticleSlugs'
+
+export async function getStaticPaths() {
+    const { articles } = await graphcms.request(getArticleSlugs)
+    return {
+        paths: articles.map((article) => ({
+            params: { slug: article.slug }
+        })),
+        fallback: false,
+    }    
+}
+
+export async function getStaticProps({ params }) {
+    const slug = params.slug;
+    const data = await graphcms.request(getArticle, {slug});    
+    const article = data.article;
+    return {
+        props: {
+            article,
+        },
+        revalidate: 10,
+    };
+}
+
+const ArticleDetail = ({ article }) => {
     return (
         <div className={styles.articleDetail}>
             <Row gutter={[16, 16]}>
@@ -12,7 +39,13 @@ const ArticleDetail = () => {
                     <Card             
                         className={styles.articleBody}                   
                         cover={
-                            <img alt="example" src="https://a.ltrbxd.com/resized/story/image/2/3/7/6/6/9/shard/7555/blob-704-704-0-0-fill.jpg?k=e51d703551" style={{ width: '100%', height: 'auto', objectFit: 'fill', borderRadius: '4px 4px 0 0' }} />
+                            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', overflow: 'hidden' }}>
+                                <img
+                                    alt={article.title} 
+                                    src={article.cover.url}                                                 
+                                    style={{ width: 'auto', height: '100%', maxHeight: '500px', objectFit: 'cover' }}
+                                />                               
+                            </div>        
                         }
                         actions={[
                             <span key="like" style={{ color: 'rgba(0, 0, 0, 0.75)' }}><LikeOutlined /> {214} Таалагдсан</span>,
@@ -20,19 +53,14 @@ const ArticleDetail = () => {
                             <span key="view" style={{ color: 'rgba(0, 0, 0, 0.75)' }}><EyeOutlined /> {2234} Үзсэн</span>,
                         ]}
                     >
-                        <Card.Meta
-                            avatar={<Avatar src="https://www.w3schools.com/howto/img_avatar.png" size={50} />}
-                            title={<Typography.Title level={4} style={{ margin: 0 }}>Alexus Ripley</Typography.Title>}
-                            description="Нийтлэгдсэн: 2022 оны 5 сарын 10"
-                        />
-                        <Typography.Title level={1} style={{ marginTop: '16px' }}>10 Best Robert Pattinson Performances</Typography.Title>
-                        <p style={{ fontSize: '16px' }}>
-                            With the recent release of Matt Reeves The Batman and Christopher Nolan’s Tenet before that, Robert Pattinson has been at the center of media attention lately. Kick-starting his career with the teen sensation Twilight before developing a taste for indie, Pattinson has proven his ability to tap into various roles and genres. Now that he has done the two most mainstream Hollywood things to do, becoming a superhero and working with Nolan, let’s look at Pattinson’s impressive filmography so far.
-                            <br /><br />
-                            Here is a list featuring the 10 Best Robert Pattinson Performances:
-                            <br />
-                            www.highonfilms.com/robert-pattinson-movie-performances/
-                        </p>           
+                        <Typography.Title level={2}>{article.title}</Typography.Title>
+                        { article.tags.map(tag => (
+                            <Tag color="geekblue">{tag}</Tag>
+                        )) }
+                        <div style={{ fontSize: '16px', marginTop: '16px' }} dangerouslySetInnerHTML={{ __html: article.content.html }}></div>    
+                        <p style={{ fontStyle: 'italic', textAlign: 'end' }}>
+                            Нийтлэгдсэн: {article.date}
+                        </p>
                     </Card>
                     <ArticleComments />
                 </Col>
@@ -40,8 +68,16 @@ const ArticleDetail = () => {
                     <div className={styles.container}>
                         <Typography.Title level={5}>Нийтлэлч:</Typography.Title>
                         <Space size={16} style={{ marginBottom: '16px' }}>
-                            <Avatar src="https://www.w3schools.com/howto/img_avatar.png" size={50} />
-                            <Typography.Title level={4} style={{ margin: 0 }}>Alexus Ripley</Typography.Title>                            
+                            <Link href={`/users/${article.author.account.id}`}>
+                                <a>
+                                    <Avatar src={article.author.account.avatar.url} size={50} />
+                                </a>
+                            </Link>
+                            <Link href={`/users/${article.author.account.id}`}>
+                                <a>
+                                    <Typography.Title level={4} style={{ margin: 0 }}>{article.author.account.username}</Typography.Title>
+                                </a>
+                            </Link>
                         </Space>
                         <p>Something about biography etc...</p>                                
                         <Button block type='ghost' icon={<FacebookFilled />} style={{ marginBottom: '8px' }}>Facebook</Button>
@@ -59,7 +95,7 @@ const ArticleDetail = () => {
                                 <Typography.Title level={4} style={{ margin: 0 }}>127</Typography.Title>
                             </div>
                         </div>         
-                        <Button block type='primary' icon={<UserAddOutlined />}>Follow</Button>
+                        <Button block type='primary' icon={<UserAddOutlined />}>Дагах</Button>
                     </div>
                     <div className={styles.container}>
                         <Typography.Title level={5}>Санал болгох:</Typography.Title>

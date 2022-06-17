@@ -7,7 +7,7 @@ const MovieScore = ({ score, size }) => {
         if (percent === 0 ) {
             return '?'
         } else {
-            return percent
+            return (percent / 20).toFixed(1)
         }
     }
 

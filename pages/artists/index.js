@@ -16,7 +16,7 @@ const ArtistList = ({ artists, total }) => {
     return (
         <div>
             <div style={{ padding: '8px 0' }}>
-                <Typography.Title level={4} style={{ margin: 0 }}>Уран бүтээлчид: {total}</Typography.Title>            
+                <Typography.Title level={4} style={{ margin: 0 }}>Уран бүтээлчид</Typography.Title>            
                 <Divider style={{ margin: '8px 0' }} />
             </div>
             <ArtistFilter />
@@ -47,9 +47,9 @@ const ArtistList = ({ artists, total }) => {
                                 hoverable
                                 className={styles.artistCard}
                                 cover={<img alt={artist.name} src={artist.avatar} style={{ width: '100%', height: 'auto', objectFit: 'cover' }} />}
-                                size="small"
+                                size="small"                                
                             >
-                                <Card.Meta title={artist.name} />
+                                <span>{artist.name}</span>
                             </Card>                       
                         </Link>
                     </List.Item>

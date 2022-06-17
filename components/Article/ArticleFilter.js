@@ -3,7 +3,7 @@ import { Button, Form, Input, Select, Typography } from "antd"
 const { Search } = Input
 const { Option } = Select
 
-const ArticleFilter = () => {
+const ArticleFilter = ({ categories }) => {
 
     const [form] = Form.useForm()
 
@@ -17,6 +17,10 @@ const ArticleFilter = () => {
             <Form
                 layout="vertical"
                 form={form}
+                initialValues={{ 
+                    type: '0',
+                    order: '0'
+                }}
             >
                  <Form.Item label="Нэрээр хайх" name="search">
                     <Search 
@@ -28,14 +32,15 @@ const ArticleFilter = () => {
                     />          
                 </Form.Item>
                 <Form.Item label="Төрөл" name="type">
-                    <Select defaultValue="0" style={{ width: '100%' }}>
+                    <Select style={{ width: '100%' }}>
                         <Option value="0">Бүх</Option>
-                        <Option value="1">Мэдээ мэдээлэл</Option>
-                        <Option value="2">Шүүмж сэтгэгдэл</Option>
+                        { categories.map(cat => (
+                            <Option value={cat.id}>{cat.name}</Option>
+                        )) }
                     </Select>
                 </Form.Item>
                 <Form.Item label="Эрэмбэлэх" name="order">
-                    <Select defaultValue="0" style={{ width: '100%' }}>
+                    <Select style={{ width: '100%' }}>
                         <Option value="0">Сүүлд нэмэгдсэн</Option>
                         <Option value="1">Like-н тоогоор</Option>
                         <Option value="2">Үзэлтийн тоогоор</Option>                                
