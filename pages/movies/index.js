@@ -14,27 +14,8 @@ const MovieList = () => {
     const [genre, setGenre] = useState(0)
     const [decade, setDecade] = useState(0)
     const [year, setYear] = useState(0)
-    const [score, setScore] = useState(0)
-
-    const { data } = useSWR(getURL, fetcher);
-
-    function getURL () {
-        let url = 'https://movieplusback.herokuapp.com/api/movies/films?'
-        if (genre && genre !== 0) {
-            url += `genre=${genre}&`
-        }
-        if (year && year !== 0) {
-            url += `yearfrom=${year}&yearto=${year}&`
-        }
-        else if (decade && decade !== 0) {
-            url += `yearfrom=${decade}&yearto=${decade+10}&`
-        }  
-        if (score && score !== 0) {
-            url += `scorefrom=${(score-1)*20}&scoreto=${score * 20}&`
-        }
-        url += `page=${pageIndex}`
-        return url
-    }
+    const [scoreTo, setScoreTo] = useState(0)    
+    const [order, setOrder] = useState()   
 
     function onPageChange (pageNum) {
         setPageIndex(pageNum)
@@ -53,9 +34,36 @@ const MovieList = () => {
         setYear(year)
     }    
 
-    function onScoreSelect (score) {
-        setScore(score)
+    function onScoreToSelect (scoreTo) {
+        setScoreTo(scoreTo)
     }
+
+    function onOrderSelect (order) {
+        setOrder(order)
+    }
+
+    function getURL () {
+        let url = 'https://movieplusback.herokuapp.com/api/movies/movielist/?'
+        if (genre && genre !== 0) {
+            url += `genre=${genre}&`
+        }
+        if (decade && decade !== 0) {
+            url += `decade=${decade}&`
+        }  
+        if (year && year !== 0) {
+            url += `year=${year}&`
+        }        
+        if (scoreTo && scoreTo !== 0) {
+            url += `scoreto=${scoreTo * 20}&`
+        }
+        if (order && order !== '') {
+            url += `order=${order}&`
+        }
+        url += `page=${pageIndex}`
+        return url
+    }
+
+    const { data } = useSWR(getURL, fetcher);
 
     return (
         <div>                        
@@ -63,7 +71,7 @@ const MovieList = () => {
                 <Typography.Title level={4} style={{ margin: 0 }}>Кино {data ? `(${data.count})` : ''}</Typography.Title>            
                 <Divider style={{ margin: '8px 0' }} />
             </div>
-            <MovieFilter onGenreSelect={onGenreSelect} onDecadeSelect={onDecadeSelect} onYearSelect={onYearSelect} onScoreSelect={onScoreSelect} />
+            <MovieFilter onGenreSelect={onGenreSelect} onDecadeSelect={onDecadeSelect} onYearSelect={onYearSelect} onScoreToSelect={onScoreToSelect} onOrderSelect={onOrderSelect} />
             { data ? (
                 <List 
                     grid={{
@@ -97,14 +105,5 @@ const MovieList = () => {
         </div>
     )
 }
-
-// export const getStaticProps = async () => {
-//     const res = await fetch(`https://movieplusback.herokuapp.com/api/movies/films/`);
-//     const data = await res.json();
-
-//     return {
-//         props: { movies: data.results, total: data.count }
-//     }
-// }
 
 export default MovieList

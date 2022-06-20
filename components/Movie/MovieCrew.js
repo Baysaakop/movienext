@@ -1,31 +1,27 @@
-import { Card, Divider, List, Space, Typography } from 'antd'
+import { Card, Divider, List, Typography } from 'antd'
+import axios from 'axios';
 import Link from 'next/link'
+import Image from 'next/image'
+import { useEffect, useState } from 'react';
 import styles from '../../styles/Movie.module.css'
 
-const data = [
-    {
-      title: 'Benedict Cumberbatch',
-      img: 'https://www.themoviedb.org/t/p/w138_and_h175_face/fBEucxECxGLKVHBznO0qHtCGiMO.jpg',
-      role: 'Продюсер',
-    },
-    {
-      title: 'Elizabeth Olsen',
-      img: 'https://www.themoviedb.org/t/p/w138_and_h175_face/mbMsmQE5CyMVTIGMGCw2XpcPCOc.jpg',
-      role: 'Найруулагч',
-    },
-    {
-      title: 'Benedict Wong',
-      img: 'https://www.themoviedb.org/t/p/w138_and_h175_face/ukmfsl59Isvn9odgzMWBidA3cmt.jpg',
-      role: 'Кино зохиолч',
-    },
-    {
-      title: 'Xochitl Gomez',
-      img: 'https://www.themoviedb.org/t/p/w138_and_h175_face/oo1wzI9zaRWvZOsae43raoPykgb.jpg',
-      role: 'Зураглаач',
-    },
-];
+const MovieCrew = ({ id }) => {
 
-const MovieCrew = () => {
+    const [data, setData] = useState([])
+
+    useEffect(() => {
+        axios({
+            method: 'GET',
+            url: `https://movieplusback.herokuapp.com/api/movies/crewmembers?film=${id}`
+        })
+        .then(res => {            
+            setData(res.data.results)
+        })
+        .catch(err => {
+            console.log(err)
+        })
+    }, [id])
+
     return (
         <div className={styles.container}>
             <Typography.Title level={4}>Баг бүрэлдэхүүн</Typography.Title>
@@ -43,14 +39,26 @@ const MovieCrew = () => {
                 dataSource={data}
                 style={{ marginTop: '16px' }}
                 renderItem={item => (
-                    <List.Item>
-                        <Card 
-                            hoverable
-                            cover={<img alt='example' src={item.img} style={{ width: '100%', height: 'auto', objectFit: 'cover' }} />}
-                            size="small"
-                        >
-                            <Card.Meta title={item.title} description={item.role} />
-                        </Card>
+                    <List.Item key={item.id}>
+                        <Link href={`/artists/${item.artist.id}`}>
+                            <a>
+                                <Card 
+                                    hoverable
+                                    cover={
+                                        <Image
+                                            alt={item.artist.name}
+                                            src={item.artist.avatar}
+                                            width={200}
+                                            height={300}
+                                            layout="responsive"
+                                        />
+                                    }
+                                    size="small"
+                                >
+                                    <Card.Meta title={item.artist.name} description={item.roles[0].name} />
+                                </Card>
+                            </a>
+                        </Link>
                     </List.Item>
                 )}
             />

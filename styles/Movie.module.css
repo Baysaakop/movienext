@@ -107,13 +107,13 @@
     width: 100%;
     height: auto;
     object-fit: fill;    
-    border-radius: 4px;
+    border-radius: 4px 4px 0 0;    
 }
 
 .movieDetail .movieInfo .action {
     background: #fff;
     border: 1px solid #e5e5e5;
-    border-radius: 4px;
+    border-radius: 0 0 4px 4px;
     padding: 8px 4px;
     margin-bottom: 16px;    
     display: flex;     

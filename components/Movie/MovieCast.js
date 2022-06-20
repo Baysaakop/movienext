@@ -1,45 +1,28 @@
 import { Card, Divider, List, Typography } from 'antd'
+import axios from 'axios';
+import Link from 'next/link'
+import Image from 'next/image'
+import { useEffect, useState } from 'react';
 import styles from '../../styles/Movie.module.css'
 
-const data = [
-    {
-      title: 'Benedict Cumberbatch',
-      img: 'https://www.themoviedb.org/t/p/w138_and_h175_face/fBEucxECxGLKVHBznO0qHtCGiMO.jpg',
-      role: 'Dr.Strange',
-    },
-    {
-      title: 'Elizabeth Olsen',
-      img: 'https://www.themoviedb.org/t/p/w138_and_h175_face/mbMsmQE5CyMVTIGMGCw2XpcPCOc.jpg',
-      role: 'Wanda Maximoff',
-    },
-    {
-      title: 'Benedict Wong',
-      img: 'https://www.themoviedb.org/t/p/w138_and_h175_face/ukmfsl59Isvn9odgzMWBidA3cmt.jpg',
-      role: 'Wong',
-    },
-    {
-      title: 'Xochitl Gomez',
-      img: 'https://www.themoviedb.org/t/p/w138_and_h175_face/oo1wzI9zaRWvZOsae43raoPykgb.jpg',
-      role: 'America Chavez',
-    },
-    {
-      title: 'Chiwetel Ejiofor',
-      img: 'https://www.themoviedb.org/t/p/w138_and_h175_face/kq5DDnqqofoRI0t6ddtRlsJnNPT.jpg',
-      role: 'Karl Mordo',
-    },
-    {
-      title: 'Jett Klyne',
-      img: 'https://www.themoviedb.org/t/p/w138_and_h175_face/faWOw1XJAc3NNlnlE9yFIIbinQa.jpg',
-      role: 'Tommy Maximoff',
-    },
-    {
-      title: 'Julian Hilliard',
-      img: 'https://www.themoviedb.org/t/p/w138_and_h175_face/umnRZFm9pQ9xB53PQwUPFOVul4j.jpg',
-      role: 'Billy Maximoff',
-    },
-  ];
+const MovieCast = ({ id }) => {
 
-const MovieCast = () => {
+    const [data, setData] = useState([])
+
+    useEffect(() => {
+        axios({
+            method: 'GET',
+            url: `https://movieplusback.herokuapp.com/api/movies/castmembers?film=${id}`
+        })
+        .then(res => {            
+            console.log(res.data.results)
+            setData(res.data.results)
+        })
+        .catch(err => {
+            console.log(err)
+        })
+    }, [id])
+
     return (
         <div className={styles.container}>
             <Typography.Title level={4}>Жүжигчид</Typography.Title>
@@ -57,14 +40,26 @@ const MovieCast = () => {
                 dataSource={data}
                 style={{ marginTop: '16px' }}
                 renderItem={item => (
-                    <List.Item>
-                        <Card 
-                            hoverable
-                            cover={<img alt='example' src={item.img} style={{ width: '100%', height: 'auto', objectFit: 'cover' }} />}
-                            size="small"
-                        >
-                            <Card.Meta title={item.title} description={item.role} />
-                        </Card>
+                    <List.Item key={item.id}>
+                        <Link href={`/artists/${item.artist.id}`}>
+                            <a>
+                                <Card 
+                                    hoverable
+                                    cover={
+                                        <Image
+                                            alt={item.artist.name}
+                                            src={item.artist.avatar}
+                                            width={200}
+                                            height={300}
+                                            layout="responsive"
+                                        />
+                                    }
+                                    size="small"
+                                >
+                                    <Card.Meta title={item.artist.name} description={item.role_name} />
+                                </Card>
+                            </a>
+                        </Link>
                     </List.Item>
                 )}
             />

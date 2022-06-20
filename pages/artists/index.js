@@ -1,4 +1,4 @@
-import { Divider, List, Typography, Card } from "antd"
+import { Divider, List, Typography, Card, Tooltip } from "antd"
 import { useState } from 'react'
 import Link from "next/link"
 import ArtistFilter from "../../components/Artist/ArtistFilter"
@@ -43,14 +43,16 @@ const ArtistList = ({ artists, total }) => {
                 renderItem={artist => (
                     <List.Item key={artist.id}>
                         <Link href={`/artists/${artist.id}`}>
-                            <Card 
-                                hoverable
-                                className={styles.artistCard}
-                                cover={<img alt={artist.name} src={artist.avatar} style={{ width: '100%', height: 'auto', objectFit: 'cover' }} />}
-                                size="small"                                
-                            >
-                                <span>{artist.name}</span>
-                            </Card>                       
+                            <a>                                
+                                <Card 
+                                    hoverable
+                                    className={styles.artistCard}
+                                    cover={<img alt={artist.name} src={artist.avatar} style={{ width: '100%', height: 'auto', objectFit: 'cover' }} />}
+                                    size="small"                                
+                                >
+                                    <span>{artist.name}</span>
+                                </Card>               
+                            </a>        
                         </Link>
                     </List.Item>
                 )}

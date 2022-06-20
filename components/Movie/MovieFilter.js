@@ -49,8 +49,12 @@ const MovieFilter = (props) => {
         }        
     }
 
-    function onScoreSelect(score) {
-        props.onScoreSelect(score)
+    function onScoreToSelect(score) {
+        props.onScoreToSelect(score)
+    }
+
+    function onOrderSelect(order) {
+        props.onOrderSelect(order)
     }
 
     return (
@@ -95,7 +99,7 @@ const MovieFilter = (props) => {
                     </Col>
                     <Col xs={24} sm={24} md={6} lg={6}>
                         <Form.Item label="Үнэлгээ" name="score">
-                            <Select defaultValue={0} style={{ width: '100%' }} onSelect={onScoreSelect}>
+                            <Select defaultValue={0} style={{ width: '100%' }} onSelect={onScoreToSelect}>
                                 <Option value={0}>Бүх</Option>
                                 <Option value={1}>★</Option>
                                 <Option value={2}>★★</Option>
@@ -107,10 +111,15 @@ const MovieFilter = (props) => {
                     </Col>
                     <Col xs={24} sm={24} md={6} lg={6}>
                         <Form.Item label="Эрэмбэлэх" name="order">
-                            <Select style={{ width: '100%' }}>
-                                <Option value="0">Сүүлд нэмэгдсэн</Option>
-                                <Option value="1">Нээлтийн он сар өдөр</Option>
-                                <Option value="2">Үнэлгээгээр</Option>                                
+                            <Select defaultValue="-created_at" style={{ width: '100%' }} onSelect={onOrderSelect}>
+                                <Option value="-created_at">Сүүлд нэмэгдсэн</Option>
+                                <Option value="created_at">Эхэнд нэмэгдсэн</Option>
+                                <Option value="-view_count">Хандалт буурахаар</Option>
+                                <Option value="view_count">Хандалт өгсөхөөр</Option>
+                                <Option value="-releasedate">Нээлтийн огноо (шинэ)</Option>
+                                <Option value="releasedate">Нээлтийн огноо (хуучин)</Option>
+                                <Option value="-avg_score">Үнэлгээ буурахаар</Option>                                
+                                <Option value="avg_score">Үнэлгээ өгсөхөөр</Option>                                
                             </Select>
                         </Form.Item>
                     </Col>
