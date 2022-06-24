@@ -36,31 +36,27 @@ const data = [
 
 const MovieComments = () => {
     return (
-        <div className={styles.container}>
-            <Typography.Title level={4}>Сэтгэгдэл</Typography.Title>
-            <Divider style={{ margin: '8px 0' }} />
-            <List
-                itemLayout='horizontal'
-                size='small'
-                dataSource={data}
-                renderItem={item => (
-                    <List.Item>
-                        <List.Item.Meta
-                            avatar={<Avatar src={item.img} size={50} />}
-                            title={
-                                <Space size={16}>
-                                    <div style={{ fontWeight: 'bold', fontSize: '16px' }}>{item.name}</div>
-                                    <div>
-                                        <Rate allowHalf disabled defaultValue={item.score} style={{ fontSize: '16px' }} />                                        
-                                    </div>
-                                </Space>
-                            }
-                            description={<span style={{ color: 'rgba(0, 0, 0, 0.75)' }}>{item.comment}</span>}
-                        />                        
-                    </List.Item>
-                )}
-            />
-        </div>
+      <List
+            itemLayout='horizontal'
+            size='small'
+            dataSource={data}
+            renderItem={item => (
+                <List.Item>
+                    <List.Item.Meta
+                        avatar={<Avatar src={item.img} size={50} />}
+                        title={
+                            <Space size={16}>
+                                <div style={{ fontWeight: 'bold', fontSize: '16px' }}>{item.name}</div>
+                                <div>
+                                    <Rate allowHalf disabled defaultValue={item.score} style={{ fontSize: '16px' }} />                                        
+                                </div>
+                            </Space>
+                        }
+                        description={<span style={{ color: 'rgba(0, 0, 0, 0.75)' }}>{item.comment}</span>}
+                    />                        
+                </List.Item>
+            )}
+      />
     )
 }
 

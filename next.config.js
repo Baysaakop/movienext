@@ -2,7 +2,7 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: ['movieplus.s3.amazonaws.com', 'media.graphassets.com']
+    domains: ['movieplusmn.s3.amazonaws.com', 'media.graphassets.com']
   }
 }
 

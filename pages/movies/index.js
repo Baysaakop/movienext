@@ -5,6 +5,7 @@ import useSWR from 'swr';
 import MovieCard from '../../components/Movie/MovieCard';
 import MovieFilter from '../../components/Movie/MovieFilter';
 import Loading from '../../components/Loading'
+import api from '../../api'
 
 const fetcher = url => axios.get(url).then(res => res.data)
 
@@ -43,7 +44,8 @@ const MovieList = () => {
     }
 
     function getURL () {
-        let url = 'https://movieplusback.herokuapp.com/api/movies/movielist/?'
+        // let url = 'https://movieplusback.herokuapp.com/api/movies/movielist/?'
+        let url = `${api.movielist}/?`
         if (genre && genre !== 0) {
             url += `genre=${genre}&`
         }
@@ -77,9 +79,9 @@ const MovieList = () => {
                     grid={{
                         gutter: 16,
                         xs: 2,
-                        sm: 3,
-                        md: 4,
-                        lg: 4,
+                        sm: 4,
+                        md: 5,
+                        lg: 5,
                         xl: 5,
                         xxl: 5,
                     }}
@@ -87,7 +89,7 @@ const MovieList = () => {
                         hideOnSinglePage: true,
                         showSizeChanger: false,                   
                         current: pageIndex,                    
-                        pageSize: 24,                    
+                        pageSize: 20,                    
                         total: data.count,
                         size: 'small',
                         onChange: onPageChange

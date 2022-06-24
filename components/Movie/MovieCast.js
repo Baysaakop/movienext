@@ -1,9 +1,8 @@
-import { Card, Divider, List, Typography } from 'antd'
+import { Card, List, Tooltip } from 'antd'
 import axios from 'axios';
+import api from '../../api';
 import Link from 'next/link'
-import Image from 'next/image'
 import { useEffect, useState } from 'react';
-import styles from '../../styles/Movie.module.css'
 
 const MovieCast = ({ id }) => {
 
@@ -12,10 +11,9 @@ const MovieCast = ({ id }) => {
     useEffect(() => {
         axios({
             method: 'GET',
-            url: `https://movieplusback.herokuapp.com/api/movies/castmembers?film=${id}`
+            url: `${api.moviecast}?movie=${id}`
         })
         .then(res => {            
-            console.log(res.data.results)
             setData(res.data.results)
         })
         .catch(err => {
@@ -23,47 +21,43 @@ const MovieCast = ({ id }) => {
         })
     }, [id])
 
-    return (
-        <div className={styles.container}>
-            <Typography.Title level={4}>Жүжигчид</Typography.Title>
-            <Divider style={{ margin: '8px 0' }} />
-            <List 
-                grid={{
-                    gutter: 16,
-                    xs: 3,
-                    sm: 3,
-                    md: 6,
-                    lg: 6,
-                    xl: 6,
-                    xxl: 6,                    
-                }}
-                dataSource={data}
-                style={{ marginTop: '16px' }}
-                renderItem={item => (
-                    <List.Item key={item.id}>
-                        <Link href={`/artists/${item.artist.id}`}>
-                            <a>
+    return (            
+        <List 
+            grid={{
+                gutter: 16,
+                xs: 3,
+                sm: 3,
+                md: 3,
+                lg: 4,
+                xl: 4,
+                xxl: 4,                 
+            }}
+            dataSource={data}
+            style={{ marginTop: '16px' }}
+            renderItem={item => (
+                <List.Item key={item.id}>
+                    <Link href={`/artists/${item.artist.id}`}>
+                        <a>
+                            <Tooltip title={item.artist.name}>
                                 <Card 
                                     hoverable
                                     cover={
-                                        <Image
+                                        <img
                                             alt={item.artist.name}
-                                            src={item.artist.avatar}
-                                            width={200}
-                                            height={300}
-                                            layout="responsive"
+                                            src={item.artist.image}
+                                            style={{ width: '100%', height: 'auto' }}                                        
                                         />
                                     }
                                     size="small"
                                 >
                                     <Card.Meta title={item.artist.name} description={item.role_name} />
                                 </Card>
-                            </a>
-                        </Link>
-                    </List.Item>
-                )}
-            />
-        </div>
+                            </Tooltip>
+                        </a>
+                    </Link>
+                </List.Item>
+            )}
+        />
     )
 }
 

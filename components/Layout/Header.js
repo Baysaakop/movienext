@@ -1,13 +1,47 @@
-import { Button, Drawer, Grid, Input, Space } from 'antd'
-import { MenuUnfoldOutlined, UserAddOutlined } from '@ant-design/icons'
+import { Avatar, Button, Drawer, Grid, Input, Space, Dropdown, Menu as AntMenu, Skeleton } from 'antd'
+import { MenuUnfoldOutlined, PlusOutlined, UserAddOutlined } from '@ant-design/icons'
 import { useState } from 'react'
-import Menu from './Menu'
+import { useSession, signIn, signOut } from 'next-auth/react'
 import Link from 'next/link'
+
+import Menu from './Menu'
 
 import styles from '../../styles/Header.module.css'
 
 const { useBreakpoint } = Grid
 const { Search } = Input
+
+const menu = (
+    <AntMenu
+        items={[
+            {
+                label: 
+                <Link href="/profile">
+                    <a>
+                        <Button type="text">Профайл</Button>
+                    </a>
+                </Link>,
+                key: '0',
+            },
+            {
+                label: 
+                <Link href="/settings">
+                    <a>
+                        <Button type="text">Миний бүртгэл</Button>
+                    </a>
+                </Link>,
+                key: '1',
+            },
+            {
+                type: 'divider',
+            },
+            {
+                label: <Button danger type='link' onClick={() => signOut()}>Гарах</Button>,
+                key: '3',
+            },
+        ]}
+    />
+)
 
 const Header = () => {
 
@@ -21,6 +55,8 @@ const Header = () => {
     const hideMenu = () => {
         setVisible(false)
     }
+
+    const { data: session, status } = useSession()
 
     return (
         <div className={styles.header}>
@@ -42,28 +78,34 @@ const Header = () => {
                         </div>
                     </div>
                     <div className={styles.right}>
-                        <Space size={8} wrap>
-                            <Link href="/auth/login">
+                        { status === "loading" ?
+                            <Skeleton loading active avatar>
+
+                            </Skeleton>
+                        : status === "authenticated" ?
+                            <Dropdown overlay={menu} placement="bottomRight" trigger={['click']}>
                                 <a>
-                                    <Button 
-                                        type='ghost'
-                                        size='large'
-                                    >
-                                        Нэвтрэх
-                                    </Button>
-                                </a>
-                            </Link>
-                            <Link href="/auth/register">
-                                <a>
-                                    <Button 
-                                        type='primary'
-                                        size='large'
-                                    >
-                                        Бүртгүүлэх
-                                    </Button>
-                                </a>
-                            </Link>
-                        </Space>
+                                    {session.avatar ?
+                                        <Avatar                                            
+                                            src={session.avatar}
+                                            size="large"
+                                        />        
+                                    :
+                                        <Avatar size="large" style={{ background: '#28202f' }}>
+                                            {session.username.charAt(0).toUpperCase()}
+                                        </Avatar>
+                                    }                                                                                          
+                                </a>      
+                            </Dropdown>
+                        :
+                            <Button 
+                                type='ghost'
+                                size='large'
+                                onClick={() => signIn()}
+                            >
+                                Нэвтрэх
+                            </Button>
+                        }                        
                     </div>
                 </div>
             ) : (

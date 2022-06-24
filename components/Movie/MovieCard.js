@@ -1,4 +1,4 @@
-import { Button, Drawer, Tooltip } from "antd"
+import { Button, Drawer, Space, Tooltip } from "antd"
 import Image from "next/image"
 import Link from "next/link"
 import MovieScore from "./MovieScore"
@@ -72,6 +72,20 @@ const MovieCard = ({ movie }) => {
                     width={60}                
                     style={{ position: 'absolute' }}
                 >
+                    {/* <Space direction="vertical" size="small" style={{ display: 'flex' }}>                
+                        <div onMouseDown={onMouseDown}>
+                            <MovieLikeButton onBlur={onBlur} movie={movie} />
+                        </div>                      
+                        <div onMouseDown={onMouseDown}>
+                            <MovieWatchedButton onBlur={onBlur} movie={movie} />   
+                        </div>
+                        <div onMouseDown={onMouseDown}>
+                            <MovieWatchlistButton onBlur={onBlur} movie={movie}  />
+                        </div>
+                        <div onMouseDown={onMouseDown}>
+                            <MovieRateButton onMouseDown={onMouseDown} movie={movie}  />    
+                        </div>                                                                                           
+                    </Space> */}
                     <div className={styles.drawer}>                
                         <div onMouseDown={onMouseDown}>
                             <MovieLikeButton onBlur={onBlur} movie={movie} />

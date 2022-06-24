@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Col, Form, Input, Row, Segmented, Select } from 'antd'
 import axios from 'axios'
 import styles from '../../styles/Movie.module.css'
+import api from '../../api'
 
 const { Search } = Input
 const { Option } = Select
@@ -18,7 +19,7 @@ const MovieFilter = (props) => {
     function getGenres () {
         axios({
             method: 'GET',
-            url: 'https://movieplusback.herokuapp.com/api/movies/genres/'
+            url: api.genres
         })
         .then(res => {
             setGenres(res.data.results)

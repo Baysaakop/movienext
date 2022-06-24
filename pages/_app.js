@@ -1,12 +1,15 @@
 import CustomLayout from '../components/Layout/CustomLayout'
+import { SessionProvider } from "next-auth/react"
 import 'antd/dist/antd.css';
 import '../styles/globals.css'
 
-function MyApp({ Component, pageProps }) {
+function MyApp({ Component, pageProps: { session, ...pageProps }, }) {
     return (
-        <CustomLayout>
-            <Component {...pageProps} />
-        </CustomLayout>
+        <SessionProvider session={session}>
+            <CustomLayout>
+                <Component {...pageProps} />
+            </CustomLayout>
+        </SessionProvider>
     )
 }
 

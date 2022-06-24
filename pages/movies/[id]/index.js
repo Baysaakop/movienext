@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { Button, Col, Divider, Row, Tag, Typography } from 'antd'
+import { Avatar, Button, Col, Divider, List, Row, Space, Tag, Typography } from 'antd'
 import { PlayCircleOutlined } from '@ant-design/icons'
 import styles from '../../../styles/Movie.module.css'
 import dayjs from 'dayjs'
@@ -17,6 +17,8 @@ import useSWR from 'swr';
 import { useRouter } from 'next/router'
 import Loading from '../../../components/Loading'
 import Image from 'next/image'
+import api from '../../../api'
+import Link from 'next/link'
 
 const fetcher = url => axios.get(url).then(res => res.data)
 
@@ -31,26 +33,28 @@ const MovieDetail = () => {
 
     function onMouseDown() {}
 
-    const { data } = useSWR(`https://movieplusback.herokuapp.com/api/movies/moviedetail/${id}`, fetcher);    
+    const { data } = useSWR(`${api.moviedetail}/${id}`, fetcher);    
 
     return (
         <div className={styles.movieDetail}>            
             { data ? (
                 <div>
-                    {/* <div className={styles.landscape}>                
-                        <Image 
-                            className={styles.landscape} 
-                            alt={data.title}
-                            src={data.landscape}
-                            width={800}
-                            height={350}
-                            layout="responsive"
-                        />
-                        <div className={styles.shadow}></div>                
-                    </div>,             */}
+                    { data.background ? 
+                        <div className={styles.background}>                
+                            <img                             
+                                alt={data.title}
+                                src={data.background}
+                            />
+                            <div className={styles.shadow}>
+                                <div className={styles.text}>{data.title}</div> 
+                            </div>                                           
+                        </div>         
+                    : 
+                        <></>
+                    }
                     <div className={styles.movieInfo}>
                         <Row gutter={[16, 16]}>
-                            <Col xs ={24} sm={24} md={8} lg={7}>                                
+                            <Col xs ={24} sm={24} md={6}>                                
                                 <Image 
                                     className={styles.poster}
                                     alt={data.title}
@@ -74,50 +78,71 @@ const MovieDetail = () => {
                                         Трейлер 
                                     </Button>                        
                                 )}             
-                                { trailerVisible ? <MovieTrailer title={data.title} trailer={data.trailer} hide={() => setTrailerVisible(false)} /> : <></> }           
+                                { trailerVisible ? <MovieTrailer title={data.title} trailer={data.trailer} hide={() => setTrailerVisible(false)} /> : <></> }    
+                                <List
+                                    bordered
+                                    header={<Typography.Title level={5} style={{ margin: 0 }}>Үзэх боломжтой сувгууд</Typography.Title>}     
+                                    dataSource={data.platforms}
+                                    style={{ background: '#fff', marginTop: '16px' }}
+                                    renderItem={item => (
+                                        <List.Item key={item.id}>
+                                            <Link href={item.url}>
+                                                <a>
+                                                    <Space size={16} wrap>
+                                                        <Avatar size="default" src={item.platform.logo} />
+                                                        <div>{item.platform.name}</div>
+                                                    </Space>
+                                                </a>
+                                            </Link>                                            
+                                        </List.Item>
+                                    )}
+                                />
                             </Col>
-                            <Col xs={24} sm={24} md={16} lg={17}>
+                            <Col xs={24} sm={24} md={18}>
                                 <div className={styles.container}>
                                     <Typography.Title level={3} style={{ margin: 0 }}>{data.title} ({dayjs(data.releasedate).year()})</Typography.Title>
                                     <Divider style={{ margin: '8px 0' }} />
                                     <Row gutter={[16, 16]}>
-                                        <Col xs={24} sm={24} md={12}>
+                                        <Col xs={24} sm={24} md={16}>
                                             <Typography.Title level={5}>Төрөл жанр</Typography.Title>
                                             {data.genres.map(genre => (
                                                 <Tag key={genre.id} color="geekblue">{genre.name}</Tag>
                                             ))}
                                         </Col>
-                                        <Col xs={24} sm={24} md={12}>
+                                        <Col xs={24} sm={24} md={8}>
                                             <Typography.Title level={5}>Насны ангилал</Typography.Title>                                    
                                         </Col>
-                                        <Col xs={24} sm={24} md={12}>
+                                        <Col xs={24} sm={24} md={16}>
                                             <Typography.Title level={5}>Нээлт</Typography.Title>
                                             {data.releasedate}
                                         </Col>
-                                        <Col xs={24} sm={24} md={12}>
+                                        <Col xs={24} sm={24} md={8}>
                                             <Typography.Title level={5}>Үргэлжлэх хугацаа</Typography.Title>
                                             {data.duration} мин
                                         </Col>
                                         <Col xs={24} sm={24} md={16}>
                                             <Typography.Title level={5}>Агуулга</Typography.Title>
-                                            {data.plot}
+                                            {data.description}
                                         </Col>
                                         <Col xs={24} sm={24} md={8}>                                                              
                                             <Typography.Title level={5}>Үнэлгээ</Typography.Title>                                    
                                             <MovieScore score={data.avg_score} size="large" />
                                         </Col>
                                     </Row>                            
-                                </div>                        
-                            </Col>
-                            <Col span={24}>
-                                <MovieCrew id={id} />
-                            </Col>
-                            <Col span={24}>
-                                <MovieCast id={id} />
-                            </Col>
-                            <Col span={24}>
-                                <MovieComments />
-                            </Col>
+                                </div>   
+                                <div className={styles.container} style={{ marginTop: '16px' }}>
+                                    <Typography.Title level={5}>Баг бүрэлдэхүүн</Typography.Title>   
+                                    <MovieCrew id={id} />
+                                </div>     
+                                <div className={styles.container} style={{ marginTop: '16px' }}>
+                                    <Typography.Title level={5}>Жүжигчид</Typography.Title>   
+                                    <MovieCast id={id} />
+                                </div>    
+                                <div className={styles.container} style={{ marginTop: '16px' }}>
+                                    <Typography.Title level={5}>Сэтгэгдэл</Typography.Title>   
+                                    <MovieComments />
+                                </div>                     
+                            </Col>                                                        
                         </Row>
                     </div>
                 </div>

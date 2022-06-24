@@ -36,22 +36,14 @@
 
 .movieCard .action .btnMore:hover {
     opacity: 0.5;
-}
-
-.movieCard .drawer .ant-drawer-body {
-    padding: 0px;
-}       
+}     
 
 .movieCard .drawer {            
     display: flex; 
     flex-direction: column;
-    justify-content: flex-start;
+    justify-content: space-evenly;
     align-items: center;
     height: 100%;
-}
-
-.movieCard .drawer div {
-    height: 25%;    
 }
 
 .movieCard .drawer button {    
@@ -71,25 +63,35 @@
     padding: 16px 16px 0 16px;
 }
 
-.movieDetail .landscape {
+.movieDetail .background {
     margin: auto;
     width: 100%;
     position: relative;    
 }
 
-.movieDetail .landscape img.landscape {
+.movieDetail .background img {
     width: 100%;
     height: auto;      
 }
 
-.movieDetail .landscape .shadow {
+.movieDetail .background .shadow {
     width: 100%;
     position: absolute;
     bottom: 0px;
     top: 0px;
     background: rgb(0, 0, 0);
-    background: rgba(0, 0, 0, 0.4);    
+    background: rgba(0, 0, 0, 0.7);    
     box-shadow: inset 0px 0px 6px 6px #f0f2f5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.movieDetail .background .text {
+    font-size: 48px;
+    font-weight: bold;
+    color: white;
 }
 
 .movieDetail .movieInfo {
