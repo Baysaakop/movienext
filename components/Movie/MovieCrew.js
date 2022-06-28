@@ -78,6 +78,7 @@ const MovieCrew = ({ id }) => {
             </Carousel>
             { getPageCount() > 1 ? ([
                 <Button       
+                    key={0}
                     icon={<LeftOutlined />}                  
                     type="default"                                        
                     size="large"
@@ -86,6 +87,7 @@ const MovieCrew = ({ id }) => {
                     onClick={() => ref.current.prev()}
                 />,                      
                 <Button       
+                    key={1}
                     icon={<RightOutlined />}                  
                     type="default"                        
                     size="large"

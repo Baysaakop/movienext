@@ -4,6 +4,7 @@ import { useEffect, useState } from "react"
 import api from "../../api"
 import dayjs from 'dayjs'
 import Link from "next/link"
+import Loading from "../Loading"
 
 const { Option } = Select
 
@@ -65,7 +66,7 @@ const Filmography = ({ artist }) => {
             { data ? (
                 <Timeline mode="left">
                     {data.map(item => (                        
-                        <Timeline.Item label={dayjs(item.movie.releasedate).year()}>
+                        <Timeline.Item key={item.id} label={dayjs(item.movie.releasedate).year()}>
                             <Link href={`/movies/${item.movie.id}`}>
                                 <a style={{ color: '#000' }}>{item.movie.title}</a>
                             </Link>
