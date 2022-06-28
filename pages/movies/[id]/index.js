@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { Avatar, Button, Col, Divider, List, Row, Space, Tag, Typography } from 'antd'
+import { Avatar, Button, Col, Divider, List, Rate, Row, Space, Tag, Typography } from 'antd'
 import { PlayCircleOutlined } from '@ant-design/icons'
 import styles from '../../../styles/Movie.module.css'
 import dayjs from 'dayjs'
@@ -16,73 +16,92 @@ import MovieTrailer from '../../../components/Movie/MovieTrailer'
 import useSWR from 'swr';
 import { useRouter } from 'next/router'
 import Loading from '../../../components/Loading'
-import Image from 'next/image'
 import api from '../../../api'
 import Link from 'next/link'
+import { useSession } from 'next-auth/react'
 
 const fetcher = url => axios.get(url).then(res => res.data)
 
 const MovieDetail = () => {
-    
+
     const router = useRouter()
     const { id } = router.query
 
-    const [trailerVisible, setTrailerVisible] = useState(false)    
+    const [trailerVisible, setTrailerVisible] = useState(false)
+    const [user, setUser] = useState()
 
-    function onBlur() {}
+    const { data: movie } = useSWR(`${api.moviedetail}/${id}`, fetcher);
 
-    function onMouseDown() {}
+    const { data: session, status } = useSession()
 
-    const { data } = useSWR(`${api.moviedetail}/${id}`, fetcher);    
+    if (status === "authenticated" && user === undefined) {        
+        axios({
+            method: 'GET',
+            url: `${api.userdetail}/${session.id}/`
+        })
+        .then(res => {                       
+            setUser(res.data)
+        })
+        .catch(err => {
+            console.log(err)
+        })
+    }   
+
+    function onBlur() { }
+
+    function onMouseDown() { }
+
+    function getReleaseDate(releasedate) {
+        if (dayjs(releasedate).month() === 0 && dayjs(releasedate).date() === 1) {
+            return dayjs(releasedate).format("YYYY он")
+        }
+        return dayjs(releasedate).format("YYYY оны MM сарын DD")
+    }
 
     return (
-        <div className={styles.movieDetail}>            
-            { data ? (
+        <div className={styles.movieDetail}>
+            {movie ? (
                 <div>
-                    { data.background ? 
-                        <div className={styles.background}>                
-                            <img                             
-                                alt={data.title}
-                                src={data.background}
+                    {movie.background ?
+                        <div className={styles.background}>
+                            <img
+                                alt={movie.title}
+                                src={movie.background}
                             />
                             <div className={styles.shadow}>
-                                <div className={styles.text}>{data.title}</div> 
-                            </div>                                           
-                        </div>         
-                    : 
+                            </div>
+                        </div>
+                        :
                         <></>
                     }
                     <div className={styles.movieInfo}>
                         <Row gutter={[16, 16]}>
-                            <Col xs ={24} sm={24} md={6}>                                
-                                <Image 
+                            <Col xs={24} sm={8} md={6}>
+                                <img
                                     className={styles.poster}
-                                    alt={data.title}
-                                    src={data.poster}
-                                    width={300}
-                                    height={450}
-                                    layout="responsive"
+                                    alt={movie.title}
+                                    src={movie.poster !== null ? movie.poster : "/blank.png"}
                                 />
                                 <div className={styles.action}>
-                                    <div><MovieLikeButton onBlur={onBlur} movie={data} /></div>
-                                    <div><MovieWatchedButton onBlur={onBlur} movie={data} /></div>
-                                    <div><MovieWatchlistButton onBlur={onBlur} movie={data} /></div>
-                                    <div><MovieRateButton onMouseDown={onMouseDown} movie={data} /></div>                                                    
+                                    <div><MovieWatchedButton onBlur={onBlur} movie={movie} user={user} token={session ? session.token : undefined} placement="top" /></div>
+                                    <div><MovieLikeButton onBlur={onBlur} movie={movie} user={user} token={session ? session.token : undefined} placement="top" /></div>                                 
+                                    <div><MovieWatchlistButton onBlur={onBlur} movie={movie} user={user} token={session ? session.token : undefined} placement="top" /></div>
+                                    <div><MovieRateButton onMouseDown={onMouseDown} movie={movie} user={user} token={session ? session.token : undefined} placement="top" /></div>
                                 </div>
-                                { data.trailer ? (
+                                {movie.trailer ? (
                                     <Button block type="primary" size="large" icon={<PlayCircleOutlined />} onClick={() => setTrailerVisible(true)} >
-                                        Трейлер 
-                                    </Button>                        
+                                        Трейлер
+                                    </Button>
                                 ) : (
                                     <Button block disabled type="primary" size="large" icon={<PlayCircleOutlined />} >
-                                        Трейлер 
-                                    </Button>                        
-                                )}             
-                                { trailerVisible ? <MovieTrailer title={data.title} trailer={data.trailer} hide={() => setTrailerVisible(false)} /> : <></> }    
+                                        Трейлер
+                                    </Button>
+                                )}
+                                {trailerVisible ? <MovieTrailer title={movie.title} trailer={movie.trailer} hide={() => setTrailerVisible(false)} /> : <></>}
                                 <List
                                     bordered
-                                    header={<Typography.Title level={5} style={{ margin: 0 }}>Үзэх боломжтой сувгууд</Typography.Title>}     
-                                    dataSource={data.platforms}
+                                    header={<Typography.Title level={5} style={{ margin: 0 }}>Үзэх боломжтой сувгууд</Typography.Title>}
+                                    dataSource={movie.platforms}
                                     style={{ background: '#fff', marginTop: '16px' }}
                                     renderItem={item => (
                                         <List.Item key={item.id}>
@@ -93,87 +112,66 @@ const MovieDetail = () => {
                                                         <div>{item.platform.name}</div>
                                                     </Space>
                                                 </a>
-                                            </Link>                                            
+                                            </Link>
                                         </List.Item>
                                     )}
                                 />
                             </Col>
-                            <Col xs={24} sm={24} md={18}>
+                            <Col xs={24} sm={16} md={18}>
                                 <div className={styles.container}>
-                                    <Typography.Title level={3} style={{ margin: 0 }}>{data.title} ({dayjs(data.releasedate).year()})</Typography.Title>
+                                    <Typography.Title level={3} style={{ margin: 0 }}>{movie.title} ({dayjs(movie.releasedate).year()})</Typography.Title>
                                     <Divider style={{ margin: '8px 0' }} />
                                     <Row gutter={[16, 16]}>
                                         <Col xs={24} sm={24} md={16}>
                                             <Typography.Title level={5}>Төрөл жанр</Typography.Title>
-                                            {data.genres.map(genre => (
+                                            {movie.genres.map(genre => (
                                                 <Tag key={genre.id} color="geekblue">{genre.name}</Tag>
                                             ))}
                                         </Col>
                                         <Col xs={24} sm={24} md={8}>
-                                            <Typography.Title level={5}>Насны ангилал</Typography.Title>                                    
+                                            <Typography.Title level={5}>Насны ангилал</Typography.Title>
                                         </Col>
                                         <Col xs={24} sm={24} md={16}>
                                             <Typography.Title level={5}>Нээлт</Typography.Title>
-                                            {data.releasedate}
+                                            {getReleaseDate(movie.releasedate)}
                                         </Col>
                                         <Col xs={24} sm={24} md={8}>
                                             <Typography.Title level={5}>Үргэлжлэх хугацаа</Typography.Title>
-                                            {data.duration} мин
+                                            {movie.duration} мин
                                         </Col>
                                         <Col xs={24} sm={24} md={16}>
                                             <Typography.Title level={5}>Агуулга</Typography.Title>
-                                            {data.description}
+                                            <Typography.Paragraph ellipsis={{ rows: 4, expandable: true, symbol: 'цааш' }}>
+                                                {movie.description}
+                                            </Typography.Paragraph>
                                         </Col>
-                                        <Col xs={24} sm={24} md={8}>                                                              
-                                            <Typography.Title level={5}>Үнэлгээ</Typography.Title>                                    
-                                            <MovieScore score={data.avg_score} size="large" />
+                                        <Col xs={24} sm={24} md={8}>
+                                            <Typography.Title level={5}>Үнэлгээ</Typography.Title>
+                                            <MovieScore score={movie.avg_score} size="large" />
                                         </Col>
-                                    </Row>                            
-                                </div>   
+                                    </Row>
+                                </div>
                                 <div className={styles.container} style={{ marginTop: '16px' }}>
-                                    <Typography.Title level={5}>Баг бүрэлдэхүүн</Typography.Title>   
+                                    <Typography.Title level={5}>Баг бүрэлдэхүүн</Typography.Title>
                                     <MovieCrew id={id} />
-                                </div>     
+                                </div>
                                 <div className={styles.container} style={{ marginTop: '16px' }}>
-                                    <Typography.Title level={5}>Жүжигчид</Typography.Title>   
+                                    <Typography.Title level={5}>Жүжигчид</Typography.Title>
                                     <MovieCast id={id} />
-                                </div>    
+                                </div>
                                 <div className={styles.container} style={{ marginTop: '16px' }}>
-                                    <Typography.Title level={5}>Сэтгэгдэл</Typography.Title>   
+                                    <Typography.Title level={5}>Сэтгэгдэл</Typography.Title>
                                     <MovieComments />
-                                </div>                     
-                            </Col>                                                        
+                                </div>
+                            </Col>
                         </Row>
                     </div>
                 </div>
             ) : (
                 <Loading />
-            )}           
+            )}
         </div>
     )
 }
-
-// export const getStaticProps = async (context) => {
-//     const { id } = context.params;
-//     const res = await axios(`http://localhost:8000/api/movies/moviedetail/?${id}`)
-//     const movie = res.data;
-
-//     return {
-//         props: { movie }
-//     }
-// }
-
-// export const getStaticPaths = async () => {
-//     const res = await axios(`http://localhost:8000/api/movies/movielist/`)
-//     const movies = res.data.results;
-
-//     const ids = movies.map(movie => movie.id);
-//     const paths = ids.map(id => ({ params: { id: id.toString() } }));
-
-//     return {
-//         paths,
-//         fallback: false
-//     }
-// }
 
 export default MovieDetail

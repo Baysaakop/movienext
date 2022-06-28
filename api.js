@@ -1,5 +1,5 @@
-const baseUrl = "http://localhost:8000/"
-//const baseUrl = "https://movieplusback.herokuapp.com/"
+//const baseUrl = "http://localhost:8000/"
+const baseUrl = "https://movieplusmn.herokuapp.com/"
 
 const api = {
     // movies
@@ -16,7 +16,8 @@ const api = {
     moviecast: baseUrl + 'api/artists/moviecast',
     moviecrew: baseUrl + 'api/artists/moviecrew',
     // users
-    users: baseUrl + 'api/users',
+    userlist: baseUrl + 'api/users/userlist',
+    userdetail: baseUrl + 'api/users/userdetail',
     profile: baseUrl + 'rest-auth/user/',
     restAuth: baseUrl + 'rest-auth',    
 }

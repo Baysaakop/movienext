@@ -5,9 +5,12 @@ import { FacebookFilled, InstagramFilled, TwitterOutlined, YoutubeFilled } from 
 import styles from '../../styles/Sider.module.css'
 
 const Sider = () => {
+
+    function onHide() {}
+
     return (
         <div className={styles.sider}>
-            <Menu />
+            <Menu onHide={onHide} />
             <Divider style={{ margin: '16px 0' }} />
             <div className={styles.container}>
                 <Typography.Title level={5}>MOVIE+ веб сайт:</Typography.Title>

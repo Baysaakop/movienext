@@ -6,11 +6,12 @@ import MovieCard from '../../components/Movie/MovieCard';
 import MovieFilter from '../../components/Movie/MovieFilter';
 import Loading from '../../components/Loading'
 import api from '../../api'
+import { useSession } from 'next-auth/react'
 
 const fetcher = url => axios.get(url).then(res => res.data)
 
 const MovieList = () => {
-
+    const [user, setUser] = useState()
     const [pageIndex, setPageIndex] = useState(1)
     const [genre, setGenre] = useState(0)
     const [decade, setDecade] = useState(0)
@@ -65,16 +66,31 @@ const MovieList = () => {
         return url
     }
 
-    const { data } = useSWR(getURL, fetcher);
+    const { data: movies } = useSWR(getURL, fetcher);
+
+    const { data: session, status } = useSession()
+
+    if (status === "authenticated" && user === undefined) {        
+        axios({
+            method: 'GET',
+            url: `${api.userdetail}/${session.id}/`
+        })
+        .then(res => {                       
+            setUser(res.data)
+        })
+        .catch(err => {
+            console.log(err)
+        })
+    }   
 
     return (
         <div>                        
             <div style={{ padding: '8px 0' }}>
-                <Typography.Title level={4} style={{ margin: 0 }}>Кино {data ? `(${data.count})` : ''}</Typography.Title>            
+                <Typography.Title level={4} style={{ margin: 0 }}>Кино {movies ? `(${movies.count})` : ''}</Typography.Title>            
                 <Divider style={{ margin: '8px 0' }} />
             </div>
             <MovieFilter onGenreSelect={onGenreSelect} onDecadeSelect={onDecadeSelect} onYearSelect={onYearSelect} onScoreToSelect={onScoreToSelect} onOrderSelect={onOrderSelect} />
-            { data ? (
+            { movies ? (
                 <List 
                     grid={{
                         gutter: 16,
@@ -90,14 +106,14 @@ const MovieList = () => {
                         showSizeChanger: false,                   
                         current: pageIndex,                    
                         pageSize: 20,                    
-                        total: data.count,
+                        total: movies.count,
                         size: 'small',
                         onChange: onPageChange
                     }}
-                    dataSource={data.results}                
+                    dataSource={movies.results}                
                     renderItem={movie => (
                         <List.Item key={movie.id}>
-                            <MovieCard movie={movie} />
+                            <MovieCard movie={movie} user={user} token={session ? session.token : undefined} />
                         </List.Item>
                     )}
                 />

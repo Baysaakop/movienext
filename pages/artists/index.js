@@ -58,7 +58,7 @@ const ArtistList = () => {
                         md: 6,
                         lg: 6,
                         xl: 6,
-                        xxl: 6,        
+                        xxl: 8,        
                     }}
                     pagination={{
                         hideOnSinglePage: true,

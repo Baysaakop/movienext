@@ -63,6 +63,12 @@ const MovieFilter = (props) => {
             <Form
                 layout='vertical'
                 form={form}
+                initialValues={{
+                    'genre': 0,
+                    'decade': 0,
+                    'score': 0,
+                    'order': '-created_at'
+                }}
             >
                 <Form.Item label="Кино хайх" name="search">
                     <Search 
@@ -76,7 +82,7 @@ const MovieFilter = (props) => {
                 <Row gutter={16}>
                     <Col xs={24} sm={24} md={6} lg={6}>
                         <Form.Item label="Жанр" name="genre">
-                            <Select defaultValue={0} style={{ width: '100%' }} onSelect={onGenreSelect}>
+                            <Select style={{ width: '100%' }} onSelect={onGenreSelect}>
                                 <Option value={0}>Бүх</Option>
                                 {genres.map(genre => (
                                     <Option key={genre.id} value={genre.id}>{genre.name}</Option>
@@ -85,8 +91,8 @@ const MovieFilter = (props) => {
                         </Form.Item>
                     </Col>
                     <Col xs={24} sm={24} md={6} lg={6}>
-                        <Form.Item label="Он" name="year">
-                            <Select defaultValue={0} style={{ width: '100%' }} onSelect={onDecadeSelect}>
+                        <Form.Item label="Он" name="decade">
+                            <Select style={{ width: '100%' }} onSelect={onDecadeSelect}>
                                 <Option value={0}>Бүх</Option>
                                 <Option value={2020}>2020-д</Option>
                                 <Option value={2010}>2010-д</Option>
@@ -100,7 +106,7 @@ const MovieFilter = (props) => {
                     </Col>
                     <Col xs={24} sm={24} md={6} lg={6}>
                         <Form.Item label="Үнэлгээ" name="score">
-                            <Select defaultValue={0} style={{ width: '100%' }} onSelect={onScoreToSelect}>
+                            <Select style={{ width: '100%' }} onSelect={onScoreToSelect}>
                                 <Option value={0}>Бүх</Option>
                                 <Option value={1}>★</Option>
                                 <Option value={2}>★★</Option>
@@ -112,7 +118,7 @@ const MovieFilter = (props) => {
                     </Col>
                     <Col xs={24} sm={24} md={6} lg={6}>
                         <Form.Item label="Эрэмбэлэх" name="order">
-                            <Select defaultValue="-created_at" style={{ width: '100%' }} onSelect={onOrderSelect}>
+                            <Select style={{ width: '100%' }} onSelect={onOrderSelect}>
                                 <Option value="-created_at">Сүүлд нэмэгдсэн</Option>
                                 <Option value="created_at">Эхэнд нэмэгдсэн</Option>
                                 <Option value="-view_count">Хандалт буурахаар</Option>

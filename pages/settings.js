@@ -1,16 +1,20 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useSession, signIn } from 'next-auth/react'
 import { Button, Result, Form, Input, Typography, message } from 'antd';
 import Loading from '../components/Loading'
 import axios from 'axios';
 import api from '../api';
 import Router from 'next/router'
+import ImageUpload from '../components/ImageUpload'
 
 const Settings = () => {
     const [form] = Form.useForm()
+    const [avatar, setAvatar] = useState()
+    const [loading, setLoading] = useState(false)
     const { data: session, status } = useSession()
 
     function onFinish (values) {
+        setLoading(true)
         var formData = new FormData()
         if (values.username && values.username !== session.username) {
             formData.append('username', values.username)
@@ -18,9 +22,12 @@ const Settings = () => {
         if (values.website && values.website !== session.website) {
             formData.append('website', values.website)
         }
+        if (avatar && avatar !== session.avatar) {
+            formData.append('avatar', avatar)
+        }
         axios({
             method: 'PUT',
-            url: `${api.users}/${session.id}/`,
+            url: `${api.userlist}/${session.id}/`,
             data: formData,
             headers: {
                 'Content-Type': 'multipart/form-data',
@@ -31,15 +38,18 @@ const Settings = () => {
             if (res.status === 200) {
                 console.log(res.data)
                 message.success("Амжилттай.")
+                setLoading(false)
                 Router.reload()                                
             }            
         })
         .catch(err => {
             console.log(err)
+            message.err("Алдаа гарлаа. Хуудсыг refresh хийнэ үү.")
+            setLoading(false)
         })
     }
 
-    if (status === "loading") {
+    if (status === "loading" || loading === true) {
         return (
             <Loading />
         )        
@@ -66,7 +76,10 @@ const Settings = () => {
                         </Form.Item>   
                         <Form.Item name="website" label="Сошиал хаяг:">
                             <Input />
-                        </Form.Item>                
+                        </Form.Item>             
+                        <Form.Item name="avatar" label="Зураг:">
+                            <ImageUpload image={session.avatar} onImageSelected={(path) => setAvatar(path)} height="192px" width="192px" />     
+                        </Form.Item>              
                         <Button block type='primary' onClick={form.submit}>Хадгалах</Button>                    
                     </Form>
                 </div>

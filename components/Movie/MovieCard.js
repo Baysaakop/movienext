@@ -11,8 +11,7 @@ import MovieWatchedButton from "./MovieWatchedButton"
 import MovieWatchlistButton from "./MovieWatchlistButton"
 import MovieRateButton from "./MovieRateButton"
 
-const MovieCard = ({ movie }) => {
-
+const MovieCard = (props) => {
     const [drawerOpen, setDrawerOpen] = useState(false)    
     const [action, setAction] = useState(false)
 
@@ -37,21 +36,34 @@ const MovieCard = ({ movie }) => {
     }
 
     return (        
-        <Tooltip title={`${movie.title} (${movie.releasedate.slice(0, 4)})`}>
+        <Tooltip title={`${props.movie.title} (${props.movie.releasedate.slice(0, 4)})`}>
             <div className={styles.movieCard}>
-                <Link href={`/movies/${movie.id}`}>                    
+                <Link href={`/movies/${props.movie.id}`}>                    
                     <a>
                         <Image 
-                            alt={movie.title}
-                            src={movie.poster}
+                            alt={props.movie.title}
+                            src={props.movie.poster !== null ? props.movie.poster : "/blank.png"}
                             width={300}
                             height={450}
                             layout="responsive"
                         />
                     </a>    
                 </Link>
+                { props.movie.poster === null ?          
+                    <Link href={`/movies/${props.movie.id}`}>                    
+                        <a>
+                            <div className={styles.titleContainer}>
+                                <div className={styles.title}>
+                                    {`${props.movie.title} (${props.movie.releasedate.slice(0, 4)})`}
+                                </div>
+                            </div>
+                        </a>           
+                    </Link>
+                :
+                    <></>
+                }
                 <div className={styles.score}>
-                    <MovieScore score={movie.avg_score} size="small" />
+                    <MovieScore score={props.movie.avg_score} size="small" />
                 </div>
                 <div className={styles.action}>
                     <Button 
@@ -62,7 +74,7 @@ const MovieCard = ({ movie }) => {
                         onClick={openDrawer} 
                     />                
                 </div>        
-                <Drawer                                    
+                <Drawer                                
                     placement="right"
                     closable={false}
                     onBlur={onBlur}
@@ -72,32 +84,18 @@ const MovieCard = ({ movie }) => {
                     width={60}                
                     style={{ position: 'absolute' }}
                 >
-                    {/* <Space direction="vertical" size="small" style={{ display: 'flex' }}>                
-                        <div onMouseDown={onMouseDown}>
-                            <MovieLikeButton onBlur={onBlur} movie={movie} />
-                        </div>                      
-                        <div onMouseDown={onMouseDown}>
-                            <MovieWatchedButton onBlur={onBlur} movie={movie} />   
-                        </div>
-                        <div onMouseDown={onMouseDown}>
-                            <MovieWatchlistButton onBlur={onBlur} movie={movie}  />
-                        </div>
-                        <div onMouseDown={onMouseDown}>
-                            <MovieRateButton onMouseDown={onMouseDown} movie={movie}  />    
-                        </div>                                                                                           
-                    </Space> */}
                     <div className={styles.drawer}>                
                         <div onMouseDown={onMouseDown}>
-                            <MovieLikeButton onBlur={onBlur} movie={movie} />
+                            <MovieLikeButton onBlur={onBlur} movie={props.movie} user={props.user} token={props.token} placement="right" />
                         </div>                      
                         <div onMouseDown={onMouseDown}>
-                            <MovieWatchedButton onBlur={onBlur} movie={movie} />   
+                            <MovieWatchedButton onBlur={onBlur} movie={props.movie} user={props.user} token={props.token} placement="right" />   
                         </div>
                         <div onMouseDown={onMouseDown}>
-                            <MovieWatchlistButton onBlur={onBlur} movie={movie}  />
+                            <MovieWatchlistButton onBlur={onBlur} movie={props.movie} user={props.user} token={props.token} placement="right" />
                         </div>
                         <div onMouseDown={onMouseDown}>
-                            <MovieRateButton onMouseDown={onMouseDown} movie={movie}  />    
+                            <MovieRateButton onMouseDown={onMouseDown} movie={props.movie} user={props.user} token={props.token} placement="right" />    
                         </div>                                                                                           
                     </div>
                 </Drawer> 

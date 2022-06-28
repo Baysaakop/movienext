@@ -1,5 +1,4 @@
 import { Progress } from 'antd'
-import styles from '../../styles/Movie.module.css'
 
 const MovieScore = ({ score, size }) => {
 
@@ -17,10 +16,11 @@ const MovieScore = ({ score, size }) => {
                 type="circle"
                 width={size === 'small' ? 40 : size === 'default' ? 60 : 80}
                 strokeColor={
-                    score < 25 ? '#eb2f06' :
-                    score < 50 ? '#e67e22' :
-                    score < 75 ? '#fff200' :
-                    '#4CD137'
+                    score < 20 ? '#c0392b' :
+                    score < 40 ? '#d35400' :
+                    score < 60 ? '#f1c40f' :
+                    score < 80 ? '#2ed573' :
+                    '#4cd137'
                 }
                 trailColor="#3c3c3c"
                 strokeWidth={6}
