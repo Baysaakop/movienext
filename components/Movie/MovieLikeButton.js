@@ -11,8 +11,8 @@ const MovieLikeButton = (props) => {
         if (props.user && user === undefined) {
             setUser(props.user)
         }
-    }, [props.user])
-
+    }, [props.user]) // eslint-disable-next-line react-hooks/exhaustive-deps
+ 
     function onAdd() {
         if (props.token) {
             axios({

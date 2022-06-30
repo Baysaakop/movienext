@@ -17,7 +17,7 @@ const Filmography = ({ artist }) => {
             setRole(artist.occupations[0].id)
         }        
         getFilmography()
-    }, [artist, role])
+    }, [artist, role]) // eslint-disable-next-line react-hooks/exhaustive-deps
 
     function getFilmography() {
         if (role) {

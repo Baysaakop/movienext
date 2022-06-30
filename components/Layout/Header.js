@@ -1,5 +1,5 @@
-import { Grid, Avatar, Button, Drawer, Input, Dropdown, Menu as AntMenu, Skeleton } from 'antd'
-import { MenuUnfoldOutlined, UserAddOutlined } from '@ant-design/icons'
+import { Grid, Avatar, Button, Drawer, Input, Dropdown, Menu as AntMenu, Skeleton, Space } from 'antd'
+import { MenuUnfoldOutlined, SettingOutlined, UserAddOutlined, UserOutlined } from '@ant-design/icons'
 import { useState } from 'react'
 import { useSession, signIn, signOut } from 'next-auth/react'
 import Link from 'next/link'
@@ -80,20 +80,31 @@ const Header = () => {
                                 <Skeleton loading active avatar>
                                 </Skeleton>
                             : status === "authenticated" ?
-                                <Dropdown overlay={menu} placement="bottomRight" trigger={['click']}>
-                                    <a>
-                                        {session.avatar ?
-                                            <Avatar                                            
-                                                src={session.avatar}
-                                                size="large"
-                                            />        
-                                        :
-                                            <Avatar size="large" style={{ background: '#28202f' }}>
-                                                {session.username.charAt(0).toUpperCase()}
-                                            </Avatar>
-                                        }                                                                                          
-                                    </a>      
-                                </Dropdown>
+                                <Space size={16} wrap>
+                                    {session.role === 1 ? (
+                                        <Link href="/admin">
+                                            <a>
+                                                <Button type='ghost' size='large' icon={<SettingOutlined />} />
+                                            </a>
+                                        </Link>
+                                    ) : (
+                                        <></>
+                                    )}
+                                    <Dropdown overlay={menu} placement="bottomRight" trigger={['click']}>
+                                        <a>
+                                            {session.avatar ?
+                                                <Avatar                                            
+                                                    src={session.avatar}
+                                                    size="large"
+                                                />        
+                                            :
+                                                <Avatar size="large" style={{ background: '#28202f' }}>
+                                                    {session.username.charAt(0).toUpperCase()}
+                                                </Avatar>
+                                            }                                                                                          
+                                        </a>      
+                                    </Dropdown>
+                                </Space>
                             :
                                 <Button 
                                     type='ghost'
@@ -149,10 +160,9 @@ const Header = () => {
                                 <Button 
                                     type='ghost'
                                     size='large'
+                                    icon={<UserOutlined />}
                                     onClick={() => signIn()}
-                                >
-                                    Нэвтрэх
-                                </Button>
+                                />                                    
                             }                        
                         </div>
                         <Drawer title="Үндсэн цэс" placement="left" onClose={hideMenu} visible={visible}>

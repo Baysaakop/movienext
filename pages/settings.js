@@ -36,7 +36,6 @@ const Settings = () => {
         })
         .then(res => {            
             if (res.status === 200) {
-                console.log(res.data)
                 message.success("Амжилттай.")
                 setLoading(false)
                 Router.reload()                                

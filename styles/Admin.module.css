@@ -1,0 +1,26 @@
+.container {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+}
+
+.left {
+    background: #fff;    
+    height: 80vh;
+    margin-right: 16px;
+}
+
+.right {
+    width: 100%;
+}
+
+.models {
+    background: #fff;
+    padding: 8px;
+}
+
+.actions {
+    margin-top: 16px;
+    background: #fff;
+    padding: 16px;
+}
