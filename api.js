@@ -1,5 +1,5 @@
-// const baseUrl = "http://localhost:8000/"
-const baseUrl = "https://movieplusmn.herokuapp.com/"
+const baseUrl = "http://localhost:8000/"
+// const baseUrl = "https://movieplusmn.herokuapp.com/"
 
 const api = {
     // movies
@@ -9,6 +9,7 @@ const api = {
     ratings: baseUrl + 'api/movies/ratings',
     productions: baseUrl + 'api/movies/productions',
     platforms: baseUrl + 'api/movies/platforms',
+    moviecomments: baseUrl + 'api/users/moviecomments',
     // artists
     artistlist: baseUrl + 'api/artists/artistlist',
     artistdetail: baseUrl + 'api/artists/artistdetail',

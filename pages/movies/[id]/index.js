@@ -151,17 +151,14 @@ const MovieDetail = () => {
                                         </Col>
                                     </Row>
                                 </div>
-                                <div className={styles.container} style={{ marginTop: '16px' }}>
-                                    <Typography.Title level={5}>Баг бүрэлдэхүүн</Typography.Title>
+                                <div className={styles.container} style={{ marginTop: '16px' }}>                                    
                                     <MovieCrew id={id} />
                                 </div>
-                                <div className={styles.container} style={{ marginTop: '16px' }}>
-                                    <Typography.Title level={5}>Жүжигчид</Typography.Title>
+                                <div className={styles.container} style={{ marginTop: '16px' }}>                                    
                                     <MovieCast id={id} />
                                 </div>
-                                <div className={styles.container} style={{ marginTop: '16px' }}>
-                                    <Typography.Title level={5}>Сэтгэгдэл</Typography.Title>
-                                    <MovieComments />
+                                <div className={styles.container} style={{ marginTop: '16px' }}>                                    
+                                    <MovieComments id={id} token={session ? session.token : undefined} user={user} />
                                 </div>
                             </Col>
                         </Row>
