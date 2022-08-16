@@ -1,32 +1,61 @@
-import { DislikeOutlined, ForwardOutlined, LikeOutlined, SendOutlined, UserOutlined } from '@ant-design/icons';
+import { CommentOutlined, LikeOutlined, SendOutlined, UserOutlined } from '@ant-design/icons';
 import { Typography, Avatar, List, Rate, Space, Button, Form, Input, Comment, Tooltip } from 'antd'
 import axios from 'axios';
-import dayjs from 'dayjs';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import api from '../../api';
+import Loading from '../Loading'
 
 const MovieComments = ({ id, token, user }) => {
     const [form] = Form.useForm()
+    const [loading, setLoading] = useState(false)
     const [data, setData] = useState([])
     const [total, setTotal] = useState(0)    
 
     useEffect(() => {
+        getComments(id)
+    }, [id])
+
+    function getComments(movie_id) {
+        setLoading(true)
         axios({
             method: 'GET',
-            url: `${api.moviecomments}?movie=${id}`
+            url: `${api.moviecomments}?movie=${movie_id}`
         })
         .then(res => {       
             setTotal(res.data.count)
             setData(res.data.results)
+            setLoading(false)
+        })
+        .catch(err => {
+            console.log(err)
+            setLoading(false)
+        })
+    }
+
+    function onFinish(values) {
+        axios({
+            method: 'POST',
+            url: `${api.moviecomments}/`,
+            data: {
+                movie: id,
+                token: token,
+                comment: values.comment
+            },
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Token ${token}`
+            }
+        })
+        .then(res => {
+            if (res.status === 201) {
+                form.resetFields()
+                getComments(id)
+            }
         })
         .catch(err => {
             console.log(err)
         })
-    }, [id])
-
-    function onFinish(values) {
-        console.log(values)
     }
 
     return (
@@ -35,58 +64,57 @@ const MovieComments = ({ id, token, user }) => {
             { user ? (
                 <div style={{ padding: '0px 16px' }}>
                     <Comment
-                        avatar={<Avatar src={user.avatar} />}
+                        avatar={<Avatar src={user.avatar} size='large' />}
                         content={
                             <Form form={form} onFinish={onFinish}>
-                                <Form.Item name="comment" rules={[{ required: 'true', message: 'Сэтгэгдэл хоосон байна!' }]}>
+                                <Form.Item name="comment" rules={[{ required: 'true', message: 'Сэтгэгдэл хоосон байна!' }]} style={{ marginBottom: '8px' }}>
                                     <Input.TextArea rows={4} />
                                 </Form.Item>
-                                <Form.Item>
-                                    <Button type='primary' onClick={form.submit} icon={<SendOutlined />}>Илгээх</Button>
-                                </Form.Item>
+                                <Button size='small' type='primary' onClick={form.submit} icon={<SendOutlined />}>Илгээх</Button>
                             </Form>
                         }
                     />
                 </div>
             ) : (
                 <></>
-            )}            
-            <List
-                itemLayout='horizontal'
-                size='small'
-                dataSource={data}
-                renderItem={item => (
-                    <List.Item key={item.id}>
-                        <Comment
-                            actions={[
-                                <Tooltip key="like" title="Like">
-                                    <Button type='text' size='small' icon={<LikeOutlined />} style={{ marginRight: '8px' }}> {item.like_count}</Button>
-                                </Tooltip>,
-                                <Tooltip key="like" title="Like">
-                                    <Button type='text' size='small' icon={<DislikeOutlined />} style={{ marginRight: '8px' }}> 0</Button>
-                                </Tooltip>,
-                                <Tooltip key="like" title="Reply">
-                                    <Button type='text' size='small'> Reply</Button>
-                                </Tooltip>
-                            ]}
-                            author={
-                                <Space size={16} wrap>
-                                    <Link href={`/users/${item.user.id}`}>
-                                        <a style={{ color: '#000', fontSize: '14px' }}>
-                                            {item.user.username}
-                                        </a>
-                                    </Link>
-                                    <Rate allowHalf disabled defaultValue={item.score / 2} style={{ fontSize: '14px', marginBottom: '2px' }} />        
-                                </Space>
-                            }
-                            avatar={<Avatar src={item.user.avatar} />}
-                            content={
-                                <p>{item.comment}</p>
-                            }                           
-                        />
-                    </List.Item>
-                )}
-            />
+            )} 
+            { loading ? (
+                <Loading />
+            ) : (
+                <List
+                    itemLayout='horizontal'
+                    size='small'
+                    dataSource={data}
+                    renderItem={item => (
+                        <List.Item key={item.id}>
+                            <Comment
+                                actions={[
+                                    <Tooltip key="like" title="Like">
+                                        <Button type='text' size='small' icon={<LikeOutlined />} style={{ marginRight: '8px' }}> {item.like_count}</Button>
+                                    </Tooltip>,
+                                    <Tooltip key="like" title="Reply">
+                                        <Button type='text' size='small' icon={<CommentOutlined />} style={{ marginRight: '8px' }}> {3}</Button>
+                                    </Tooltip>
+                                ]}
+                                author={
+                                    <Space size={16} wrap>
+                                        <Link href={`/users/${item.user.id}`}>
+                                            <a style={{ color: '#000', fontSize: '14px' }}>
+                                                {item.user.username}
+                                            </a>
+                                        </Link>
+                                        <Rate allowHalf disabled defaultValue={item.score / 2} style={{ fontSize: '14px', marginBottom: '2px' }} />        
+                                    </Space>
+                                }
+                                avatar={<Avatar src={item.user.avatar} size='large' />}
+                                content={
+                                    <p>{item.comment}</p>
+                                }                           
+                            />
+                        </List.Item>
+                    )}
+                />
+            )}           
         </div>
     )
 }

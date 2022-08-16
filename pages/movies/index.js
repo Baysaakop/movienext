@@ -13,6 +13,7 @@ const fetcher = url => axios.get(url).then(res => res.data)
 const MovieList = () => {
     const [user, setUser] = useState()
     const [pageIndex, setPageIndex] = useState(1)
+    const [search, setSearch] = useState()
     const [genre, setGenre] = useState(0)
     const [decade, setDecade] = useState(0)
     const [year, setYear] = useState(0)
@@ -21,6 +22,10 @@ const MovieList = () => {
 
     function onPageChange (pageNum) {
         setPageIndex(pageNum)
+    }
+
+    function onSearch (val) {
+        setSearch(val)
     }
 
     function onGenreSelect (id) {
@@ -47,6 +52,9 @@ const MovieList = () => {
     function getURL () {
         // let url = 'https://movieplusback.herokuapp.com/api/movies/movielist/?'
         let url = `${api.movielist}/?`
+        if (search && search !== '') {
+            url += `search=${search}&`
+        }
         if (genre && genre !== 0) {
             url += `genre=${genre}&`
         }
@@ -89,7 +97,7 @@ const MovieList = () => {
                 <Typography.Title level={4} style={{ margin: 0 }}>Кино {movies ? `(${movies.count})` : ''}</Typography.Title>            
                 <Divider style={{ margin: '8px 0' }} />
             </div>
-            <MovieFilter onGenreSelect={onGenreSelect} onDecadeSelect={onDecadeSelect} onYearSelect={onYearSelect} onScoreToSelect={onScoreToSelect} onOrderSelect={onOrderSelect} />
+            <MovieFilter onSearch={onSearch} onGenreSelect={onGenreSelect} onDecadeSelect={onDecadeSelect} onYearSelect={onYearSelect} onScoreToSelect={onScoreToSelect} onOrderSelect={onOrderSelect} />
             { movies ? (
                 <List 
                     grid={{

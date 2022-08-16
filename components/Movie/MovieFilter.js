@@ -29,8 +29,8 @@ const MovieFilter = (props) => {
         })
     }    
 
-    function onSearch(val) {
-        console.log(val)
+    function onSearch(val) {        
+        props.onSearch(val)
     }
 
     function onGenreSelect(id) {

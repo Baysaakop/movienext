@@ -133,3 +133,8 @@ footer {
   height: auto;
   width: auto;
 }
+
+.ant-comment-avatar img {
+  height: 40px;
+  width: 40px;
+}

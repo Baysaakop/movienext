@@ -7,7 +7,7 @@ import styles from '../../styles/Artist.module.css'
 const { Search } = Input
 const { Option } = Select
 
-const ArtistFilter = () => {
+const ArtistFilter = (props) => {
 
     const [form] = Form.useForm()
     const [occupations, setOccupations] = useState([])
@@ -30,7 +30,7 @@ const ArtistFilter = () => {
     }    
 
     function onSearch(val) {
-        console.log(val)
+        props.onSearch(val)
     }
 
     function onOccupationSelect(id) {

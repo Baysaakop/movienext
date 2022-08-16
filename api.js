@@ -16,6 +16,9 @@ const api = {
     occupations: baseUrl + 'api/artists/occupations',    
     moviecast: baseUrl + 'api/artists/moviecast',
     moviecrew: baseUrl + 'api/artists/moviecrew',
+    // articles
+    articles: baseUrl + 'api/articles/articles',
+    categories: baseUrl + 'api/articles/categories',
     // users
     userlist: baseUrl + 'api/users/userlist',
     userdetail: baseUrl + 'api/users/userdetail',

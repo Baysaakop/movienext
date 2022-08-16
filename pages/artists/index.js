@@ -12,11 +12,16 @@ const fetcher = url => axios.get(url).then(res => res.data)
 
 const ArtistList = () => {
     const [pageIndex, setPageIndex] = useState(1)
+    const [search, setSearch] = useState()
     const [occupation, setOccupation] = useState(0)  
     const [order, setOrder] = useState()   
 
     function onPageChange (pageNum) {
         setPageIndex(pageNum)
+    }
+
+    function onSearch (val) {
+        setSearch(val)
     }
 
     function onOccupationSelect (id) {
@@ -29,6 +34,9 @@ const ArtistList = () => {
 
     function getURL () {
         let url = `${api.artistlist}/?`
+        if (search && search !== '') {
+            url += `name=${search}&`
+        }
         if (occupation && occupation !== 0) {
             url += `occupation=${occupation}&`
         }
@@ -48,7 +56,7 @@ const ArtistList = () => {
                 <Typography.Title level={4} style={{ margin: 0 }}>Уран бүтээлчид</Typography.Title>            
                 <Divider style={{ margin: '8px 0' }} />
             </div>
-            <ArtistFilter onOccupationSelect={onOccupationSelect} onOrderSelect={onOrderSelect} />
+            <ArtistFilter onSearch={onSearch} onOccupationSelect={onOccupationSelect} onOrderSelect={onOrderSelect} />
             { data ? (
                 <List 
                     grid={{
