@@ -5,6 +5,10 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import api from '../../api';
 import Loading from '../Loading'
+import dayjs from 'dayjs'
+
+var relativeTime = require('dayjs/plugin/relativeTime')
+dayjs.extend(relativeTime)
 
 const MovieComments = ({ id, token, user }) => {
     const [form] = Form.useForm()
@@ -87,28 +91,29 @@ const MovieComments = ({ id, token, user }) => {
                     dataSource={data}
                     renderItem={item => (
                         <List.Item key={item.id}>
-                            <Comment
+                            <Comment                                
                                 actions={[
                                     <Tooltip key="like" title="Like">
                                         <Button type='text' size='small' icon={<LikeOutlined />} style={{ marginRight: '8px' }}> {item.like_count}</Button>
                                     </Tooltip>,
                                     <Tooltip key="like" title="Reply">
-                                        <Button type='text' size='small' icon={<CommentOutlined />} style={{ marginRight: '8px' }}> {3}</Button>
+                                        <Button type='text' size='small' icon={<CommentOutlined />} style={{ marginRight: '8px' }}></Button>
                                     </Tooltip>
                                 ]}
                                 author={
-                                    <Space size={16} wrap>
-                                        <Link href={`/users/${item.user.id}`}>
-                                            <a style={{ color: '#000', fontSize: '14px' }}>
-                                                {item.user.username}
-                                            </a>
-                                        </Link>
-                                        <Rate allowHalf disabled defaultValue={item.score / 2} style={{ fontSize: '14px', marginBottom: '2px' }} />        
-                                    </Space>
+                                    <Link href={`/users/${item.user.id}`}>
+                                        <a style={{ color: '#000', fontSize: '14px' }}>
+                                            {item.user.username}
+                                        </a>
+                                    </Link>             
                                 }
+                                datetime={dayjs(item.created_at).fromNow()}
                                 avatar={<Avatar src={item.user.avatar} size='large' />}
                                 content={
-                                    <p>{item.comment}</p>
+                                    <div>
+                                        <Rate allowHalf disabled defaultValue={item.score / 2} style={{ fontSize: '14px', marginBottom: '2px' }} />        
+                                        <p>{item.comment}</p>
+                                    </div>
                                 }                           
                             />
                         </List.Item>

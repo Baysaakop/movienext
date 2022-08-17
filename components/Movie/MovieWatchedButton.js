@@ -1,4 +1,4 @@
-import { CheckSquareOutlined } from "@ant-design/icons"
+import { CheckOutlined } from "@ant-design/icons"
 import { Button, message, notification, Tooltip } from "antd"
 import axios from "axios"
 import { useEffect, useState } from "react"
@@ -90,7 +90,7 @@ const MovieWatchedButton = (props) => {
                             size="large" 
                             shape="circle" 
                             type="primary" 
-                            icon={<CheckSquareOutlined />}   
+                            icon={<CheckOutlined />}   
                             onClick={onRemove}      
                             style={{ background: '#44bd32', border: 0 }}
                         />
@@ -105,7 +105,7 @@ const MovieWatchedButton = (props) => {
                 size="large" 
                 shape="circle" 
                 type="text" 
-                icon={<CheckSquareOutlined />}   
+                icon={<CheckOutlined />}   
                 onClick={onAdd}      
             />        
         </Tooltip>

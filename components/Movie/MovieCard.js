@@ -84,13 +84,13 @@ const MovieCard = (props) => {
                     width={60}                
                     style={{ position: 'absolute' }}
                 >
-                    <div className={styles.drawer}>                
-                        <div onMouseDown={onMouseDown}>
-                            <MovieLikeButton onBlur={onBlur} movie={props.movie} user={props.user} token={props.token} placement="right" />
-                        </div>                      
+                    <div className={styles.drawer}> 
                         <div onMouseDown={onMouseDown}>
                             <MovieWatchedButton onBlur={onBlur} movie={props.movie} user={props.user} token={props.token} placement="right" />   
-                        </div>
+                        </div>               
+                        <div onMouseDown={onMouseDown}>
+                            <MovieLikeButton onBlur={onBlur} movie={props.movie} user={props.user} token={props.token} placement="right" />
+                        </div>                                              
                         <div onMouseDown={onMouseDown}>
                             <MovieWatchlistButton onBlur={onBlur} movie={props.movie} user={props.user} token={props.token} placement="right" />
                         </div>
