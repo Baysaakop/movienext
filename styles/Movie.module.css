@@ -145,6 +145,12 @@
 }
 
 @media screen and (max-width: 576px) {
+    .movieDetail .background {        
+        display: none;        
+    }
+}
+
+/* @media screen and (max-width: 576px) {
     .movieDetail .movieInfo .poster {
         width: 80%;
         margin: auto;
@@ -155,5 +161,5 @@
         width: 80%;    
         margin-left: 10%;        
     }
-}
+} */
   

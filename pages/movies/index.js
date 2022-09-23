@@ -107,7 +107,7 @@ const MovieList = () => {
                         md: 5,
                         lg: 5,
                         xl: 5,
-                        xxl: 5,
+                        xxl: 6,
                     }}
                     pagination={{
                         hideOnSinglePage: true,

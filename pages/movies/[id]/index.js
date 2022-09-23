@@ -28,11 +28,25 @@ const MovieDetail = () => {
     const { id } = router.query
 
     const [trailerVisible, setTrailerVisible] = useState(false)
-    const [user, setUser] = useState()
+    const [user, setUser] = useState()    
+    const [director, setDirector] = useState()
 
     const { data: movie } = useSWR(`${api.moviedetail}/${id}`, fetcher);
 
     const { data: session, status } = useSession()
+
+    if (movie && director == undefined) {
+        axios({
+            method: 'GET',
+            url: `${api.moviecrew}?movie=${movie.id}&role=2`
+        })
+        .then(res => {                                        
+            setDirector(res.data.results)              
+        })
+        .catch(err => {
+            console.log(err)            
+        })
+    }
 
     if (status === "authenticated" && user === undefined) {        
         axios({
@@ -60,7 +74,7 @@ const MovieDetail = () => {
 
     return (
         <div className={styles.movieDetail}>
-            {movie ? (
+            {movie ? (                
                 <div>
                     {movie.background ?
                         <div className={styles.background}>
@@ -119,10 +133,22 @@ const MovieDetail = () => {
                             </Col>
                             <Col xs={24} sm={16} md={18}>
                                 <div className={styles.container}>
-                                    <Typography.Title level={3} style={{ margin: 0 }}>{movie.title} ({dayjs(movie.releasedate).year()})</Typography.Title>
+                                    <Typography.Title level={3} style={{ margin: 0 }}>{movie.title} ({dayjs(movie.releasedate).year()})</Typography.Title>                                                                        
                                     <Divider style={{ margin: '8px 0' }} />
                                     <Row gutter={[16, 16]}>
-                                        <Col xs={24} sm={24} md={16}>
+                                        <Col xs={24} sm={24} md={8}>
+                                            <Typography.Title level={5}>Ерөнхий найруулагч</Typography.Title>                                                                                        
+                                            {director ? director.map(item => (
+                                                <Link key={item.artist.id} href={`/artists/${item.artist.id}`}>
+                                                    <a target="_blank">{item.artist.name} </a>
+                                                </Link>
+                                            )) : ""}
+                                        </Col>
+                                        <Col xs={24} sm={24} md={8}>
+                                            <Typography.Title level={5}>Кино студи</Typography.Title>
+                                            {movie.productions ? movie.productions[0].name : ''}
+                                        </Col>
+                                        <Col xs={24} sm={24} md={8}>
                                             <Typography.Title level={5}>Төрөл жанр</Typography.Title>
                                             {movie.genres.map(genre => (
                                                 <Tag key={genre.id} color="geekblue">{genre.name}</Tag>
@@ -130,8 +156,9 @@ const MovieDetail = () => {
                                         </Col>
                                         <Col xs={24} sm={24} md={8}>
                                             <Typography.Title level={5}>Насны ангилал</Typography.Title>
+                                            Хийгдээгүй
                                         </Col>
-                                        <Col xs={24} sm={24} md={16}>
+                                        <Col xs={24} sm={24} md={8}>
                                             <Typography.Title level={5}>Нээлт</Typography.Title>
                                             {getReleaseDate(movie.releasedate)}
                                         </Col>

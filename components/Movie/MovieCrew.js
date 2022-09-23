@@ -67,8 +67,8 @@ const MovieCrew = ({ id }) => {
                                                 size="small"
                                             >
                                                 <Card.Meta 
-                                                    title={<Typography.Text style={{ fontSize: '14px', fontWeight: 'bold', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}>{item.artist.name}</Typography.Text>} 
-                                                    description={item.roles[0].name} 
+                                                    title={<Typography.Text style={{ fontSize: '14px', fontWeight: 'bold', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}>{item.artist.name}</Typography.Text>}                                                     
+                                                    description={<Typography.Text style={{ color: '#555', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}>{item.roles[0].name}</Typography.Text>} 
                                                 />
                                             </Card>
                                         </a>

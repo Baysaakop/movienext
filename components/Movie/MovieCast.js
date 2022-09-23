@@ -68,7 +68,7 @@ const MovieCast = ({ id }) => {
                                             >
                                                 <Card.Meta 
                                                     title={<Typography.Text style={{ fontSize: '14px', fontWeight: 'bold', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}>{item.artist.name}</Typography.Text>} 
-                                                    description={item.role_name} 
+                                                    description={<Typography.Text style={{ color: '#555', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}>{item.role_name}</Typography.Text>} 
                                                 />
                                             </Card>                                        
                                         </a>
