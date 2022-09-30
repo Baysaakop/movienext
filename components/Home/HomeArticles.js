@@ -26,7 +26,7 @@ const HomeArticles = () => {
             {articles ? (
                 <Row gutter={16}> 
                    {articles.slice(0, 3).map(item => 
-                    <Col xs={24} sm={24} md={8}>
+                    <Col key={item.id} xs={24} sm={24} md={8}>
                         <Link href={`/articles/${item.id}`}>
                             <a>
                                 <Card

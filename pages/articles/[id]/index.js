@@ -36,9 +36,9 @@ const ArticleDetail = () => {
                                 </div>        
                             }
                             actions={[                                
-                                <Button icon={<LikeOutlined />} size='default' type='text'> {article.like_count}</Button>,
-                                <Button icon={<CommentOutlined />} size='default' type='text'> {article.comment_count}</Button>,                               
-                                <Button icon={<EyeOutlined />} size='default' type='text'> {article.view_count}</Button>,
+                                <Button key={0} icon={<LikeOutlined />} size='default' type='text'> {article.like_count}</Button>,
+                                <Button key={1} icon={<CommentOutlined />} size='default' type='text'> {article.comment_count}</Button>,                               
+                                <Button key={2} icon={<EyeOutlined />} size='default' type='text'> {article.view_count}</Button>,
                             ]}
                         >
                             <Typography.Title level={3}>{article.title}</Typography.Title>
