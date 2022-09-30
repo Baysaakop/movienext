@@ -38,7 +38,7 @@ const MovieCard = (props) => {
     return (        
         <Tooltip title={`${props.movie.title} (${props.movie.releasedate.slice(0, 4)})`}>
             <div className={styles.movieCard}>
-                <Link href={`/movies/${props.movie.id}`}>                    
+                <Link href={`/movies/${props.movie.id}`} target="_blank">                    
                     <a>
                         <Image 
                             alt={props.movie.title}
@@ -50,7 +50,7 @@ const MovieCard = (props) => {
                     </a>    
                 </Link>
                 { props.movie.poster === null ?          
-                    <Link href={`/movies/${props.movie.id}`}>                    
+                    <Link href={`/movies/${props.movie.id}`} target="_blank">                    
                         <a>
                             <div className={styles.titleContainer}>
                                 <div className={styles.title}>

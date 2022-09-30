@@ -103,7 +103,7 @@ const MovieList = () => {
                     grid={{
                         gutter: 16,
                         xs: 2,
-                        sm: 4,
+                        sm: 3,
                         md: 5,
                         lg: 5,
                         xl: 5,
@@ -113,7 +113,7 @@ const MovieList = () => {
                         hideOnSinglePage: true,
                         showSizeChanger: false,                   
                         current: pageIndex,                    
-                        pageSize: 20,                    
+                        pageSize: 30,                    
                         total: movies.count,
                         size: 'small',
                         onChange: onPageChange

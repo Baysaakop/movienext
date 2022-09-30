@@ -67,7 +67,7 @@ const MovieFilter = (props) => {
                     'genre': 0,
                     'decade': 0,
                     'score': 0,
-                    'order': '-created_at'
+                    'order': '-view_count'
                 }}
             >
                 <Form.Item label="Кино хайх" name="search">
@@ -101,6 +101,9 @@ const MovieFilter = (props) => {
                                 <Option value={1980}>1980-д</Option>
                                 <Option value={1970}>1970-д</Option>
                                 <Option value={1960}>1960-д</Option>
+                                <Option value={1950}>1950-д</Option>
+                                <Option value={1940}>1940-д</Option>
+                                <Option value={1930}>1930-д</Option>
                             </Select>
                         </Form.Item>
                     </Col>

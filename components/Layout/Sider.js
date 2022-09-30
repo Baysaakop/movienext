@@ -15,12 +15,7 @@ const Sider = () => {
             <div className={styles.container}>
                 <Typography.Title level={5}>MOVIE+ веб сайт:</Typography.Title>
                 Donec finibus ac nisi in volutpat. Donec nibh neque, mattis in fermentum et, facilisis et magna. Aenean auctor nisl eget ipsum mattis lobortis.
-            </div>
-            <Divider style={{ margin: '16px 0' }} />
-            <div className={styles.container}>
-                <Typography.Title level={5}>Бидэнтэй холбогдох:</Typography.Title>
-                ajdk jakdjkasjkd
-            </div>
+            </div>           
             <Divider style={{ margin: '16px 0' }} />
             <div className={styles.container}>
                 <Typography.Title level={5}>Сошиал сувгууд:</Typography.Title>
@@ -30,6 +25,11 @@ const Sider = () => {
                     <Button className={styles.youtube} type="text" shape="circle" size="large" icon={<YoutubeFilled />} />
                     <Button className={styles.twitter} type="text" shape="circle" size="large" icon={<TwitterOutlined />} />
                 </div>
+            </div>
+            <Divider style={{ margin: '16px 0' }} />
+            <div className={styles.container}>
+                <Typography.Title level={5}>Бидэнтэй холбогдох:</Typography.Title>
+                ajdk jakdjkasjkd
             </div>  
             <Divider style={{ margin: '16px 0' }} />
             <div className={styles.container}>
