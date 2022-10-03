@@ -1,5 +1,5 @@
-import { CommentOutlined, LikeOutlined, SendOutlined, UserOutlined } from '@ant-design/icons';
-import { Typography, Avatar, List, Rate, Space, Button, Form, Input, Comment, Tooltip } from 'antd'
+import { CommentOutlined, LikeOutlined, SendOutlined } from '@ant-design/icons';
+import { Typography, Avatar, List, Rate, Button, Form, Input, Comment, Tooltip } from 'antd'
 import axios from 'axios';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
@@ -68,7 +68,14 @@ const MovieComments = ({ id, token, user }) => {
             { user ? (
                 <div style={{ padding: '0px 16px' }}>
                     <Comment
-                        avatar={<Avatar src={user.avatar} size='large' />}
+                        avatar={
+                            user.avatar ? 
+                                <Avatar size="large" src={user.avatar} />
+                            :
+                                <Avatar size="large" style={{ background: '#28202f' }}>
+                                    {user.username.charAt(0).toUpperCase()}
+                                </Avatar>
+                        }
                         content={
                             <Form form={form} onFinish={onFinish}>
                                 <Form.Item name="comment" rules={[{ required: 'true', message: 'Сэтгэгдэл хоосон байна!' }]} style={{ marginBottom: '8px' }}>
@@ -85,7 +92,7 @@ const MovieComments = ({ id, token, user }) => {
             { loading ? (
                 <Loading />
             ) : (
-                <List
+                <List 
                     itemLayout='horizontal'
                     size='small'
                     dataSource={data}
@@ -108,7 +115,14 @@ const MovieComments = ({ id, token, user }) => {
                                     </Link>             
                                 }
                                 datetime={dayjs(item.created_at).fromNow()}
-                                avatar={<Avatar src={item.user.avatar} size='large' />}
+                                avatar={
+                                    item.user.avatar ? 
+                                        <Avatar size="large" src={item.user.avatar} />
+                                    :
+                                        <Avatar size="large" style={{ background: '#28202f' }}>
+                                            {item.user.username.charAt(0).toUpperCase()}
+                                        </Avatar>                                    
+                                }
                                 content={
                                     <div>
                                         <Rate allowHalf disabled defaultValue={item.score / 2} style={{ fontSize: '14px', marginBottom: '2px' }} />        

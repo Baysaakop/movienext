@@ -60,7 +60,7 @@ const MovieCrew = ({ id }) => {
                                                 cover={
                                                     <img
                                                         alt={item.artist.name}
-                                                        src={item.artist.image}
+                                                        src={item.artist.image ? item.artist.image : "/blank.png"}
                                                         style={{ width: '100%', height: 'auto' }}                                        
                                                     />
                                                 }

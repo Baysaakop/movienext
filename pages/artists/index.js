@@ -85,7 +85,7 @@ const ArtistList = () => {
                                     <Card 
                                         hoverable
                                         className={styles.artistCard}
-                                        cover={<img alt={artist.name} src={artist.image} style={{ width: '100%', height: 'auto', objectFit: 'cover' }} />}
+                                        cover={<img alt={artist.name} src={artist.image !== null ? artist.image : "/blank.png"} style={{ width: '100%', height: 'auto', objectFit: 'cover' }} />}
                                         size="small"                                
                                     >                                    
                                         <Typography.Paragraph ellipsis={{ rows: 1 }} style={{ margin: 0 }}>{artist.name}</Typography.Paragraph>
