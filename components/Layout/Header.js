@@ -28,7 +28,7 @@ const Header = () => {
             items={[
                 {
                     label: 
-                    <Link href={`/members/${session.id}`}>
+                    <Link href={session ? `/members/${session.id}` : '/members'}>
                         <a>
                             <Button type="text">Профайл</Button>
                         </a>
