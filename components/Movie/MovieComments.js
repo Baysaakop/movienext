@@ -108,7 +108,7 @@ const MovieComments = ({ id, token, user }) => {
                                     </Tooltip>
                                 ]}
                                 author={
-                                    <Link href={`/users/${item.user.id}`}>
+                                    <Link href={`/members/${item.user.id}`}>
                                         <a style={{ color: '#000', fontSize: '14px' }}>
                                             {item.user.username}
                                         </a>
@@ -116,12 +116,17 @@ const MovieComments = ({ id, token, user }) => {
                                 }
                                 datetime={dayjs(item.created_at).fromNow()}
                                 avatar={
-                                    item.user.avatar ? 
-                                        <Avatar size="large" src={item.user.avatar} />
-                                    :
-                                        <Avatar size="large" style={{ background: '#28202f' }}>
-                                            {item.user.username.charAt(0).toUpperCase()}
-                                        </Avatar>                                    
+                                    <Link href={`/members/${item.user.id}`}>
+                                        <a>
+                                            {item.user.avatar ? 
+                                                <Avatar size="large" src={item.user.avatar} />
+                                            :
+                                                <Avatar size="large" style={{ background: '#28202f' }}>
+                                                    {item.user.username.charAt(0).toUpperCase()}
+                                                </Avatar>                         
+                                            }
+                                        </a>
+                                    </Link>           
                                 }
                                 content={
                                     <div>

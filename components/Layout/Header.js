@@ -1,5 +1,5 @@
 import { Grid, Avatar, Button, Drawer, Input, Dropdown, Menu as AntMenu, Skeleton, Space } from 'antd'
-import { MenuUnfoldOutlined, SettingOutlined, UserAddOutlined, UserOutlined } from '@ant-design/icons'
+import { MenuUnfoldOutlined, SettingOutlined, UserOutlined } from '@ant-design/icons'
 import { useState } from 'react'
 import { useSession, signIn, signOut } from 'next-auth/react'
 import Link from 'next/link'
@@ -8,38 +8,6 @@ import styles from '../../styles/Header.module.css'
 
 const { useBreakpoint } = Grid
 const { Search } = Input
-
-const menu = (
-    <AntMenu
-        items={[
-            {
-                label: 
-                <Link href="/profile">
-                    <a>
-                        <Button type="text">Профайл</Button>
-                    </a>
-                </Link>,
-                key: '0',
-            },
-            {
-                label: 
-                <Link href="/settings">
-                    <a>
-                        <Button type="text">Миний бүртгэл</Button>
-                    </a>
-                </Link>,
-                key: '1',
-            },
-            {
-                type: 'divider',
-            },
-            {
-                label: <Button danger type='link' onClick={() => signOut()}>Гарах</Button>,
-                key: '3',
-            },
-        ]}
-    />
-)
 
 const Header = () => {
     const screens = useBreakpoint()
@@ -54,6 +22,38 @@ const Header = () => {
     }
 
     const { data: session, status } = useSession()
+
+    const menu = (
+        <AntMenu
+            items={[
+                {
+                    label: 
+                    <Link href={`/members/${session.id}`}>
+                        <a>
+                            <Button type="text">Профайл</Button>
+                        </a>
+                    </Link>,
+                    key: '0',
+                },
+                {
+                    label: 
+                    <Link href="/settings">
+                        <a>
+                            <Button type="text">Миний бүртгэл</Button>
+                        </a>
+                    </Link>,
+                    key: '1',
+                },
+                {
+                    type: 'divider',
+                },
+                {
+                    label: <Button danger type='link' onClick={() => signOut()}>Гарах</Button>,
+                    key: '3',
+                },
+            ]}
+        />
+    )    
  
     if (screens) {
         if (screens.lg) {

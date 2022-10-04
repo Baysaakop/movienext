@@ -40,7 +40,7 @@ const Menu = (props) => {
                     <MenuItem icon="📊" text="Статистик" />          
                 </a>
             </Link>
-            <Link href="/users">            
+            <Link href="/members">            
                 <a onClick={onClick}>
                     <MenuItem icon="🙋‍♂️" text="Гишүүд" />          
                 </a>

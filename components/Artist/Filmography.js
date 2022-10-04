@@ -26,8 +26,7 @@ const Filmography = ({ artist }) => {
                     method: 'GET',
                     url: `${api.moviecast}?artist=${artist.id}`
                 })
-                .then(res => {                                                   
-                    console.log(res.data.results)
+                .then(res => {                                                                      
                     setData(res.data.results)
                 })
                 .catch(err => {
@@ -38,8 +37,7 @@ const Filmography = ({ artist }) => {
                     method: 'GET',
                     url: `${api.moviecrew}?artist=${artist.id}&role=${role}`
                 })
-                .then(res => {                                                   
-                    console.log(res.data.results)
+                .then(res => {                                                                       
                     setData(res.data.results)
                 })
                 .catch(err => {
