@@ -133,7 +133,16 @@ const MovieDetail = () => {
                             </Col>
                             <Col xs={24} sm={16} md={18}>
                                 <div className={styles.container}>
-                                    <Typography.Title level={3} style={{ margin: 0 }}>{movie.title} ({dayjs(movie.releasedate).year()})</Typography.Title>                                                                        
+                                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                        <Typography.Title level={3} style={{ margin: 0 }}>{movie.title} ({dayjs(movie.releasedate).year()})</Typography.Title>                                                                        
+                                        { user ? (
+                                            <Link href={`/admin/editmovie/${movie.id}`}>
+                                                <a>Засах</a>
+                                            </Link>
+                                        ) : (
+                                            <></>
+                                        )}
+                                    </div>
                                     <Divider style={{ margin: '8px 0' }} />
                                     <Row gutter={[16, 16]}>
                                         <Col xs={24} sm={24} md={8}>
@@ -151,7 +160,7 @@ const MovieDetail = () => {
                                         <Col xs={24} sm={24} md={8}>
                                             <Typography.Title level={5}>Төрөл жанр</Typography.Title>
                                             {movie.genres.map(genre => (
-                                                <Tag key={genre.id} color="geekblue">{genre.name}</Tag>
+                                                <Tag key={genre.id} color="geekblue" style={{ margin: '0 4px 4px 0' }}>{genre.name}</Tag>
                                             ))}
                                         </Col>
                                         <Col xs={24} sm={24} md={8}>

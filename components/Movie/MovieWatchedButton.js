@@ -85,30 +85,26 @@ const MovieWatchedButton = (props) => {
         if (user.movies_watched.length > 0) {
             if (user.movies_watched.filter(x => x.id === props.movie.id).length > 0) {
                 return (
-                    <Tooltip title="Үзээгүй" placement={props.placement}>
-                        <Button 
-                            size="large" 
-                            shape="circle" 
-                            type="primary" 
-                            icon={<CheckOutlined />}   
-                            onClick={onRemove}      
-                            style={{ background: '#44bd32', border: 0 }}
-                        />
-                    </Tooltip>
+                    <Button 
+                        size="large" 
+                        shape="circle" 
+                        type="primary" 
+                        icon={<CheckOutlined />}   
+                        onClick={onRemove}      
+                        style={{ background: '#44bd32', border: 0 }}
+                    />
                 )
             }
         }
     }    
     return (
-        <Tooltip title="Үзсэн" placement={props.placement}>
-            <Button 
-                size="large" 
-                shape="circle" 
-                type="text" 
-                icon={<CheckOutlined />}   
-                onClick={onAdd}      
-            />        
-        </Tooltip>
+        <Button 
+            size="large" 
+            shape="circle" 
+            type="text" 
+            icon={<CheckOutlined />}   
+            onClick={onAdd}      
+        />        
     )
 }
 

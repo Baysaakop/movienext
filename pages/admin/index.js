@@ -1,8 +1,8 @@
 import React from 'react'
 import { useSession, signIn } from 'next-auth/react'
-import Loading from '../components/Loading'
+import Loading from '../../components/Loading'
 import { Button, Result } from 'antd'
-import AdminDashboard from '../components/Admin/AdminDashboard'
+import AdminDashboard from '../../components/Admin/AdminDashboard'
 
 const Admin = () => {
     const { data: session, status } = useSession()

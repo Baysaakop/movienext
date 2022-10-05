@@ -52,7 +52,7 @@ export default NextAuth({
                 session.id = response.data.id    
                 session.username = response.data.username
                 session.role = response.data.role
-                session.website = response.data.website
+                session.biography = response.data.biography
                 session.avatar = response.data.avatar                                 
             } else {
                 return null

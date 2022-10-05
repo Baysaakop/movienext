@@ -1,4 +1,4 @@
-import { Button, Drawer, Space, Tooltip } from "antd"
+import { Button, Drawer, Rate, Space, Tooltip } from "antd"
 import Image from "next/image"
 import Link from "next/link"
 import MovieScore from "./MovieScore"
@@ -100,6 +100,13 @@ const MovieCard = (props) => {
                     </div>
                 </Drawer> 
             </div>   
+            { props.score ? (
+                <div>
+                    <Rate allowHalf disabled count={5} defaultValue={props.score / 2} style={{ fontSize: '12px', color: '#3c3c3c' }} />
+                </div>
+            ) : (
+                <></>
+            )}
         </Tooltip>
     )
 }

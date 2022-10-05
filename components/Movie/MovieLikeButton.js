@@ -85,30 +85,26 @@ const MovieLikeButton = (props) => {
         if (user.movies_like.length > 0) {
             if (user.movies_like.filter(x => x.id === props.movie.id).length > 0) {
                 return (
-                    <Tooltip title="Таалагдаагүй" placement={props.placement}>
-                        <Button 
-                            size="large" 
-                            shape="circle" 
-                            type="primary" 
-                            icon={<HeartOutlined />}   
-                            onClick={onRemove}      
-                            style={{ background: '#ff5252', border: 0 }}
-                        />
-                    </Tooltip>
+                    <Button 
+                        size="large" 
+                        shape="circle" 
+                        type="primary" 
+                        icon={<HeartOutlined />}   
+                        onClick={onRemove}      
+                        style={{ background: '#ff5252', border: 0 }}
+                    />
                 )
             }
         }
     }    
     return (
-        <Tooltip title="Таалагдсан" placement={props.placement}>
-            <Button 
-                size="large" 
-                shape="circle" 
-                type="text" 
-                icon={<HeartOutlined />}   
-                onClick={onAdd}      
-            />        
-        </Tooltip>
+        <Button 
+            size="large" 
+            shape="circle" 
+            type="text" 
+            icon={<HeartOutlined />}   
+            onClick={onAdd}      
+        />        
     )
 }
 

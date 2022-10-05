@@ -85,30 +85,26 @@ const MovieWatchlistButton = (props) => {
         if (user.movies_watchlist.length > 0) {
             if (user.movies_watchlist.filter(x => x.id === props.movie.id).length > 0) {
                 return (
-                    <Tooltip title="Дараа үзэх" placement={props.placement}>
-                        <Button 
-                            size="large" 
-                            shape="circle" 
-                            type="primary" 
-                            icon={<ClockCircleOutlined />}   
-                            onClick={onRemove}      
-                            style={{ background: '#2c2c54', border: 0 }}
-                        />
-                    </Tooltip>
+                    <Button 
+                        size="large" 
+                        shape="circle" 
+                        type="primary" 
+                        icon={<ClockCircleOutlined />}   
+                        onClick={onRemove}      
+                        style={{ background: '#2c2c54', border: 0 }}
+                    />
                 )
             }
         }
     }    
     return (
-        <Tooltip title="Дараа үзэх" placement={props.placement}>
-            <Button 
-                size="large" 
-                shape="circle" 
-                type="text" 
-                icon={<ClockCircleOutlined />}   
-                onClick={onAdd}      
-            />        
-        </Tooltip>
+        <Button 
+            size="large" 
+            shape="circle" 
+            type="text" 
+            icon={<ClockCircleOutlined />}   
+            onClick={onAdd}      
+        />
     )
 }
 

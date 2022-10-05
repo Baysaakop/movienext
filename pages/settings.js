@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
 import { useSession, signIn } from 'next-auth/react'
-import { Button, Result, Form, Input, Typography, message } from 'antd';
+import { Button, Result, Form, Input, Typography, message, Tabs } from 'antd';
 import Loading from '../components/Loading'
 import axios from 'axios';
 import api from '../api';
 import Router from 'next/router'
 import ImageUpload from '../components/ImageUpload'
+import SettingsSocial from '../components/Member/SettingsSocial';
 
 const Settings = () => {
     const [form] = Form.useForm()
@@ -19,8 +20,8 @@ const Settings = () => {
         if (values.username && values.username !== session.username) {
             formData.append('username', values.username)
         }
-        if (values.website && values.website !== session.website) {
-            formData.append('website', values.website)
+        if (values.biography && values.biography !== session.biography) {
+            formData.append('biography', values.biography)
         }
         if (avatar && avatar !== session.avatar) {
             formData.append('avatar', avatar)
@@ -43,7 +44,7 @@ const Settings = () => {
         })
         .catch(err => {
             console.log(err)
-            message.err("Алдаа гарлаа. Хуудсыг refresh хийнэ үү.")
+            message.error("Алдаа гарлаа. Хуудсыг refresh хийнэ үү.")
             setLoading(false)
         })
     }
@@ -54,34 +55,41 @@ const Settings = () => {
         )        
     } else if (status === "authenticated") {
         return (
-            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '80vh', background: '#fff', border: '1px solid #e5e5e5', borderRadius: '4px' }}>
-                <div style={{ textAlign: 'center', width: '400px', padding: '24px', border: '1px solid #c5c5c5', borderRadius: '4px' }}>
-                    <Typography.Title level={3}>Хэрэглэгчийн бүртгэл</Typography.Title>
-                    <Form 
-                        layout="vertical" 
-                        form={form} 
-                        onFinish={onFinish}
-                        initialValues={{
-                            email: session.user.email,
-                            username: session.username,
-                            website: session.website
-                        }}                        
-                    >              
-                        <Form.Item name="email" label="И-Мэйл:">
-                            <Input disabled />
-                        </Form.Item>          
-                        <Form.Item name="username" label="Хэрэглэгчийн нэр:" rules={[{ required: true }]}>
-                            <Input />
-                        </Form.Item>   
-                        <Form.Item name="website" label="Сошиал хаяг:">
-                            <Input />
-                        </Form.Item>             
-                        <Form.Item name="avatar" label="Зураг:">
-                            <ImageUpload image={session.avatar} onImageSelected={(path) => setAvatar(path)} height="192px" width="192px" />     
-                        </Form.Item>              
-                        <Button block type='primary' onClick={form.submit}>Хадгалах</Button>                    
-                    </Form>
-                </div>
+            <div style={{ background: '#fff', border: '1px solid #e5e5e5', borderRadius: '4px', padding: '16px' }}>
+                <Tabs defaultActiveKey="1">
+                    <Tabs.TabPane tab="Хэрэглэгчийн бүртгэл" key="1">
+                        <div style={{ textAlign: 'center', width: '400px', padding: '16px', border: '1px solid #c5c5c5', borderRadius: '4px' }}>
+                            <Typography.Title level={3}>Хэрэглэгчийн бүртгэл</Typography.Title>
+                            <Form 
+                                layout="vertical" 
+                                form={form} 
+                                onFinish={onFinish}
+                                initialValues={{
+                                    email: session.user.email,
+                                    username: session.username,
+                                    biography: session.biography
+                                }}                        
+                            >              
+                                <Form.Item name="email" label="И-Мэйл:">
+                                    <Input disabled />
+                                </Form.Item>          
+                                <Form.Item name="username" label="Хэрэглэгчийн нэр:" rules={[{ required: true }]}>
+                                    <Input />
+                                </Form.Item>                              
+                                <Form.Item name="biography" label="Тайлбар:">
+                                    <Input.TextArea />
+                                </Form.Item>   
+                                <Form.Item name="avatar" label="Зураг:">
+                                    <ImageUpload image={session.avatar} onImageSelected={(path) => setAvatar(path)} height="192px" width="192px" />     
+                                </Form.Item>              
+                                <Button block type='primary' onClick={form.submit}>Хадгалах</Button>                    
+                            </Form>
+                        </div>
+                    </Tabs.TabPane>
+                    <Tabs.TabPane tab="Сошиал медиа" key="2">
+                        <SettingsSocial />
+                    </Tabs.TabPane>
+                </Tabs>                
             </div>
         )
     } else {        
