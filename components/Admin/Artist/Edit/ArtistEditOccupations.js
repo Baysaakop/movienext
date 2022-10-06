@@ -4,22 +4,22 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import api from '../../../../api'
 
-const MovieEditGenres = (props) => {
-    const [genres, setGenres] = useState([])
+const ArtistEditOccupations = (props) => {
+    const [occupations, setOccupations] = useState([])
     const [selected, setSelected] = useState([])
 
     useEffect(() => {
-        getGenres()
+        getOccupations()
         getSelected()
     }, [])
 
-    function getGenres () {
+    function getOccupations () {
         axios({
             method: 'GET',
-            url: api.genres
+            url: api.occupations
         })
         .then(res => {
-            setGenres(res.data.results)
+            setOccupations(res.data.results)
         })
         .catch(err => {
             console.log(err)
@@ -28,23 +28,23 @@ const MovieEditGenres = (props) => {
 
     function getSelected() {
         let array = []
-        props.movie.genres.forEach(genre => {
-            array.push(genre.id)
+        props.artist.occupations.forEach(o => {
+            array.push(o.id)
         })
         setSelected(array)
     }
 
-    function handleChange (genre, checked) {
-        const next = checked ? [...selected, genre] : selected.filter(g => g !== genre)
+    function handleChange (o, checked) {
+        const next = checked ? [...selected, o] : selected.filter(s => s !== o)
         setSelected(next)
     }
 
     function onFinish () {
         var formData = new FormData()    
-        formData.append('genres', selected)
+        formData.append('occupations', selected)
         axios({
             method: 'PUT',
-            url: `${api.moviedetail}/${props.movie.id}/`,
+            url: `${api.artistdetail}/${props.artist.id}/`,
             data: formData,
             headers: {
                 'Content-Type': 'multipart/form-data',
@@ -61,13 +61,13 @@ const MovieEditGenres = (props) => {
 
     return (
         <div>
-            {genres.map(genre => (
+            {occupations.map(o => (
                 <CheckableTag
-                    key={genre.id}
-                    checked={selected.indexOf(genre.id) > -1}
-                    onChange={checked => handleChange(genre.id, checked)}
+                    key={o.id}
+                    checked={selected.indexOf(o.id) > -1}
+                    onChange={checked => handleChange(o.id, checked)}
                 >
-                    {genre.name}
+                    {o.name}
                 </CheckableTag>
             ))}
             <Popconfirm title="Хадгалах уу?" okText="Тийм" cancelText="Үгүй" onConfirm={onFinish}>
@@ -77,4 +77,4 @@ const MovieEditGenres = (props) => {
     )
 }
 
-export default MovieEditGenres
+export default ArtistEditOccupations

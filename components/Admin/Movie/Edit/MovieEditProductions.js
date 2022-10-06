@@ -4,22 +4,22 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import api from '../../../../api'
 
-const MovieEditGenres = (props) => {
-    const [genres, setGenres] = useState([])
+const MovieEditProductions = (props) => {
+    const [productions, setProductions] = useState([])
     const [selected, setSelected] = useState([])
 
     useEffect(() => {
-        getGenres()
+        getProductions()
         getSelected()
     }, [])
 
-    function getGenres () {
+    function getProductions () {
         axios({
             method: 'GET',
-            url: api.genres
+            url: api.productions
         })
         .then(res => {
-            setGenres(res.data.results)
+            setProductions(res.data.results)
         })
         .catch(err => {
             console.log(err)
@@ -28,20 +28,20 @@ const MovieEditGenres = (props) => {
 
     function getSelected() {
         let array = []
-        props.movie.genres.forEach(genre => {
-            array.push(genre.id)
+        props.movie.productions.forEach(production => {
+            array.push(production.id)
         })
         setSelected(array)
     }
 
-    function handleChange (genre, checked) {
-        const next = checked ? [...selected, genre] : selected.filter(g => g !== genre)
+    function handleChange (production, checked) {
+        const next = checked ? [...selected, production] : selected.filter(p => p !== production)
         setSelected(next)
     }
 
     function onFinish () {
         var formData = new FormData()    
-        formData.append('genres', selected)
+        formData.append('productions', selected)
         axios({
             method: 'PUT',
             url: `${api.moviedetail}/${props.movie.id}/`,
@@ -52,7 +52,7 @@ const MovieEditGenres = (props) => {
             }
         })
         .then(res => {
-            message.success(`Амжилттай хадгалагдлаа.`)       
+            message.success(`Амжилттай хадгалагдлаа.`)     
         })
         .catch(err => {
             console.log(err)
@@ -61,13 +61,13 @@ const MovieEditGenres = (props) => {
 
     return (
         <div>
-            {genres.map(genre => (
+            {productions.map(production => (
                 <CheckableTag
-                    key={genre.id}
-                    checked={selected.indexOf(genre.id) > -1}
-                    onChange={checked => handleChange(genre.id, checked)}
+                    key={production.id}
+                    checked={selected.indexOf(production.id) > -1}
+                    onChange={checked => handleChange(production.id, checked)}
                 >
-                    {genre.name}
+                    {production.name}
                 </CheckableTag>
             ))}
             <Popconfirm title="Хадгалах уу?" okText="Тийм" cancelText="Үгүй" onConfirm={onFinish}>
@@ -77,4 +77,4 @@ const MovieEditGenres = (props) => {
     )
 }
 
-export default MovieEditGenres
+export default MovieEditProductions

@@ -135,7 +135,7 @@ const MovieDetail = () => {
                                 <div className={styles.container}>
                                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                         <Typography.Title level={3} style={{ margin: 0 }}>{movie.title} ({dayjs(movie.releasedate).year()})</Typography.Title>                                                                        
-                                        { user ? (
+                                        { user && user.role === 1 ? (
                                             <Link href={`/admin/editmovie/${movie.id}`}>
                                                 <a>Засах</a>
                                             </Link>

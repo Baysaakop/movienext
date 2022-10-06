@@ -21,7 +21,7 @@ const api = {
     categories: baseUrl + 'api/articles/categories',
     // users
     userlist: baseUrl + 'api/users/userlist',
-    userdetail: baseUrl + 'api/users/userdetail',
+    userdetail: baseUrl + 'api/users/userdetail', 
     profile: baseUrl + 'rest-auth/user/',
     restAuth: baseUrl + 'rest-auth',    
 }

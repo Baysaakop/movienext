@@ -6,22 +6,20 @@ import { useRouter } from 'next/router'
 import React, { useState } from 'react'
 import useSWR from 'swr'
 import api from '../../../../api'
-import MovieEditCast from '../../../../components/Admin/Movie/Edit/MovieEditCast'
-import MovieEditCrew from '../../../../components/Admin/Movie/Edit/MovieEditCrew'
-import MovieEditGenres from '../../../../components/Admin/Movie/Edit/MovieEditGenres'
-import MovieEditInfo from '../../../../components/Admin/Movie/Edit/MovieEditInfo'
-import MovieEditPlatforms from '../../../../components/Admin/Movie/Edit/MovieEditPlatforms'
-import MovieEditProductions from '../../../../components/Admin/Movie/Edit/MovieEditProductions'
+import ArtistEditCast from '../../../../components/Admin/Artist/Edit/ArtistEditCast'
+import ArtistEditCrew from '../../../../components/Admin/Artist/Edit/ArtistEditCrew'
+import ArtistEditInfo from '../../../../components/Admin/Artist/Edit/ArtistEditInfo'
+import ArtistEditOccupations from '../../../../components/Admin/Artist/Edit/ArtistEditOccupations'
 import Loading from '../../../../components/Loading'
 
 const fetcher = url => axios.get(url).then(res => res.data)
 
-const EditMovie = () => {    
+const EditArtist = () => {    
     const [page, setPage] = useState("Info")
     const router = useRouter()
     const { id } = router.query
 
-    const { data: movie } = useSWR(`${api.moviedetail}/${id}`, fetcher)
+    const { data: artist } = useSWR(`${api.artistdetail}/${id}`, fetcher)
 
     const { data: session, status } = useSession()
 
@@ -46,29 +44,25 @@ const EditMovie = () => {
             )
         } else {
             return (
-                movie ?
+                artist ?
                     <div style={{ background: '#fff', border: '1px solid #e5e5e5', borderRadius: '4px', padding: '16px' }}>
-                        <Typography.Title level={4}>Кино засах - {movie.title} ({dayjs(movie.releasedate).year()})</Typography.Title>
+                        <Typography.Title level={4}>Кино засах - {artist.name}</Typography.Title>
                         <Segmented 
                             block
                             defaultValue={page}
-                            options={['Info', 'Genres', 'Production', 'Where to', 'Crew', 'Cast']}
+                            options={['Info', 'Occupations', 'Crew', 'Cast']}
                             onChange={onSegmentChange}
                             style={{ marginBottom: '16px' }}
                         />
                         <div style={{ border: '1px solid #e5e5e5', borderRadius: '4px', padding: '16px' }}>
                             { page === 'Info' ? (
-                                <MovieEditInfo movie={movie} token={session.token} />
-                            ) : page === 'Genres' ? (
-                                <MovieEditGenres movie={movie} token={session.token} />
-                            ) : page === 'Production' ? (
-                                <MovieEditProductions movie={movie} token={session.token} />
-                            ) : page === 'Where to' ? (
-                                <MovieEditPlatforms movie={movie} token={session.token} />
+                                <ArtistEditInfo artist={artist} token={session.token} />
+                            ) : page === 'Occupations' ? (
+                                <ArtistEditOccupations artist={artist} token={session.token} />
                             ) : page === 'Crew' ? (
-                                <MovieEditCrew movie={movie} token={session.token} />
+                                <ArtistEditCrew artist={artist} token={session.token} />
                             ) : page === 'Cast' ? (
-                                <MovieEditCast movie={movie} token={session.token} />
+                                <ArtistEditCast artist={artist} token={session.token} />
                             ) : (
                                 <>Test</>
                             )}                            
@@ -92,4 +86,4 @@ const EditMovie = () => {
     }
 }
 
-export default EditMovie
+export default EditArtist
