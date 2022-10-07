@@ -10,6 +10,7 @@ import MovieLikeButton from "./MovieLikeButton"
 import MovieWatchedButton from "./MovieWatchedButton"
 import MovieWatchlistButton from "./MovieWatchlistButton"
 import MovieRateButton from "./MovieRateButton"
+import dayjs from "dayjs"
 
 const MovieCard = (props) => {
     const [drawerOpen, setDrawerOpen] = useState(false)    
@@ -36,7 +37,7 @@ const MovieCard = (props) => {
     }
 
     return (        
-        <Tooltip title={`${props.movie.title} (${props.movie.releasedate.slice(0, 4)})`}>
+        <Tooltip title={`${props.movie.title} (${props.movie.releasedate ? dayjs(props.movie.releasedate).year() : ''})`}>
             <div className={styles.movieCard}>
                 <Link href={`/movies/${props.movie.id}`} target="_blank">                    
                     <a>
@@ -54,7 +55,7 @@ const MovieCard = (props) => {
                         <a>
                             <div className={styles.titleContainer}>
                                 <div className={styles.title}>
-                                    {`${props.movie.title} (${props.movie.releasedate.slice(0, 4)})`}
+                                    {`${props.movie.title} (${props.movie.releasedate ? dayjs(props.movie.releasedate).year() : ''})`}
                                 </div>
                             </div>
                         </a>           

@@ -66,6 +66,9 @@ const MovieDetail = () => {
     function onMouseDown() { }
 
     function getReleaseDate(releasedate) {
+        if (releasedate === undefined || releasedate === null) {
+            return '?'   
+        }
         if (dayjs(releasedate).month() === 0 && dayjs(releasedate).date() === 1) {
             return dayjs(releasedate).format("YYYY он")
         }
@@ -134,7 +137,7 @@ const MovieDetail = () => {
                             <Col xs={24} sm={16} md={18}>
                                 <div className={styles.container}>
                                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                        <Typography.Title level={3} style={{ margin: 0 }}>{movie.title} ({dayjs(movie.releasedate).year()})</Typography.Title>                                                                        
+                                        <Typography.Title level={3} style={{ margin: 0 }}>{movie.title} ({movie.releasedate ? dayjs(movie.releasedate).year() : ''})</Typography.Title>                                                                        
                                         { user && user.role === 1 ? (
                                             <Link href={`/admin/editmovie/${movie.id}`}>
                                                 <a>Засах</a>
@@ -155,7 +158,7 @@ const MovieDetail = () => {
                                         </Col>
                                         <Col xs={24} sm={24} md={8}>
                                             <Typography.Title level={5}>Кино студи</Typography.Title>
-                                            {movie.productions ? movie.productions[0].name : ''}
+                                            {movie.productions && movie.productions.length > 0 ? movie.productions[0].name : ''}
                                         </Col>
                                         <Col xs={24} sm={24} md={8}>
                                             <Typography.Title level={5}>Төрөл жанр</Typography.Title>
