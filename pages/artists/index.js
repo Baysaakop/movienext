@@ -1,4 +1,4 @@
-import { Divider, List, Typography, Card, Tooltip } from "antd"
+import { Divider, List, Typography, Card, Tooltip, Result } from "antd"
 import { useState } from 'react'
 import Link from "next/link"
 import ArtistFilter from "../../components/Artist/ArtistFilter"
@@ -7,48 +7,67 @@ import useSWR from 'swr';
 import axios from "axios"
 import api from "../../api"
 import Loading from "../../components/Loading"
+import { useRouter } from "next/router"
 
 const fetcher = url => axios.get(url).then(res => res.data)
 
 const ArtistList = () => {
-    const [pageIndex, setPageIndex] = useState(1)
-    const [search, setSearch] = useState()
-    const [occupation, setOccupation] = useState(0)  
-    const [order, setOrder] = useState()   
+    const router = useRouter()
+    const {search, occupation, order, page} = router.query
 
-    function onPageChange (pageNum) {
-        setPageIndex(pageNum)
+    const { data: artists, error } = useSWR(getURL, fetcher);
+
+    function onPageChange (pageNum) {        
+        router.push({
+            pathname: '/artists',
+            query: { ...router.query, page: pageNum }
+        })
     }
 
     function onSearch (val) {
-        setSearch(val)
+        router.push({
+            pathname: '/artists',
+            query: { ...router.query, search: val, page: 1 }
+        })
     }
 
     function onOccupationSelect (id) {
-        setOccupation(id)
+        router.push({
+            pathname: '/artists',
+            query: { ...router.query, occupation: id, page: 1 }
+        })
     }
+
 
     function onOrderSelect (order) {
-        setOrder(order)
+        router.push({
+            pathname: '/artists',
+            query: { ...router.query, order: order, page: 1 }
+        })
     }
 
-    function getURL () {
+    function getURL () {                
         let url = `${api.artistlist}/?`
         if (search && search !== '') {
-            url += `name=${search}&`
+            url += `search=${search}&`
         }
-        if (occupation && occupation !== 0) {
-            url += `occupation=${occupation}&`
-        }
+        if (occupation) {
+            if (!isNaN(parseInt(occupation)) && occupation !== '0') {
+                url += `occupation=${occupation}&`                
+            }
+        }        
         if (order && order !== '') {
             url += `order=${order}&`
         }
-        url += `page=${pageIndex}`
+        if (page) {
+            if (isNaN(parseInt(page))) {
+                message.error("URL алдаатай байна. Шалгаад дахин оролдоно уу.")
+            } else {
+                url += `page=${page}`
+            }
+        }
         return url
     }
-
-    const { data } = useSWR(getURL, fetcher);
-
 
     return (
         <div>
@@ -56,59 +75,70 @@ const ArtistList = () => {
                 <Typography.Title level={4} style={{ margin: 0 }}>Уран бүтээлчид</Typography.Title>            
                 <Divider style={{ margin: '8px 0' }} />
             </div>
-            <ArtistFilter onSearch={onSearch} onOccupationSelect={onOccupationSelect} onOrderSelect={onOrderSelect} />
-            { data ? (
-                <List 
-                    grid={{
-                        gutter: 16,
-                        xs: 3,
-                        sm: 4,
-                        md: 6,
-                        lg: 6,
-                        xl: 6,
-                        xxl: 8,        
-                    }}
-                    pagination={{
-                        hideOnSinglePage: true,
-                        showSizeChanger: false,                   
-                        current: pageIndex,                    
-                        pageSize: 48,                    
-                        total: data.count,
-                        size: 'small',
-                        onChange: onPageChange
-                    }}
-                    dataSource={data.results}                
-                    renderItem={artist => (
-                        <List.Item key={artist.id}>
-                            <Link href={`/artists/${artist.id}`}>
-                                <a>                                
-                                    <Card 
-                                        hoverable
-                                        className={styles.artistCard}
-                                        cover={<img alt={artist.name} src={artist.image !== null ? artist.image : "/blank.png"} style={{ width: '100%', height: 'auto', objectFit: 'cover' }} />}
-                                        size="small"                                
-                                    >                                    
-                                        <Typography.Paragraph ellipsis={{ rows: 1 }} style={{ margin: 0 }}>{artist.name}</Typography.Paragraph>
-                                    </Card>               
-                                </a>        
-                            </Link>
-                        </List.Item>
-                    )}
-                />
+            { error ? (
+                <div style={{ background: '#fff', border: '1px solid #e5e5e5', borderRadius: '4px', padding: '16px' }}>
+                    <Result
+                        status="404"
+                        title="Хуудас олдсонгүй."
+                        subTitle="Хайлтын утганд таарах хуудас олдсонгүй. Та доорх товчийг дарж уг хуудсыг дахин ачааллана уу."
+                        extra={<Button type='primary' href='/artists'>Refresh</Button>}
+                    />
+                </div>
             ) : (
-                <Loading />
+                artists ? (
+                    <div>
+                        <ArtistFilter 
+                            search={search ? search : ''}
+                            occupation={(occupation && !isNaN(parseInt(occupation.toString()) && occupation.toString() !== '0') ? parseInt(occupation.toString()) : 0)}
+                            order={(order && order !== '') ? order : '-created_at'} 
+                            onSearch={onSearch} 
+                            onOccupationSelect={onOccupationSelect} 
+                            onOrderSelect={onOrderSelect} 
+                        />
+                        <List 
+                            grid={{
+                                gutter: 16,
+                                xs: 3,
+                                sm: 4,
+                                md: 6,
+                                lg: 6,
+                                xl: 6,
+                                xxl: 8,        
+                            }}
+                            pagination={{
+                                hideOnSinglePage: true,
+                                showSizeChanger: false,                   
+                                current: page ? parseInt(page) : 1,         
+                                pageSize: 48,                    
+                                total: artists.count,
+                                size: 'small',
+                                onChange: onPageChange
+                            }}
+                            dataSource={artists.results}                
+                            renderItem={artist => (
+                                <List.Item key={artist.id}>
+                                    <Link href={`/artists/${artist.id}`}>
+                                        <a>                                
+                                            <Card 
+                                                hoverable
+                                                className={styles.artistCard}
+                                                cover={<img alt={artist.name} src={artist.image !== null ? artist.image : "/blank.png"} style={{ width: '100%', height: 'auto', objectFit: 'cover' }} />}
+                                                size="small"                                
+                                            >                                    
+                                                <Typography.Paragraph ellipsis={{ rows: 1 }} style={{ margin: 0 }}>{artist.name}</Typography.Paragraph>
+                                            </Card>               
+                                        </a>        
+                                    </Link>
+                                </List.Item>
+                            )}
+                        />
+                    </div>
+                ) : (
+                    <Loading /> 
+                )
             )}
         </div>
     )
 }
-
-// export const getStaticProps = async () => {
-//     const res = await fetch(`https://movieplusback.herokuapp.com/api/movies/artists/`);
-//     const data = await res.json();
-
-//     return {
-//         props: { artists: data.results, total: data.count }
-//     }
-// }
 
 export default ArtistList

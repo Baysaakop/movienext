@@ -7,10 +7,9 @@ import api from '../../api'
 const { Search } = Input
 const { Option } = Select
 
-const MovieFilter = (props) => {
+const MovieFilter = (props) => {    
     const [form] = Form.useForm()
     const [genres, setGenres] = useState([])
-    const [decade, setDecade] = useState()    
 
     useEffect(() => {
         getGenres()
@@ -38,7 +37,6 @@ const MovieFilter = (props) => {
     }
 
     function onDecadeSelect(decade) {
-        setDecade(decade)
         props.onDecadeSelect(decade)
     }
 
@@ -63,11 +61,12 @@ const MovieFilter = (props) => {
             <Form
                 layout='vertical'
                 form={form}
-                initialValues={{
-                    'genre': 0,
-                    'decade': 0,
-                    'score': 0,
-                    'order': '-view_count'
+                initialValues={{                  
+                    'search': props.search,
+                    'genre': props.genre,
+                    'decade': props.decade,
+                    'scoreTo': props.scoreTo,
+                    'order': props.order
                 }}
             >
                 <Form.Item label="Кино хайх" name="search">
@@ -108,7 +107,7 @@ const MovieFilter = (props) => {
                         </Form.Item>
                     </Col>
                     <Col xs={24} sm={24} md={6} lg={6}>
-                        <Form.Item label="Үнэлгээ" name="score">
+                        <Form.Item label="Үнэлгээ" name="scoreTo">
                             <Select style={{ width: '100%' }} onSelect={onScoreToSelect}>
                                 <Option value={0}>Бүх</Option>
                                 <Option value={1}>★</Option>
@@ -133,13 +132,25 @@ const MovieFilter = (props) => {
                             </Select>
                         </Form.Item>
                     </Col>
-                    { decade && decade > 0 ? (
+                    { props.decade && props.decade > 0 ? (
                         <Col span={24}>
                             <div style={{ marginBottom: '24px' }}>
                                 <Segmented
                                     block
-                                    defaultValue='Бүх'
-                                    options={['Бүх', decade.toString(), (decade+1).toString(), (decade+2).toString(), (decade+3).toString(), (decade+4).toString(), (decade+5).toString(), (decade+6).toString(), (decade+7).toString(), (decade+8).toString(), (decade+9).toString() ]} 
+                                    defaultValue={props.year && !isNaN(parseInt(props.year.toString())) && props.year.toString() !== '0' ? props.year.toString() : 'Бүх' }
+                                    options={[
+                                        'Бүх', 
+                                        props.decade.toString(), 
+                                        (parseInt(props.decade.toString())+1).toString(), 
+                                        (parseInt(props.decade.toString())+2).toString(), 
+                                        (parseInt(props.decade.toString())+3).toString(), 
+                                        (parseInt(props.decade.toString())+4).toString(), 
+                                        (parseInt(props.decade.toString())+5).toString(), 
+                                        (parseInt(props.decade.toString())+6).toString(), 
+                                        (parseInt(props.decade.toString())+7).toString(), 
+                                        (parseInt(props.decade.toString())+8).toString(), 
+                                        (parseInt(props.decade.toString())+9).toString() 
+                                    ]} 
                                     onChange={onYearSelect}
                                 />
                             </div>

@@ -1,5 +1,5 @@
-import { Divider, List, Typography } from 'antd'
-import { useState } from 'react';
+import { Button, Divider, Empty, List, message, Result, Typography } from 'antd'
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 import useSWR from 'swr';
 import MovieCard from '../../components/Movie/MovieCard';
@@ -7,74 +7,104 @@ import MovieFilter from '../../components/Movie/MovieFilter';
 import Loading from '../../components/Loading'
 import api from '../../api'
 import { useSession } from 'next-auth/react'
+import { useRouter } from 'next/router';
 
 const fetcher = url => axios.get(url).then(res => res.data)
 
 const MovieList = () => {
-    const [user, setUser] = useState()
-    const [pageIndex, setPageIndex] = useState(1)
-    const [search, setSearch] = useState()
-    const [genre, setGenre] = useState(0)
-    const [decade, setDecade] = useState(0)
-    const [year, setYear] = useState(0)
-    const [scoreTo, setScoreTo] = useState(0)    
-    const [order, setOrder] = useState()   
+    const router = useRouter()
+    const {search, genre, decade, year, scoreTo, order, page} = router.query
 
-    function onPageChange (pageNum) {
-        setPageIndex(pageNum)
+    const { data: movies, error } = useSWR(router.isReady ? getURL : null, fetcher);
+
+    const [user, setUser] = useState()
+
+    function onPageChange (pageNum) {        
+        router.push({
+            pathname: '/movies',
+            query: { ...router.query, page: pageNum }
+        })
     }
 
     function onSearch (val) {
-        setSearch(val)
+        router.push({
+            pathname: '/movies',
+            query: { ...router.query, search: val, page: 1 }
+        })
     }
 
     function onGenreSelect (id) {
-        setGenre(id)
+        router.push({
+            pathname: '/movies',
+            query: { ...router.query, genre: id, page: 1 }
+        })
     }
 
     function onDecadeSelect (decade) {
-        setYear(0)
-        setDecade(decade)
+        router.push({
+            pathname: '/movies',
+            query: { ...router.query, decade: decade, year: 0, page: 1 }
+        })
     }    
 
     function onYearSelect (year) {
-        setYear(year)
+        router.push({
+            pathname: '/movies',
+            query: { ...router.query, year: year, page: 1 }
+        })
     }    
 
     function onScoreToSelect (scoreTo) {
-        setScoreTo(scoreTo)
+        router.push({
+            pathname: '/movies',
+            query: { ...router.query, scoreTo: scoreTo, page: 1 }
+        })
     }
 
     function onOrderSelect (order) {
-        setOrder(order)
+        router.push({
+            pathname: '/movies',
+            query: { ...router.query, order: order, page: 1 }
+        })
     }
 
-    function getURL () {
-        // let url = 'https://movieplusback.herokuapp.com/api/movies/movielist/?'
+    function getURL () {                
         let url = `${api.movielist}/?`
         if (search && search !== '') {
             url += `search=${search}&`
         }
-        if (genre && genre !== 0) {
-            url += `genre=${genre}&`
+        if (genre) {
+            if (!isNaN(parseInt(genre)) && genre !== '0') {
+                url += `genre=${genre}&`                
+            }
         }
-        if (decade && decade !== 0) {
-            url += `decade=${decade}&`
-        }  
-        if (year && year !== 0) {
-            url += `year=${year}&`
-        }        
-        if (scoreTo && scoreTo !== 0) {
-            url += `scoreto=${scoreTo * 20}&`
+        if (decade) {
+            if (!isNaN(parseInt(decade)) && decade !== '0') {
+                url += `decade=${decade}&`                
+            }
+        }
+        if (year) {
+            if (!isNaN(parseInt(year)) && year !== '0') {
+                url += `year=${year}&`                
+            }
+        }    
+        if (scoreTo) {
+            if (!isNaN(parseInt(scoreTo)) && scoreTo !== '0') {
+                url += `scoreto=${scoreTo * 20}&`                
+            }
         }
         if (order && order !== '') {
             url += `order=${order}&`
         }
-        url += `page=${pageIndex}`
+        if (page) {
+            if (isNaN(parseInt(page))) {
+                message.error("URL алдаатай байна. Шалгаад дахин оролдоно уу.")
+            } else {
+                url += `page=${page}`
+            }
+        }
         return url
     }
-
-    const { data: movies } = useSWR(getURL, fetcher);
 
     const { data: session, status } = useSession()
 
@@ -96,38 +126,64 @@ const MovieList = () => {
             <div style={{ padding: '8px 0' }}>
                 <Typography.Title level={4} style={{ margin: 0 }}>Кино {movies ? `(${movies.count})` : ''}</Typography.Title>            
                 <Divider style={{ margin: '8px 0' }} />
-            </div>
-            <MovieFilter onSearch={onSearch} onGenreSelect={onGenreSelect} onDecadeSelect={onDecadeSelect} onYearSelect={onYearSelect} onScoreToSelect={onScoreToSelect} onOrderSelect={onOrderSelect} />
-            { movies ? (
-                <List 
-                    grid={{
-                        gutter: 16,
-                        xs: 2,
-                        sm: 3,
-                        md: 5,
-                        lg: 5,
-                        xl: 5,
-                        xxl: 6,
-                    }}
-                    pagination={{
-                        hideOnSinglePage: true,
-                        showSizeChanger: false,                   
-                        current: pageIndex,                    
-                        pageSize: 30,                    
-                        total: movies.count,
-                        size: 'small',
-                        onChange: onPageChange
-                    }}
-                    dataSource={movies.results}                
-                    renderItem={movie => (
-                        <List.Item key={movie.id}>
-                            <MovieCard movie={movie} user={user} token={session ? session.token : undefined} />
-                        </List.Item>
-                    )}
-                />
-            ) : (                
-                <Loading />
-            )}            
+            </div>                      
+            { error ? (
+                <div style={{ background: '#fff', border: '1px solid #e5e5e5', borderRadius: '4px', padding: '16px' }}>
+                    <Result
+                        status="404"
+                        title="Хуудас олдсонгүй."
+                        subTitle="Хайлтын утганд таарах хуудас олдсонгүй. Та доорх товчийг дарж уг хуудсыг дахин ачааллана уу."
+                        extra={<Button type='primary' href='/movies'>Refresh</Button>}
+                    />
+                </div>
+            ) : (
+                movies ? (
+                    <div>                    
+                        <MovieFilter 
+                            search={search ? search : ''}
+                            genre={(genre && !isNaN(parseInt(genre.toString()) && genre.toString() !== '0') ? parseInt(genre.toString()) : 0)}
+                            decade={(decade && !isNaN(parseInt(decade.toString()) && decade.toString() !== '0') ? parseInt(decade.toString()) : 0)}
+                            year={(year && !isNaN(parseInt(year.toString()) && year.toString() !== '0') ? parseInt(year.toString()) : 0)}    
+                            scoreTo={(scoreTo && !isNaN(parseInt(scoreTo.toString()) && scoreTo.toString() !== '0') ? parseInt(scoreTo.toString()) : 0)}
+                            order={(order && order !== '') ? order : '-view_count'} 
+                            onSearch={onSearch} 
+                            onGenreSelect={onGenreSelect} 
+                            onDecadeSelect={onDecadeSelect} 
+                            onYearSelect={onYearSelect} 
+                            onScoreToSelect={onScoreToSelect} 
+                            onOrderSelect={onOrderSelect} 
+                        />  
+                        <List 
+                            grid={{
+                                gutter: 16,
+                                xs: 2,
+                                sm: 3,
+                                md: 5,
+                                lg: 5,
+                                xl: 5,
+                                xxl: 6,
+                            }}
+                            pagination={{
+                                hideOnSinglePage: true,
+                                showSizeChanger: false,                   
+                                current: page ? parseInt(page) : 1,
+                                pageSize: 30,                    
+                                total: movies.count,
+                                size: 'small',
+                                onChange: onPageChange
+                            }}
+                            dataSource={movies.results}                
+                            renderItem={movie => (
+                                <List.Item key={movie.id}>
+                                    <MovieCard movie={movie} user={user} token={session ? session.token : undefined} />
+                                </List.Item>
+                            )}
+                        />  
+                    </div>
+                ) : (                
+                    <Loading />
+                )
+            )}          
         </div>
     )
 }

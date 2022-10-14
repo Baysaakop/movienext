@@ -46,6 +46,11 @@ const ArtistFilter = (props) => {
             <Form
                 layout='vertical'
                 form={form}
+                initialValues={{                  
+                    'search': props.search,
+                    'occupation': props.occupation,
+                    'order': props.order
+                }}
             >
                 <Form.Item label="Уран бүтээлч хайх" name="search">
                     <Search 
@@ -59,7 +64,7 @@ const ArtistFilter = (props) => {
                 <Row gutter={16}>
                     <Col xs={24} sm={24} md={12} lg={12}>
                         <Form.Item label="Мэргэжил" name="occupation">
-                            <Select defaultValue={0} style={{ width: '100%' }} onSelect={onOccupationSelect}>
+                            <Select style={{ width: '100%' }} onSelect={onOccupationSelect}>
                                 <Option value={0}>Бүх</Option>
                                 {occupations.map(o => (
                                     <Option key={o.id} value={o.id}>{o.name}</Option>
@@ -69,13 +74,13 @@ const ArtistFilter = (props) => {
                     </Col>
                     <Col xs={24} sm={24} md={12} lg={12}>
                         <Form.Item label="Эрэмбэлэх" name="order">
-                            <Select defaultValue="-created_at" style={{ width: '100%' }} onSelect={onOrderSelect}>
+                            <Select style={{ width: '100%' }} onSelect={onOrderSelect}>
                                 <Option value="-created_at">Сүүлд нэмэгдсэн</Option>
                                 <Option value="created_at">Эхэнд нэмэгдсэн</Option>
                                 <Option value="-view_count">Хандалт буурахаар</Option>
                                 <Option value="view_count">Хандалт өгсөхөөр</Option>
-                                <Option value="name">Үсгийн дараалал (А-Я)</Option>
-                                <Option value="-name">Үсгийн дараалал (Я-А)</Option>                                             
+                                <Option value="firstname">Үсгийн дараалал (А-Я)</Option>
+                                <Option value="-firstname">Үсгийн дараалал (Я-А)</Option>                                             
                             </Select>
                         </Form.Item>
                     </Col>
