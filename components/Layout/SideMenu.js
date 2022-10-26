@@ -2,7 +2,7 @@ import MenuItem from './MenuItem'
 import Link from "next/link"
 import styles from '../../styles/Menu.module.css'
 
-const Menu = (props) => {
+const SideMenu = (props) => {
 
     function onClick () {
         props.onHide()
@@ -49,4 +49,4 @@ const Menu = (props) => {
     )
 }
 
-export default Menu
+export default SideMenu

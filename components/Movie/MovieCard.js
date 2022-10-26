@@ -4,12 +4,11 @@ import Link from "next/link"
 import MovieScore from "./MovieScore"
 import { PlusOutlined } from '@ant-design/icons'
 import { useState } from "react"
-
 import styles from '../../styles/Movie.module.css'
-import MovieLikeButton from "./MovieLikeButton"
-import MovieWatchedButton from "./MovieWatchedButton"
-import MovieWatchlistButton from "./MovieWatchlistButton"
-import MovieRateButton from "./MovieRateButton"
+import MovieLikeButton from "./Action/MovieLikeButton"
+import MovieWatchedButton from "./Action/MovieWatchedButton"
+import MovieWatchlistButton from "./Action/MovieWatchlistButton"
+import MovieRateButton from "./Action/MovieRateButton"
 import dayjs from "dayjs"
 
 const MovieCard = (props) => {
@@ -37,17 +36,19 @@ const MovieCard = (props) => {
     }
 
     return (        
-        <Tooltip title={`${props.movie.title} (${props.movie.releasedate ? dayjs(props.movie.releasedate).year() : ''})`}>
+        <div>        
             <div className={styles.movieCard}>
                 <Link href={`/movies/${props.movie.id}`} target="_blank">                    
                     <a>
-                        <Image 
-                            alt={props.movie.title}
-                            src={props.movie.poster !== null ? props.movie.poster : "/blank.png"}
-                            width={300}
-                            height={450}
-                            layout="responsive"
-                        />
+                        <Tooltip title={`${props.movie.title} (${props.movie.releasedate ? dayjs(props.movie.releasedate).year() : ''})`}>
+                            <Image 
+                                alt={props.movie.title}
+                                src={props.movie.poster !== null ? props.movie.poster : "/blank.png"}
+                                width={300}
+                                height={450}
+                                layout="responsive"
+                            />
+                        </Tooltip>
                     </a>    
                 </Link>
                 { props.movie.poster === null ?          
@@ -107,8 +108,8 @@ const MovieCard = (props) => {
                 </div>
             ) : (
                 <></>
-            )}
-        </Tooltip>
+            )}        
+        </div>
     )
 }
 

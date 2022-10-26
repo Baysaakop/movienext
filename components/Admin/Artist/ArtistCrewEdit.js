@@ -18,7 +18,7 @@ const ArtistCrewEdit = ({ token }) => {
     const [updateItem, setUpdateItem] = useState()
 
     function onSearch(val) {                
-        let url = `${api.artistlist}?name=${val}`
+        let url = `${api.artistlist}?search=${val}`
         axios({
             method: 'GET',
             url: url,

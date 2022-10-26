@@ -1,8 +1,8 @@
 import { StarOutlined } from "@ant-design/icons"
-import { Button, message, notification, Tooltip, Popover, Rate } from "antd"
+import { Button, message, notification, Popover, Rate } from "antd"
 import axios from "axios"
 import { useEffect, useState } from "react"
-import api from "../../api"
+import api from "../../../api"
 
 const MovieRateButton = (props) => {
     const [user, setUser] = useState()

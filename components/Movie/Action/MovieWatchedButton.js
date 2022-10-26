@@ -2,7 +2,7 @@ import { CheckOutlined } from "@ant-design/icons"
 import { Button, message, notification, Tooltip } from "antd"
 import axios from "axios"
 import { useEffect, useState } from "react"
-import api from "../../api"
+import api from "../../../api"
 
 const MovieWatchedButton = (props) => {    
     const [user, setUser] = useState()
@@ -85,26 +85,30 @@ const MovieWatchedButton = (props) => {
         if (user.movies_watched.length > 0) {
             if (user.movies_watched.filter(x => x.id === props.movie.id).length > 0) {
                 return (
-                    <Button 
-                        size="large" 
-                        shape="circle" 
-                        type="primary" 
-                        icon={<CheckOutlined />}   
-                        onClick={onRemove}      
-                        style={{ background: '#44bd32', border: 0 }}
-                    />
+                    <Tooltip title="Үзсэн" placement={props.placement}>
+                        <Button 
+                            size="large" 
+                            shape="circle" 
+                            type="primary" 
+                            icon={<CheckOutlined />}   
+                            onClick={onRemove}      
+                            style={{ background: '#44bd32', border: 0 }}
+                        />
+                    </Tooltip>
                 )
             }
         }
     }    
     return (
-        <Button 
-            size="large" 
-            shape="circle" 
-            type="text" 
-            icon={<CheckOutlined />}   
-            onClick={onAdd}      
-        />        
+        <Tooltip title="Үзсэн" placement={props.placement}>
+            <Button 
+                size="large" 
+                shape="circle" 
+                type="text" 
+                icon={<CheckOutlined />}   
+                onClick={onAdd}      
+            />        
+        </Tooltip>
     )
 }
 

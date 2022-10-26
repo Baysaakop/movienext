@@ -1,18 +1,14 @@
 .header {
     height: 64px;    
+    background-color: #fff;
     border-bottom: 1px solid #eaeaea;
-    font-family: "Nunito", sans-serif;     
-}
-
-.header .desktop {
-    height: 64px;
     padding: 0 12px;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-.header .desktop .left {
+.header .left {
     display: flex;
     justify-content: flex-start;
     align-items: center;
@@ -29,22 +25,14 @@
     margin-right: 16px;
 }
 
-.header .mobile {
-    height: 64px;
-    padding: 0 12px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
 @media screen and (min-width: 1200px) {
-    .header .desktop {
+    .header {
         padding: 0 10%;
     }
 }
 
 @media screen and (min-width: 1600px) {
-    .header .desktop {
+    .header {
         padding: 0 16%;
     }
 }

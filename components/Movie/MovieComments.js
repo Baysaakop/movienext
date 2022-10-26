@@ -1,5 +1,5 @@
-import { CommentOutlined, LikeOutlined, SendOutlined } from '@ant-design/icons';
-import { Typography, Avatar, List, Rate, Button, Form, Input, Comment, Tooltip } from 'antd'
+import { CommentOutlined, LikeOutlined } from '@ant-design/icons';
+import { Typography, Avatar, List, Rate, Button, Comment, Tooltip } from 'antd'
 import axios from 'axios';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
@@ -10,8 +10,7 @@ import dayjs from 'dayjs'
 var relativeTime = require('dayjs/plugin/relativeTime')
 dayjs.extend(relativeTime)
 
-const MovieComments = ({ id, token, user }) => {
-    const [form] = Form.useForm()
+const MovieComments = ({ id }) => {
     const [loading, setLoading] = useState(false)
     const [data, setData] = useState([])
     const [total, setTotal] = useState(0)    
@@ -37,58 +36,9 @@ const MovieComments = ({ id, token, user }) => {
         })
     }
 
-    function onFinish(values) {
-        axios({
-            method: 'POST',
-            url: `${api.moviecomments}/`,
-            data: {
-                movie: id,
-                token: token,
-                comment: values.comment
-            },
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Token ${token}`
-            }
-        })
-        .then(res => {
-            if (res.status === 201) {
-                form.resetFields()
-                getComments(id)
-            }
-        })
-        .catch(err => {
-            console.log(err)
-        })
-    }
-
     return (
         <div>
-            <Typography.Title level={5}>Сэтгэгдэл ({total})</Typography.Title>
-            { user ? (
-                <div style={{ padding: '0px 16px' }}>
-                    <Comment
-                        avatar={
-                            user.avatar ? 
-                                <Avatar size="large" src={user.avatar} />
-                            :
-                                <Avatar size="large" style={{ background: '#28202f' }}>
-                                    {user.username.charAt(0).toUpperCase()}
-                                </Avatar>
-                        }
-                        content={
-                            <Form form={form} onFinish={onFinish}>
-                                <Form.Item name="comment" rules={[{ required: 'true', message: 'Сэтгэгдэл хоосон байна!' }]} style={{ marginBottom: '8px' }}>
-                                    <Input.TextArea rows={4} />
-                                </Form.Item>
-                                <Button size='small' type='primary' onClick={form.submit} icon={<SendOutlined />}>Илгээх</Button>
-                            </Form>
-                        }
-                    />
-                </div>
-            ) : (
-                <></>
-            )} 
+            <Typography.Title level={5}>Сэтгэгдэл ({total})</Typography.Title>            
             { loading ? (
                 <Loading />
             ) : (

@@ -8,6 +8,8 @@ import NewMovies from '../components/Home/NewMovies'
 import UpcomingMovies from '../components/Home/UpcomingMovies'
 import HomeStats from '../components/Home/HomeStats'
 import HomeArticles from '../components/Home/HomeArticles'
+import PopularMovies from '../components/Home/PopularMovies'
+import MovieSwiper from '../components/Home/MovieSwiper'
 
 export default function Home() {
 
@@ -31,11 +33,13 @@ export default function Home() {
     return (
         <div>                  
             <HomeCarousel />
-            <NewMovies user={user} token={session ? session.token : undefined} />
+            <MovieSwiper title="Нээлтээ хийсэн" order="-releasedate" user={user} token={session ? session.token : undefined} />            
+            <MovieSwiper title="Шинээр нэмэгдсэн" order="-created_at" user={user} token={session ? session.token : undefined} />
             <div style={{ margin: '24px 0' }}>
                 <Typography.Title level={3} style={{ lineHeight: '160px', textAlign: 'center', borderRadius: '4px', background: '#364d79', color: '#fff' }}>Ads</Typography.Title>
-            </div>
-            <UpcomingMovies user={user} token={session ? session.token : undefined} />
+            </div>            
+            <MovieSwiper title="Хамгийн эрэлттэй" order="-view_count" user={user} token={session ? session.token : undefined} />
+            <MovieSwiper title="TOP 100" order="-avg_score" user={user} token={session ? session.token : undefined} />
             <HomeStats />
             <HomeArticles />
         </div>

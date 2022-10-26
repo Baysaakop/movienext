@@ -2,7 +2,7 @@ import { ClockCircleOutlined } from "@ant-design/icons"
 import { Button, message, notification, Tooltip } from "antd"
 import axios from "axios"
 import { useEffect, useState } from "react"
-import api from "../../api"
+import api from "../../../api"
 
 const MovieWatchlistButton = (props) => {    
     const [user, setUser] = useState()
@@ -85,26 +85,30 @@ const MovieWatchlistButton = (props) => {
         if (user.movies_watchlist.length > 0) {
             if (user.movies_watchlist.filter(x => x.id === props.movie.id).length > 0) {
                 return (
-                    <Button 
-                        size="large" 
-                        shape="circle" 
-                        type="primary" 
-                        icon={<ClockCircleOutlined />}   
-                        onClick={onRemove}      
-                        style={{ background: '#2c2c54', border: 0 }}
-                    />
+                    <Tooltip title="Дараа үзэх" placement={props.placement}>
+                        <Button 
+                            size="large" 
+                            shape="circle" 
+                            type="primary" 
+                            icon={<ClockCircleOutlined />}   
+                            onClick={onRemove}      
+                            style={{ background: '#00a8ff', border: 0 }}
+                        />
+                    </Tooltip>
                 )
             }
         }
     }    
     return (
-        <Button 
-            size="large" 
-            shape="circle" 
-            type="text" 
-            icon={<ClockCircleOutlined />}   
-            onClick={onAdd}      
-        />
+        <Tooltip title="Дараа үзэх" placement={props.placement}>
+            <Button 
+                size="large" 
+                shape="circle" 
+                type="text" 
+                icon={<ClockCircleOutlined />}   
+                onClick={onAdd}      
+            />
+        </Tooltip>
     )
 }
 

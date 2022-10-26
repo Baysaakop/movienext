@@ -2,7 +2,7 @@ import { HeartOutlined } from "@ant-design/icons"
 import { Button, message, notification, Tooltip } from "antd"
 import axios from "axios"
 import { useEffect, useState } from "react"
-import api from "../../api"
+import api from "../../../api"
 
 const MovieLikeButton = (props) => {
     const [user, setUser] = useState()
@@ -85,26 +85,30 @@ const MovieLikeButton = (props) => {
         if (user.movies_like.length > 0) {
             if (user.movies_like.filter(x => x.id === props.movie.id).length > 0) {
                 return (
-                    <Button 
-                        size="large" 
-                        shape="circle" 
-                        type="primary" 
-                        icon={<HeartOutlined />}   
-                        onClick={onRemove}      
-                        style={{ background: '#ff5252', border: 0 }}
-                    />
+                    <Tooltip title="Таалагдсан" placement={props.placement}>
+                        <Button 
+                            size="large" 
+                            shape="circle" 
+                            type="primary" 
+                            icon={<HeartOutlined />}   
+                            onClick={onRemove}      
+                            style={{ background: '#ff5252', border: 0 }}
+                        />
+                    </Tooltip>
                 )
             }
         }
     }    
     return (
-        <Button 
-            size="large" 
-            shape="circle" 
-            type="text" 
-            icon={<HeartOutlined />}   
-            onClick={onAdd}      
-        />        
+        <Tooltip title="Таалагдсан" placement={props.placement}>
+            <Button 
+                size="large" 
+                shape="circle" 
+                type="text" 
+                icon={<HeartOutlined />}   
+                onClick={onAdd}      
+            />        
+        </Tooltip>
     )
 }
 

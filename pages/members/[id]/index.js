@@ -1,5 +1,5 @@
-import { FacebookFilled, GlobalOutlined, InstagramFilled, MediumOutlined, TwitterOutlined, UserAddOutlined, YoutubeFilled } from "@ant-design/icons"
-import { Grid, Row, Col, Typography, Space, Avatar, Button, Tabs, List, Divider } from "antd"
+import { FacebookFilled, GlobalOutlined, InstagramFilled, MediumOutlined, TwitterOutlined, UserAddOutlined, UserDeleteOutlined, YoutubeFilled } from "@ant-design/icons"
+import { Grid, Row, Col, Typography, Space, Avatar, Button, Tabs, List, Divider, message, Popconfirm } from "antd"
 import MovieScore from '../../../components/Movie/MovieScore'
 import axios from "axios"
 import MovieCard from "../../../components/Movie/MovieCard"
@@ -54,6 +54,34 @@ const MemberDetail = () => {
         }
     }
 
+    function isFollowing (user, member) {        
+        if (user.following.filter(x => x.id === member.id).length > 0) {
+            return true
+        }
+        return false
+    }
+
+    function handleFollow (member) {
+        axios({
+            method: 'PUT',
+            url: `${api.userdetail}/${session.id}/`,
+            data: {
+                member: member.id,
+                follow: true
+            },
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Token ${session.token}`
+            }
+        })
+        .then(res => {            
+            setUser(res.data)
+        })
+        .catch(err => {
+            message.error("Алдаа гарлаа. Дахин оролдоно уу.")
+        })
+    }
+
     return (
         <div>
             { member ? (
@@ -72,7 +100,19 @@ const MemberDetail = () => {
                                     <Typography.Title level={4} style={{ margin: 0 }}>{member.username}</Typography.Title>                            
                                     <Typography.Text italic>{member.biography}</Typography.Text>
                                 </div>
-                                <Button size='small' type='primary' icon={<UserAddOutlined />}>Дагах</Button>
+                                { user ? (
+                                    user.id === member.id ? (
+                                        <></>
+                                    ) : isFollowing(user, member) ? (
+                                        <Popconfirm title="Дагахаа болих уу?" onConfirm={() => handleFollow(member)} okText="Тийм" cancelText="Үгүй">
+                                            <Button danger size='small' type='primary' icon={<UserDeleteOutlined />}>Дагаж байгаа</Button>
+                                        </Popconfirm>
+                                    ) : (
+                                        <Button size='small' type='primary' icon={<UserAddOutlined />} onClick={() => handleFollow(member)}>Дагах</Button>
+                                    )                                    
+                                ) : (
+                                    <Button href="/auth/signin" size='small' type='primary' icon={<UserAddOutlined />}>Дагах</Button>
+                                )}                                
                             </Space>      
                             <Space size={8} style={{ display: 'flex', marginTop: '8px' }}>
                                 <Button type="ghost" icon={<GlobalOutlined />} />                     
@@ -133,11 +173,11 @@ const MemberDetail = () => {
                                 </Col>
                                 <Col span={8}>
                                     <Typography.Text style={{ margin: 0, fontWeight: 'bold' }}>Дагагчид:</Typography.Text>
-                                    <Typography.Title level={4} style={{ margin: 0 }}>{79}</Typography.Title>
+                                    <Typography.Title level={4} style={{ margin: 0 }}>{member.followers.length}</Typography.Title>
                                 </Col>
                                 <Col span={8}>
                                     <Typography.Text style={{ margin: 0, fontWeight: 'bold' }}>Дагаж буй:</Typography.Text>
-                                    <Typography.Title level={4} style={{ margin: 0 }}>{45}</Typography.Title>
+                                    <Typography.Title level={4} style={{ margin: 0 }}>{member.following.length}</Typography.Title>
                                 </Col>                                
                             </Row>                                                           
                         </div>

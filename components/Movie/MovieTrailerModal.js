@@ -1,6 +1,6 @@
 import { Modal } from 'antd'
 
-const MovieTrailer = (props) => {
+const MovieTrailerModal = (props) => {
 
     function getWidth() {
         if (window.screen.availWidth >= 1600) {
@@ -43,4 +43,4 @@ const MovieTrailer = (props) => {
     )
 }
 
-export default MovieTrailer
+export default MovieTrailerModal

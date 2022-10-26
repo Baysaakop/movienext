@@ -1,8 +1,9 @@
-import Menu from "./Menu"
-import { Divider, Typography, Button, Space } from "antd"
+import SideMenu from "./SideMenu"
+import { Divider, Typography, Button, Space, Descriptions } from "antd"
 import { FacebookFilled, InstagramFilled, TwitterOutlined, YoutubeFilled } from "@ant-design/icons";
 
 import styles from '../../styles/Sider.module.css'
+import Link from "next/link";
 
 const Sider = () => {
 
@@ -10,11 +11,12 @@ const Sider = () => {
 
     return (
         <div className={styles.sider}>
-            <Menu onHide={onHide} />
+            <SideMenu onHide={onHide} />
             <Divider style={{ margin: '16px 0' }} />
             <div className={styles.container}>
                 <Typography.Title level={5}>MOVIE+ веб сайт:</Typography.Title>
-                Donec finibus ac nisi in volutpat. Donec nibh neque, mattis in fermentum et, facilisis et magna. Aenean auctor nisl eget ipsum mattis lobortis.
+                Веб сайтыг ашиглан Монгол кино болоод уран бүтээлчдийн мэдээллийг авах, сэтгэгдлээ хуваалцах, үнэлгээ өгөх зэрэг үйлдлүүдийг хийх боломжтой. Дэлгэрэнгүй мэдээллийг:
+                <Link href={`/about`}> Бидний тухай</Link>
             </div>           
             <Divider style={{ margin: '16px 0' }} />
             <div className={styles.container}>
@@ -29,7 +31,10 @@ const Sider = () => {
             <Divider style={{ margin: '16px 0' }} />
             <div className={styles.container}>
                 <Typography.Title level={5}>Бидэнтэй холбогдох:</Typography.Title>
-                ajdk jakdjkasjkd
+                <Descriptions column={1} size="small">
+                    <Descriptions.Item label="E-mail">movieplus@gmail.com</Descriptions.Item>
+                    <Descriptions.Item label="Утас">+976 9975-0533</Descriptions.Item>
+                </Descriptions>
             </div>  
             <Divider style={{ margin: '16px 0' }} />
             <div className={styles.container}>

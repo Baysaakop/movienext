@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-import { Button, Menu, Tabs, Typography } from 'antd'
+import { Menu} from 'antd'
 import styles from '../../styles/Admin.module.css'
-import { UserOutlined, DesktopOutlined, LaptopOutlined, ReadOutlined, TagOutlined, PlusSquareOutlined, EditOutlined, DeleteOutlined, PlayCircleOutlined } from '@ant-design/icons'
+import { UserOutlined, DesktopOutlined, LaptopOutlined, ReadOutlined, PlusSquareOutlined, EditOutlined, PlayCircleOutlined } from '@ant-design/icons'
 import MovieCreate from './Movie/MovieCreate'
 import MovieUpdate from './Movie/MovieUpdate'
 import MovieCastEdit from './Movie/MovieCastEdit'
@@ -11,17 +11,13 @@ import ArtistUpdate from './Artist/ArtistUpdate'
 import ArtistCastEdit from './Artist/ArtistCastEdit'
 import ArtistCrewEdit from './Artist/ArtistCrewEdit'
 import MoviePlatformEdit from './Movie/MoviePlatformEdit'
+import ArticleCreate from './Article/ArticleCreate'
 
 const modelItems = [
     {
         label: 'Кино',
         key: 'movies',
         icon: <DesktopOutlined />
-    },
-    {
-        label: 'Жанр',
-        key: 'genres',
-        icon: <TagOutlined />
     },
     {
         label: 'ТВ Цуврал',
@@ -91,6 +87,19 @@ const artistsItems = [
     }
 ]
 
+const articlesItems = [
+    {
+        label: 'Нийтлэл оруулах',
+        key: 'create',
+        icon: <PlusSquareOutlined />
+    },
+    {
+        label: 'Нийтлэл засах',
+        key: 'update',
+        icon: <EditOutlined />
+    },
+]
+
 const AdminDashboard = ({ token }) => {    
     
     const [model, setModel] = useState('movies')
@@ -111,6 +120,8 @@ const AdminDashboard = ({ token }) => {
             return artistsItems
         } else if (model === 'series') {
             return []
+        } else if (model === 'articles') {
+            return articlesItems
         } else {
             return []
         }
@@ -138,6 +149,10 @@ const AdminDashboard = ({ token }) => {
                 return <ArtistCastEdit token={token} />
             } else if (action === 'crew') {
                 return <ArtistCrewEdit token={token} />
+            }
+        } else if (model === 'articles') {
+            if (action === 'create') {
+                return <ArticleCreate token={token} />
             }
         }
         return <></>

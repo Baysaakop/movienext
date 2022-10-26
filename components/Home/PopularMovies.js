@@ -11,13 +11,13 @@ const fetcher = url => axios.get(url).then(res => res.data.results)
 
 const { useBreakpoint } = Grid
 
-const NewMovies = (props) => {
+const PopularMovies = (props) => {
 
     const ref = useRef()
     const screens = useBreakpoint()
 
     function getURL () {        
-        let url = `${api.movielist}/?order=-releasedate`
+        let url = `${api.movielist}/?order=-view_count`
         return url
     }
 
@@ -46,7 +46,7 @@ const NewMovies = (props) => {
     return (
         <div style={{ margin: '16px 0', borderBottom: '1px solid #888' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <Typography.Title level={4} style={{ borderLeft: '6px solid #000', paddingLeft: '6px' }}> Нээлтээ хийсэн</Typography.Title>
+                <Typography.Title level={4} style={{ borderLeft: '6px solid #000', paddingLeft: '6px' }}> Хамгийн эрэлттэй</Typography.Title>
                 <Button size='default' type='link'>Цааш үзэх {'>>'}</Button>
             </div>
             {movies ? (
@@ -95,4 +95,4 @@ const NewMovies = (props) => {
     )
 }
 
-export default NewMovies
+export default PopularMovies

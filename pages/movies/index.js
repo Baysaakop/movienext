@@ -12,7 +12,7 @@ import { useRouter } from 'next/router';
 const fetcher = url => axios.get(url).then(res => res.data)
 
 const MovieList = () => {
-    const router = useRouter()
+    const router = useRouter()    
     const {search, genre, decade, year, scoreTo, order, page} = router.query
 
     const { data: movies, error } = useSWR(router.isReady ? getURL : null, fetcher);
