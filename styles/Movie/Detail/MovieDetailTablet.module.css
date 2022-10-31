@@ -1,0 +1,93 @@
+.tablet .background {
+    margin: auto;
+    width: 100%;
+    position: relative;    
+    margin-bottom: -128px;
+}
+
+.tablet .background .backgroundImage {
+    width: 100%;
+    height: auto;      
+}
+
+.tablet .background .mask {    
+    width: 100%;
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    top: 0px;     
+    background-image: linear-gradient(0deg,#f0f2f5 0,#f0f2f5 11.48148148%,rgba(240,242,245,.986) 13.63703704%,rgba(240,242,245,.945) 16.1%,rgba(240,242,245,.883) 18.80740741%,rgba(240,242,245,.803) 21.70740741%,rgba(240,242,245,.711) 24.74074074%,rgba(240,242,245,.61) 27.84814815%,rgba(240,242,245,.504) 30.97407407%,rgba(240,242,245,.398) 34.05925926%,rgba(240,242,245,.296) 37.04814815%,rgba(240,242,245,.203) 39.88148148%,rgba(240,242,245,.122) 42.5%,rgba(240,242,245,.059) 44.85185185%,rgba(240,242,245,.016) 46.87777778%,rgba(240,242,245,0) 48.51851852%);
+}
+
+.tablet .info {
+    padding: 0 32px 8px 32px;
+}
+
+.tablet .info .rowContainer {
+    margin-bottom: 8px;
+}
+
+.tablet .info .container {
+    background-color: #fff;   
+    border: 1px solid #e5e5e5;
+    border-radius: 4px;
+    padding: 8px 12px;    
+    margin-bottom: 8px;
+    height: 100%;
+    position: relative;
+}
+
+.tablet .info .container .title {
+    font-weight: bold;
+    font-size: 22px;    
+    border-bottom: 1px solid #e5e5e5;
+    margin-bottom: 8px;
+}
+
+.tablet .info .container .label {
+    font-weight: bold;    
+}
+
+.tablet .info .container .bottom {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    padding: 8px;
+}
+
+.tablet .info .action {
+    background-color: #fff;   
+    border: 1px solid #e5e5e5;
+    border-radius: 4px;
+    padding: 8px 4px;    
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.tablet .info .action div {    
+    width: 33%;
+    transition: 0.3s ease-in-out;        
+    text-align: center;
+}
+
+.tablet .info .action div button:hover {    
+    background: rgba(52, 152, 219, 0.2);
+}
+
+.tablet .info .textButton {    
+    height: 100%;
+}
+
+.tablet .info .container .whereToWatch {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.tablet .info .stats {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}

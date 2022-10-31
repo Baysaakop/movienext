@@ -76,7 +76,7 @@ const MovieLikeButton = (props) => {
                 })
             })
         } else {
-            message.warning("Энэ үйлдлийг хийхийн тулд та нэвтэрсэн байх шаардлагатай.")            
+            message.warning("Энэ үйлдлийг хийхийн тулд нэвтрэх шаардлагатай.")            
         }        
         props.onBlur()
     }
@@ -87,7 +87,7 @@ const MovieLikeButton = (props) => {
                 return (
                     <Tooltip title="Таалагдсан" placement={props.placement}>
                         <Button 
-                            size="large" 
+                            size={props.size}
                             shape="circle" 
                             type="primary" 
                             icon={<HeartOutlined />}   
@@ -102,7 +102,7 @@ const MovieLikeButton = (props) => {
     return (
         <Tooltip title="Таалагдсан" placement={props.placement}>
             <Button 
-                size="large" 
+                size={props.size}
                 shape="circle" 
                 type="text" 
                 icon={<HeartOutlined />}   

@@ -37,8 +37,7 @@ const MovieComments = ({ id }) => {
     }
 
     return (
-        <div>
-            <Typography.Title level={5}>Сэтгэгдэл ({total})</Typography.Title>            
+        <div>       
             { loading ? (
                 <Loading />
             ) : (

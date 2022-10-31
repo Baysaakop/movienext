@@ -3,11 +3,11 @@ import { SettingOutlined } from '@ant-design/icons'
 import { useSession, signIn } from 'next-auth/react'
 import Link from 'next/link'
 import AvatarDropDown from './AvatarDropDown'
-import styles from '../../../styles/Layout/Header/HeaderLG.module.css'
+import styles from '../../../styles/Layout/Header/HeaderDesktop.module.css'
 
 const { Search } = Input
 
-const HeaderLG = () => {
+const HeaderDesktop = () => {
 
     const { data: session, status } = useSession()     
  
@@ -71,4 +71,4 @@ const HeaderLG = () => {
     )    
 }
 
-export default HeaderLG
+export default HeaderDesktop

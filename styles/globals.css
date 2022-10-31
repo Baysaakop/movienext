@@ -25,18 +25,6 @@ footer {
   background: #fff;
 }
 
-@media screen and (min-width: 1200px) {
-  main {
-      padding: 16px 10%;
-  }
-}
-
-@media screen and (min-width: 1600px) {
-  main {
-      padding: 16px 16%;
-  }
-}
-
 .socialmedia {
   display: flex;
   justify-content: flex-start;

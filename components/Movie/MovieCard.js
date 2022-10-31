@@ -1,15 +1,15 @@
-import { Button, Drawer, Rate, Space, Tooltip } from "antd"
+import { Button, Drawer, Rate, Tooltip } from "antd"
 import Image from "next/image"
 import Link from "next/link"
 import MovieScore from "./MovieScore"
 import { PlusOutlined } from '@ant-design/icons'
 import { useState } from "react"
-import styles from '../../styles/Movie.module.css'
 import MovieLikeButton from "./Action/MovieLikeButton"
 import MovieWatchedButton from "./Action/MovieWatchedButton"
 import MovieWatchlistButton from "./Action/MovieWatchlistButton"
 import MovieRateButton from "./Action/MovieRateButton"
 import dayjs from "dayjs"
+import styles from '../../styles/Movie/MovieList.module.css'
 
 const MovieCard = (props) => {
     const [drawerOpen, setDrawerOpen] = useState(false)    
@@ -88,16 +88,16 @@ const MovieCard = (props) => {
                 >
                     <div className={styles.drawer}> 
                         <div onMouseDown={onMouseDown}>
-                            <MovieWatchedButton onBlur={onBlur} movie={props.movie} user={props.user} token={props.token} placement="right" />   
+                            <MovieWatchedButton onBlur={onBlur} movie={props.movie} user={props.user} token={props.token} placement="right" size={props.size} />   
                         </div>               
                         <div onMouseDown={onMouseDown}>
-                            <MovieLikeButton onBlur={onBlur} movie={props.movie} user={props.user} token={props.token} placement="right" />
+                            <MovieLikeButton onBlur={onBlur} movie={props.movie} user={props.user} token={props.token} placement="right" size={props.size} />
                         </div>                                              
                         <div onMouseDown={onMouseDown}>
-                            <MovieWatchlistButton onBlur={onBlur} movie={props.movie} user={props.user} token={props.token} placement="right" />
+                            <MovieWatchlistButton onBlur={onBlur} movie={props.movie} user={props.user} token={props.token} placement="right" size={props.size} />
                         </div>
                         <div onMouseDown={onMouseDown}>
-                            <MovieRateButton onMouseDown={onMouseDown} movie={props.movie} user={props.user} token={props.token} placement="right" />    
+                            <MovieRateButton onMouseDown={onMouseDown} movie={props.movie} user={props.user} token={props.token} placement="right" size={props.size} />    
                         </div>                                                                                           
                     </div>
                 </Drawer> 

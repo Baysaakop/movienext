@@ -42,7 +42,7 @@ const MovieRateButton = (props) => {
                 })
             })
         } else {
-            message.warning("Энэ үйлдлийг хийхийн тулд та нэвтэрсэн байх шаардлагатай.")            
+            message.warning("Энэ үйлдлийг хийхийн тулд нэвтрэх шаардлагатай.")            
         }        
     }
 
@@ -62,7 +62,7 @@ const MovieRateButton = (props) => {
                     >
                         <Button 
                             className="like" 
-                            size="large" 
+                            size={props.size}
                             shape="circle" 
                             type="primary"                             
                             style={{ background: '#fdcc0d', border: 0, color: '#000', fontSize: '14px', fontWeight: 'bold' }}   
@@ -87,7 +87,7 @@ const MovieRateButton = (props) => {
         >
             <Button 
                 className="like" 
-                size="large" 
+                size={props.size}
                 shape="circle" 
                 type="text" 
                 icon={<StarOutlined />}         

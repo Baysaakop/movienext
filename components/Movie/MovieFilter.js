@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { Col, Form, Input, Row, Segmented, Select } from 'antd'
 import axios from 'axios'
-import styles from '../../styles/Movie.module.css'
 import api from '../../api'
+import styles from '../../styles/Movie/MovieList.module.css'
 
 const { Search } = Input
 const { Option } = Select

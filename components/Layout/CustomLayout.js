@@ -1,9 +1,10 @@
 import Meta from "./Meta"
-import HeaderLG from "./Header/HeaderLG"
-import HeaderXS from "./Header/HeaderXS"
+import HeaderDesktop from "./Header/HeaderDesktop"
+import HeaderMobile from "./Header/HeaderMobile"
 import Footer from "./Footer"
 import Sider from "./Sider"
-import { Grid, Row, Col, Skeleton } from "antd";
+import { Grid, Row, Col, Skeleton } from "antd"
+import styles from '../../styles/Layout/Layout.module.css'
 
 const { useBreakpoint } = Grid
 
@@ -17,17 +18,17 @@ const CustomLayout = ({ children }) => {
                 <div>
                     <Meta />      
                     <header>
-                        <HeaderLG />
+                        <HeaderDesktop />
                     </header>
                     <main>
-                        <Row gutter={24} style={{ margin: 0 }}>
-                            <Col span={5}>
+                        <div className={styles.main}>
+                            <div className={styles.left}>
                                 <Sider />
-                            </Col>
-                            <Col span={19}>
+                            </div>
+                            <div className={styles.right}>
                                 {children}
-                            </Col>
-                        </Row>
+                            </div>
+                        </div>                        
                     </main>                  
                     <footer>
                         <Footer /> 
@@ -39,7 +40,7 @@ const CustomLayout = ({ children }) => {
                 <div>
                     <Meta />      
                     <header>
-                        <HeaderXS />
+                        <HeaderMobile />
                     </header>
                     <main>
                         {children}

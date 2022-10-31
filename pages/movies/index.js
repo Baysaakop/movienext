@@ -1,5 +1,5 @@
-import { Button, Divider, Empty, List, message, Result, Typography } from 'antd'
-import { useEffect, useState } from 'react';
+import { Grid, Button, Divider, List, message, Result, Typography } from 'antd'
+import { useState } from 'react';
 import axios from 'axios';
 import useSWR from 'swr';
 import MovieCard from '../../components/Movie/MovieCard';
@@ -8,10 +8,13 @@ import Loading from '../../components/Loading'
 import api from '../../api'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router';
+import styles from '../../styles/Movie/MovieList.module.css'
 
+const { useBreakpoint} = Grid
 const fetcher = url => axios.get(url).then(res => res.data)
 
 const MovieList = () => {
+    const screens = useBreakpoint()
     const router = useRouter()    
     const {search, genre, decade, year, scoreTo, order, page} = router.query
 
@@ -122,7 +125,7 @@ const MovieList = () => {
     }   
 
     return (
-        <div>                        
+        <div className={styles.movieList}>                        
             <div style={{ padding: '8px 0' }}>
                 <Typography.Title level={4} style={{ margin: 0 }}>Кино {movies ? `(${movies.count})` : ''}</Typography.Title>            
                 <Divider style={{ margin: '8px 0' }} />
@@ -155,8 +158,8 @@ const MovieList = () => {
                         />  
                         <List 
                             grid={{
-                                gutter: 16,
-                                xs: 2,
+                                gutter: 8,
+                                xs: 3,
                                 sm: 3,
                                 md: 5,
                                 lg: 5,
@@ -175,7 +178,12 @@ const MovieList = () => {
                             dataSource={movies.results}                
                             renderItem={movie => (
                                 <List.Item key={movie.id}>
-                                    <MovieCard movie={movie} user={user} token={session ? session.token : undefined} />
+                                    <MovieCard 
+                                        movie={movie} 
+                                        user={user} 
+                                        token={session ? session.token : undefined} 
+                                        size={screens.xs ? "default" : "large"}
+                                    />
                                 </List.Item>
                             )}
                         />  

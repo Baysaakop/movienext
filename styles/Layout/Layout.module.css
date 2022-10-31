@@ -1,0 +1,28 @@
+.main {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: 16px;    
+}
+
+@media screen and (min-width: 1200px) {
+    .main {
+        padding: 16px 10%;
+    }
+}
+  
+@media screen and (min-width: 1600px) {
+    .main {
+        padding: 16px 16%;
+    }
+}
+
+.main .left {
+    width: 20%;
+    margin-right: 16px;
+}
+
+.main .right {
+    width: 80%;
+}
+  

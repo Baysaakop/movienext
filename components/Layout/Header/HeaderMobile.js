@@ -5,9 +5,9 @@ import { useSession, signIn } from 'next-auth/react'
 import Link from 'next/link'
 import SideMenu from '../SideMenu'
 import AvatarDropDown from './AvatarDropDown'
-import styles from '../../../styles/Layout/Header/HeaderXS.module.css'
+import styles from '../../../styles/Layout/Header/HeaderMobile.module.css'
 
-const HeaderXS = () => {
+const HeaderMobile = () => {
     const [visible, setVisible] = useState(false)
 
     const showMenu = () => {
@@ -75,4 +75,4 @@ const HeaderXS = () => {
     )  
 }
 
-export default HeaderXS
+export default HeaderMobile

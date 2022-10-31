@@ -1,35 +1,39 @@
 import { SendOutlined } from '@ant-design/icons'
-import { Form, Modal, Input, Button, Checkbox } from 'antd'
+import { Form, Modal, Input, Button, Checkbox, message } from 'antd'
 import axios from 'axios'
-import api from '../../api'
+import api from '../../../api'
 
-const MovieReview = (props) => {
+const MovieReviewModal = (props) => {
 
     const [form] = Form.useForm()
 
     function onFinish (values) {
-        axios({
-            method: 'POST',
-            url: `${api.moviecomments}/`,
-            data: {
-                movie: props.movie,
-                token: props.token,
-                comment: values.comment
-            },
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Token ${props.token}`
-            }
-        })
-        .then(res => {
-            if (res.status === 201) {
-                form.resetFields()
-                props.finish()
-            }
-        })
-        .catch(err => {
-            console.log(err)
-        })
+        if (props.user && props.token) {
+            axios({
+                method: 'POST',
+                url: `${api.moviecomments}/`,
+                data: {
+                    movie: props.movieID,
+                    token: props.token,
+                    comment: values.comment
+                },
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Token ${props.token}`
+                }
+            })
+            .then(res => {
+                if (res.status === 201) {
+                    form.resetFields()
+                    props.finish()
+                }
+            })
+            .catch(err => {
+                console.log(err)
+            })
+        } else {
+            message.warn("Энэ үйлдлийг хийхийн тулд нэвтрэх шаардлагатай.")
+        }
     }
 
     return (
@@ -59,4 +63,4 @@ const MovieReview = (props) => {
     )
 }
 
-export default MovieReview
+export default MovieReviewModal
