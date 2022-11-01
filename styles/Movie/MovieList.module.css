@@ -93,4 +93,11 @@
     .movieCard .drawer button {    
         margin-top: 4px;          
     }
+
+    .movieCard .titleContainer .title {    
+        margin: 12px;
+        padding: 4px 2px;
+        border-radius: 4px;
+        font-size: 14px;
+    }   
 }

@@ -1,4 +1,4 @@
-import { Button, Drawer, Rate, Tooltip } from "antd"
+import { Grid, Button, Drawer, Rate, Tooltip } from "antd"
 import Image from "next/image"
 import Link from "next/link"
 import MovieScore from "./MovieScore"
@@ -11,7 +11,10 @@ import MovieRateButton from "./Action/MovieRateButton"
 import dayjs from "dayjs"
 import styles from '../../styles/Movie/MovieList.module.css'
 
+const { useBreakpoint } = Grid
+
 const MovieCard = (props) => {
+    const screens = useBreakpoint()
     const [drawerOpen, setDrawerOpen] = useState(false)    
     const [action, setAction] = useState(false)
 
@@ -88,16 +91,16 @@ const MovieCard = (props) => {
                 >
                     <div className={styles.drawer}> 
                         <div onMouseDown={onMouseDown}>
-                            <MovieWatchedButton onBlur={onBlur} movie={props.movie} user={props.user} token={props.token} placement="right" size={props.size} />   
+                            <MovieWatchedButton onBlur={onBlur} movie={props.movie} user={props.user} token={props.token} placement="right" size={screens.xs ? "default" : "large"} />   
                         </div>               
                         <div onMouseDown={onMouseDown}>
-                            <MovieLikeButton onBlur={onBlur} movie={props.movie} user={props.user} token={props.token} placement="right" size={props.size} />
+                            <MovieLikeButton onBlur={onBlur} movie={props.movie} user={props.user} token={props.token} placement="right" size={screens.xs ? "default" : "large"} />
                         </div>                                              
                         <div onMouseDown={onMouseDown}>
-                            <MovieWatchlistButton onBlur={onBlur} movie={props.movie} user={props.user} token={props.token} placement="right" size={props.size} />
+                            <MovieWatchlistButton onBlur={onBlur} movie={props.movie} user={props.user} token={props.token} placement="right" size={screens.xs ? "default" : "large"} />
                         </div>
                         <div onMouseDown={onMouseDown}>
-                            <MovieRateButton onMouseDown={onMouseDown} movie={props.movie} user={props.user} token={props.token} placement="right" size={props.size} />    
+                            <MovieRateButton onMouseDown={onMouseDown} movie={props.movie} user={props.user} token={props.token} placement="right" size={screens.xs ? "default" : "large"} />    
                         </div>                                                                                           
                     </div>
                 </Drawer> 

@@ -28,6 +28,10 @@
     margin-bottom: 8px;
 }
 
+.mobile .info .rowContainer .poster {
+    border-radius: 4px;
+}
+
 .mobile .info .container {
     background-color: #fff;   
     border: 1px solid #e5e5e5;

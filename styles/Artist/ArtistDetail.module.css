@@ -1,0 +1,50 @@
+.mobile { 
+    padding: 12px;
+}
+
+.tablet {
+    padding: 16px;
+}
+
+.profilePic {
+    border-radius: 4px;
+}
+
+.container {
+    background: #fff;
+    border: 1px solid #e5e5e5;
+    border-radius: 4px;
+    height: 100%;
+}
+
+.container .title {
+    font-weight: bold;    
+    border-bottom: 1px solid #e5e5e5;    
+}
+
+.container .label {
+    margin-top: 8px;
+    font-weight: bold;    
+}
+
+.container .biography {
+    margin-bottom: 0%;
+}
+
+.mobile .container {
+    padding: 8px 12px;
+}
+
+.mobile .container .title {
+    font-weight: bold;
+    font-size: 18px;    
+    border-bottom: 1px solid #e5e5e5;    
+}
+
+.tablet .container {
+    padding: 16px;
+}
+
+.tablet .container .title {    
+    font-size: 22px;        
+}

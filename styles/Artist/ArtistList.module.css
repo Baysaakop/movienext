@@ -1,0 +1,16 @@
+.artistList {
+    padding: 12px;
+}
+
+.artistCard {
+    border: 1px solid #e5e5e5;
+    border-radius: 4px;
+}
+
+.artistFilter {
+    background: #fff;
+    padding: 16px 16px 0 16px;
+    border: 1px solid #e5e5e5;
+    border-radius: 4px;
+    margin-bottom: 16px;
+}

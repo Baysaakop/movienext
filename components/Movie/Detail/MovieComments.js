@@ -1,11 +1,11 @@
 import { CommentOutlined, LikeOutlined } from '@ant-design/icons';
-import { Typography, Avatar, List, Rate, Button, Comment, Tooltip } from 'antd'
+import { Avatar, List, Rate, Button, Comment, Tooltip } from 'antd'
 import axios from 'axios';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import api from '../../api';
-import Loading from '../Loading'
 import dayjs from 'dayjs'
+import api from '../../../api';
+import Loading from '../../Loading';
 
 var relativeTime = require('dayjs/plugin/relativeTime')
 dayjs.extend(relativeTime)

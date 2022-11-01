@@ -2,7 +2,7 @@ import { Col, Form, Input, Row, Select } from 'antd'
 import axios from 'axios'
 import api from '../../api'
 import { useEffect, useState } from 'react'
-import styles from '../../styles/Artist.module.css'
+import styles from '../../styles/Artist/ArtistList.module.css'
 
 const { Search } = Input
 const { Option } = Select

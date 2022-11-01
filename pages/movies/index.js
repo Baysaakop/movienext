@@ -181,8 +181,7 @@ const MovieList = () => {
                                     <MovieCard 
                                         movie={movie} 
                                         user={user} 
-                                        token={session ? session.token : undefined} 
-                                        size={screens.xs ? "default" : "large"}
+                                        token={session ? session.token : undefined}                                         
                                     />
                                 </List.Item>
                             )}

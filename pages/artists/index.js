@@ -1,13 +1,13 @@
 import { Divider, List, Typography, Card, Tooltip, Result, Button } from "antd"
-import { useState } from 'react'
 import Link from "next/link"
+import Image from "next/image";
 import ArtistFilter from "../../components/Artist/ArtistFilter"
-import styles from '../../styles/Artist.module.css'
 import useSWR from 'swr';
 import axios from "axios"
 import api from "../../api"
 import Loading from "../../components/Loading"
 import { useRouter } from "next/router"
+import styles from '../../styles/Artist/ArtistList.module.css'
 
 const fetcher = url => axios.get(url).then(res => res.data)
 
@@ -70,8 +70,8 @@ const ArtistList = () => {
     }
 
     return (
-        <div>
-            <div style={{ padding: '8px 0' }}>
+        <div className={styles.artistList}>
+            <div>
                 <Typography.Title level={4} style={{ margin: 0 }}>Уран бүтээлчид</Typography.Title>            
                 <Divider style={{ margin: '8px 0' }} />
             </div>
@@ -122,7 +122,17 @@ const ArtistList = () => {
                                             <Card 
                                                 hoverable
                                                 className={styles.artistCard}
-                                                cover={<img alt={artist.name} src={artist.image !== null ? artist.image : "/blank.png"} style={{ width: '100%', height: 'auto', objectFit: 'cover' }} />}
+                                                cover={
+                                                    <Tooltip title={artist.name}>
+                                                        <Image
+                                                            alt={artist.name}
+                                                            src={artist.image !== null ? artist.image : "/blank.png"}
+                                                            width={300}
+                                                            height={450}
+                                                            layout="responsive"
+                                                        />
+                                                    </Tooltip>
+                                                }
                                                 size="small"                                
                                             >                                    
                                                 <Typography.Paragraph ellipsis={{ rows: 1 }} style={{ margin: 0 }}>{artist.name}</Typography.Paragraph>

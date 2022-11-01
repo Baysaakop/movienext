@@ -1,5 +1,5 @@
 import { Avatar, Button, Drawer, Dropdown } from 'antd'
-import { MenuUnfoldOutlined, UserOutlined } from '@ant-design/icons'
+import { CloseOutlined, MenuOutlined, MenuUnfoldOutlined, UserOutlined } from '@ant-design/icons'
 import { useState } from 'react'
 import { useSession, signIn } from 'next-auth/react'
 import Link from 'next/link'
@@ -23,11 +23,12 @@ const HeaderMobile = () => {
     return (
         <div className={styles.header}>
             <div className={styles.left}>
-                <Button
-                    type='ghost'
+                <Button                    
+                    type='text'
                     size='large'  
-                    icon={<MenuUnfoldOutlined />}  
-                    onClick={showMenu}                            
+                    shape='circle'
+                    icon={visible ? <CloseOutlined /> : <MenuOutlined />}                 
+                    onClick={() => setVisible(!visible)}                            
                 />
             </div>
             <div className={styles.mid}>
@@ -66,8 +67,8 @@ const HeaderMobile = () => {
                     />                                    
                 }                        
             </div>
-            <Drawer title="Үндсэн цэс" placement="left" onClose={hideMenu} visible={visible}>
-                <div style={{ padding: '16px' }}>
+            <Drawer placement="left" visible={visible}>
+                <div style={{ padding: '40px 16px 16px 16px' }}>
                     <SideMenu onHide={hideMenu} />
                 </div>
             </Drawer>

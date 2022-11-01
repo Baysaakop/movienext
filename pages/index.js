@@ -4,11 +4,8 @@ import { useSession } from 'next-auth/react'
 import { useState } from 'react'
 import api from '../api'
 import HomeCarousel from '../components/Home/HomeCarousel'
-import NewMovies from '../components/Home/NewMovies'
-import UpcomingMovies from '../components/Home/UpcomingMovies'
 import HomeStats from '../components/Home/HomeStats'
 import HomeArticles from '../components/Home/HomeArticles'
-import PopularMovies from '../components/Home/PopularMovies'
 import MovieSwiper from '../components/Home/MovieSwiper'
 
 export default function Home() {

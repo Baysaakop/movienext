@@ -10,11 +10,11 @@ import MovieWatchlistButton from '../Action/MovieWatchlistButton'
 import MovieRateButton from '../Action/MovieRateButton'
 import MovieShareButton from '../Action/MovieShareButton'
 import { MessageOutlined, PlayCircleOutlined, ShareAltOutlined } from '@ant-design/icons'
-import MovieTrailerModal from '../MovieTrailerModal'
+import MovieTrailerModal from './MovieTrailerModal'
 import MovieReviewModal from '../Action/MovieReviewModal'
 import MovieCrew from './MovieCrew'
 import MovieCast from './MovieCast'
-import MovieComments from '../MovieComments'
+import MovieComments from './MovieComments'
 import styles from '../../../styles/Movie/Detail/MovieDetailMobile.module.css'
 
 const MovieDetailMobile = (props) => {
@@ -50,7 +50,7 @@ const MovieDetailMobile = (props) => {
             <div className={styles.info}>
                 <Row gutter={[8, 8]} className={styles.rowContainer}>
                     <Col span={8}>
-                        <Image src={props.movie.poster !== null ? props.movie.poster : "/blank.png"} width={200} height={300} layout='responsive' />
+                        <Image className={styles.poster} src={props.movie.poster !== null ? props.movie.poster : "/blank.png"} width={200} height={300} layout='responsive' />
                     </Col>
                     <Col span={16}>
                         <div className={styles.container}>
@@ -108,10 +108,10 @@ const MovieDetailMobile = (props) => {
                 <Row gutter={[8, 8]} className={styles.rowContainer}>
                     <Col span={24}>
                         <div className={styles.action}>
-                            <div><MovieWatchedButton onBlur={onBlur} movie={props.movie} user={props.user} token={props.token} placement="top" /></div>
-                            <div><MovieLikeButton onBlur={onBlur} movie={props.movie} user={props.user} token={props.token} placement="top" /></div>                                 
-                            <div><MovieWatchlistButton onBlur={onBlur} movie={props.movie} user={props.user} token={props.token} placement="top" /></div>
-                            <div><MovieRateButton onMouseDown={onMouseDown} movie={props.movie} user={props.user} token={props.token} placement="top" /></div>                            
+                            <div><MovieWatchedButton onBlur={onBlur} movie={props.movie} user={props.user} token={props.token} placement="top" size="large" /></div>
+                            <div><MovieLikeButton onBlur={onBlur} movie={props.movie} user={props.user} token={props.token} placement="top" size="large" /></div>                                 
+                            <div><MovieWatchlistButton onBlur={onBlur} movie={props.movie} user={props.user} token={props.token} placement="top" size="large" /></div>
+                            <div><MovieRateButton onMouseDown={onMouseDown} movie={props.movie} user={props.user} token={props.token} placement="top" size="large" /></div>                            
                             <div><MovieShareButton path={props.path} /></div>                            
                         </div>
                     </Col>
