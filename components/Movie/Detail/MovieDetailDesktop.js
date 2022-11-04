@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Col, Row, Space, Tag, Typography, Button, List, Avatar } from 'antd'
 import { MessageOutlined, PlayCircleOutlined, ShareAltOutlined } from '@ant-design/icons'
 import dayjs from 'dayjs'
@@ -17,11 +17,28 @@ import MovieCast from './MovieCast'
 import MovieComments from './MovieComments'
 import styles from '../../../styles/Movie/Detail/MovieDetailDesktop.module.css'
 import MovieActivities from './MovieActivities'
+import axios from 'axios'
+import api from '../../../api'
 
 const MovieDetailDesktop = (props) => {
-    const [reviewVisible, setReviewVisible] = useState(false)    
     const [shareVisible, setShareVisible] = useState(false)    
     const [trailerVisible, setTrailerVisible] = useState(false)
+    const [directors, setDirectors] = useState()
+
+    useEffect(() => {
+        if (props.movie && directors === undefined) {
+            axios({
+                method: 'GET',
+                url: `${api.moviecrew}?movie=${props.movie.id}&role=2`
+            })
+            .then(res => {        
+                setDirectors(res.data.results)                                             
+            })
+            .catch(err => {
+                console.log(err)                        
+            })
+        }
+    }, [props.movie])
 
     function getReleaseDate (releasedate) {
         if (releasedate === undefined) {
@@ -33,11 +50,6 @@ const MovieDetailDesktop = (props) => {
     function onBlur() { }
 
     function onMouseDown() { }
-
-    function finishReview() {
-        setReviewVisible(false)
-        props.reload()
-    }
 
     return (
         <div className={styles.desktop}>
@@ -55,17 +67,17 @@ const MovieDetailDesktop = (props) => {
                         <div className={styles.left}>
                             <Image className={styles.poster} src={props.movie.poster !== null ? props.movie.poster : "/blank.png"} width={200} height={300} layout='responsive' />                        
                             <div className={styles.action}>
-                                <div><MovieWatchedButton onBlur={onBlur} movie={props.movie} user={props.user} token={props.token} placement="top" size="large" /></div>
-                                <div><MovieLikeButton onBlur={onBlur} movie={props.movie} user={props.user} token={props.token} placement="top" size="large" /></div>                                 
-                                <div><MovieWatchlistButton onBlur={onBlur} movie={props.movie} user={props.user} token={props.token} placement="top" size="large" /></div>
-                                <div><MovieRateButton onMouseDown={onMouseDown} movie={props.movie} user={props.user} token={props.token} placement="top" size="large" /></div>                                                            
+                            <div><MovieWatchedButton onBlur={onBlur} movie={props.movie} session={props.session} logs={props.logs} placement="top" size="large" /></div>
+                            <div><MovieLikeButton onBlur={onBlur} movie={props.movie} session={props.session} logs={props.logs} placement="top" size="large" /></div>                                 
+                            <div><MovieWatchlistButton onBlur={onBlur} movie={props.movie} session={props.session} logs={props.logs} placement="top" size="large" /></div>
+                            <div><MovieRateButton onMouseDown={onMouseDown} movie={props.movie} session={props.session} logs={props.logs} placement="top" size="large" /></div>                            
                             </div>
                             <div className={styles.buttons}>
                                 {/* Review Button */}
-                                <Button block type='default' size="default" icon={<MessageOutlined />} onClick={() => setReviewVisible(true)}>Сэтгэгдэл</Button>
-                                {reviewVisible ? <MovieReviewModal movieID={props.movie.id} user={props.user} token={props.token} hide={() => setReviewVisible(false)} finish={() => finishReview()} /> : <></>}
+                                {/* <Button block type='default' size="default" icon={<MessageOutlined />} onClick={() => setReviewVisible(true)}>Сэтгэгдэл</Button>
+                                {reviewVisible ? <MovieReviewModal movieID={props.movie.id} user={props.user} token={props.token} hide={() => setReviewVisible(false)} finish={() => finishReview()} /> : <></>} */}
                                 {/* Share Button */}
-                                <Button block type='default' size="default" icon={<ShareAltOutlined />} onClick={() => setShareVisible(true)}>Хуваалцах</Button>
+                                <Button block type='default' size="default" icon={<ShareAltOutlined />} onClick={() => setShareVisible(true)}>Share</Button>
                                 {shareVisible ? <MovieShareModal url={props.path} hide={() => setShareVisible(false)} /> : <></>}
                                 {/* Trailer Button */}
                                 <Button block disabled={props.movie.trailer === undefined || props.movie.trailer === null || props.movie.trailer === ''} type="primary" size="default" icon={<PlayCircleOutlined />} onClick={() => setTrailerVisible(true)}>Трейлер</Button>
@@ -116,11 +128,11 @@ const MovieDetailDesktop = (props) => {
                                         <Col span={12}>
                                             <div className={styles.label}>Найруулагч</div>
                                             <div className={styles.value}>
-                                                {props.director.map(item => (
+                                                {directors ? directors.map(item => (
                                                     <Link key={item.artist.id} href={`/artists/${item.artist.id}`}>
                                                         <a target="_blank">{item.artist.name} </a>
                                                     </Link>
-                                                ))}
+                                                )) : <></>}
                                             </div>
                                         </Col>
                                         <Col span={12}>

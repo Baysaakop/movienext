@@ -91,16 +91,16 @@ const MovieCard = (props) => {
                 >
                     <div className={styles.drawer}> 
                         <div onMouseDown={onMouseDown}>
-                            <MovieWatchedButton onBlur={onBlur} movie={props.movie} user={props.user} token={props.token} placement="right" size={screens.xs ? "default" : "large"} />   
+                            <MovieWatchedButton onBlur={onBlur} movie={props.movie} session={props.session} logs={props.logs} placement="right" size={screens.xs ? "default" : "large"} />                            
                         </div>               
                         <div onMouseDown={onMouseDown}>
-                            <MovieLikeButton onBlur={onBlur} movie={props.movie} user={props.user} token={props.token} placement="right" size={screens.xs ? "default" : "large"} />
+                            <MovieLikeButton onBlur={onBlur} movie={props.movie} session={props.session} logs={props.logs} placement="right" size={screens.xs ? "default" : "large"} />                            
                         </div>                                              
                         <div onMouseDown={onMouseDown}>
-                            <MovieWatchlistButton onBlur={onBlur} movie={props.movie} user={props.user} token={props.token} placement="right" size={screens.xs ? "default" : "large"} />
+                            <MovieWatchlistButton onBlur={onBlur} movie={props.movie} session={props.session} logs={props.logs} placement="right" size={screens.xs ? "default" : "large"} />                            
                         </div>
-                        <div onMouseDown={onMouseDown}>
-                            <MovieRateButton onMouseDown={onMouseDown} movie={props.movie} user={props.user} token={props.token} placement="right" size={screens.xs ? "default" : "large"} />    
+                        <div onMouseDown={onMouseDown}>                            
+                            <MovieRateButton onMouseDown={onMouseDown} movie={props.movie} session={props.session} logs={props.logs} placement="right" size={screens.xs ? "default" : "large"} />                        
                         </div>                                                                                           
                     </div>
                 </Drawer> 

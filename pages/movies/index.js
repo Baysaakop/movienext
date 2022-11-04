@@ -1,5 +1,5 @@
-import { Grid, Button, Divider, List, message, Result, Typography } from 'antd'
-import { useState } from 'react';
+import { Button, Divider, List, message, Result, Typography } from 'antd'
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 import useSWR from 'swr';
 import MovieCard from '../../components/Movie/MovieCard';
@@ -10,17 +10,30 @@ import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router';
 import styles from '../../styles/Movie/MovieList.module.css'
 
-const { useBreakpoint} = Grid
 const fetcher = url => axios.get(url).then(res => res.data)
 
-const MovieList = () => {
-    const screens = useBreakpoint()
+const MovieList = () => {    
     const router = useRouter()    
+    const [logs, setLogs] = useState()
     const {search, genre, decade, year, scoreTo, order, page} = router.query
 
-    const { data: movies, error } = useSWR(router.isReady ? getURL : null, fetcher);
+    const { data: session, status } = useSession()   
+    const { data: movies, error } = useSWR(router.isReady ? getURL : null, router.isReady ? fetcher : null);
 
-    const [user, setUser] = useState()
+    useEffect(() => {
+        if (status === "authenticated" && logs === undefined) {
+            axios({
+                method: 'GET',
+                url: `${api.movielogs}?user=${session.id}`
+            })
+            .then(res => {                                   
+                setLogs(res.data.results)
+            })
+            .catch(err => {            
+                console.log(err)
+            })
+        }        
+    }, [status])    
 
     function onPageChange (pageNum) {        
         router.push({
@@ -107,22 +120,7 @@ const MovieList = () => {
             }
         }
         return url
-    }
-
-    const { data: session, status } = useSession()
-
-    if (status === "authenticated" && user === undefined) {        
-        axios({
-            method: 'GET',
-            url: `${api.userdetail}/${session.id}/`
-        })
-        .then(res => {                       
-            setUser(res.data)
-        })
-        .catch(err => {
-            console.log(err)
-        })
-    }   
+    }     
 
     return (
         <div className={styles.movieList}>                        
@@ -180,8 +178,8 @@ const MovieList = () => {
                                 <List.Item key={movie.id}>
                                     <MovieCard 
                                         movie={movie} 
-                                        user={user} 
-                                        token={session ? session.token : undefined}                                         
+                                        session={session}                                        
+                                        logs={logs}                                        
                                     />
                                 </List.Item>
                             )}

@@ -21,7 +21,7 @@ const MovieDetail = () => {
     const [logs, setLogs] = useState()
 
     const { data: session, status } = useSession()
-    const { data: movie, error } = useSWR(id ? `${api.moviedetail}/${id}` : null, id ? fetcher : null)    
+    const { data: movie, error } = useSWR(router.isReady ? `${api.moviedetail}/${id}` : null, router.isReady ? fetcher : null)    
 
     useEffect(() => {
         if (status === "authenticated" && logs === undefined) {
@@ -29,8 +29,7 @@ const MovieDetail = () => {
                 method: 'GET',
                 url: `${api.movielogs}?user=${session.id}`
             })
-            .then(res => {       
-                console.log(res.data.results)                            
+            .then(res => {                                      
                 setLogs(res.data.results)
             })
             .catch(err => {            
@@ -53,19 +52,16 @@ const MovieDetail = () => {
             screens.lg  ? (
                 <MovieDetailDesktop 
                     movie={movie} 
-                    director={director ? director : []} 
-                    user={user} 
-                    logs={logs}
-                    token={session ? session.token : undefined} 
+                    logs={logs} 
+                    session={session}                          
                     path={router.asPath}
                     reload={() => router.reload()}
                 />         
             ) : screens.sm ? (
                 <MovieDetailTablet
-                    movie={movie} 
-                    director={director ? director : []} 
-                    user={user} 
-                    token={session ? session.token : undefined} 
+                    movie={movie}                     
+                    logs={logs} 
+                    session={session}      
                     path={router.asPath}
                     reload={() => router.reload()}
                 />          

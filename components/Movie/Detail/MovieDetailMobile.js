@@ -9,18 +9,18 @@ import MovieLikeButton from '../Action/MovieLikeButton'
 import MovieWatchlistButton from '../Action/MovieWatchlistButton'
 import MovieRateButton from '../Action/MovieRateButton'
 import MovieShareButton from '../Action/MovieShareButton'
-import { MessageOutlined, PlayCircleOutlined, ShareAltOutlined } from '@ant-design/icons'
+import { PlayCircleOutlined, ShareAltOutlined } from '@ant-design/icons'
 import MovieTrailerModal from './MovieTrailerModal'
-import MovieReviewModal from '../Action/MovieReviewModal'
 import MovieCrew from './MovieCrew'
 import MovieCast from './MovieCast'
 import MovieComments from './MovieComments'
 import styles from '../../../styles/Movie/Detail/MovieDetailMobile.module.css'
 import axios from 'axios'
 import api from '../../../api'
+import MovieShareModal from '../Action/MovieShareModal'
 
 const MovieDetailMobile = (props) => {
-    const [reviewVisible, setReviewVisible] = useState(false)    
+    const [shareVisible, setShareVisible] = useState(false)    
     const [trailerVisible, setTrailerVisible] = useState(false)    
     const [directors, setDirectors] = useState()
 
@@ -49,11 +49,6 @@ const MovieDetailMobile = (props) => {
     function onBlur() { }
 
     function onMouseDown() { }
-
-    function finishReview() {
-        setReviewVisible(false)
-        props.reload()
-    }
 
     return (
         <div className={styles.mobile}> 
@@ -137,10 +132,10 @@ const MovieDetailMobile = (props) => {
                         <Button block disabled={props.movie.trailer === undefined || props.movie.trailer === null || props.movie.trailer === ''} type="primary" size="default" icon={<PlayCircleOutlined />} onClick={() => setTrailerVisible(true)}>Трейлер</Button>
                         {trailerVisible ? <MovieTrailerModal title={props.movie.title} trailer={props.movie.trailer} hide={() => setTrailerVisible(false)} /> : <></>}
                     </Col>
-                    {/* <Col span={12}>
-                        <Button block type='default' size="default" icon={<MessageOutlined />} onClick={() => setReviewVisible(true)}>Сэтгэгдэл</Button>
-                        {reviewVisible ? <MovieReviewModal movie={props.movie} user={props.user} token={props.token} hide={() => setReviewVisible(false)} finish={() => finishReview()} /> : <></>}
-                    </Col> */}
+                    <Col span={12}>
+                        <Button block type='default' size='default' icon={<ShareAltOutlined />} onClick={() => setShareVisible(true)}>Share</Button>
+                        {shareVisible ? <MovieShareModal url={props.path} hide={() => setShareVisible(false)} /> : <></>}   
+                    </Col>
                 </Row>
                 <div className={styles.container}>
                     <div className={styles.whereToWatch}>

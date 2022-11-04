@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Row, Col, Typography, Space, Tag, Button, Avatar } from 'antd'
 import Image from 'next/image'
 import dayjs from 'dayjs'
@@ -9,17 +9,35 @@ import MovieLikeButton from '../Action/MovieLikeButton'
 import MovieWatchlistButton from '../Action/MovieWatchlistButton'
 import MovieRateButton from '../Action/MovieRateButton'
 import MovieShareButton from '../Action/MovieShareButton'
-import { MessageOutlined, PlayCircleOutlined, ShareAltOutlined } from '@ant-design/icons'
+import { PlayCircleOutlined, ShareAltOutlined } from '@ant-design/icons'
 import MovieTrailerModal from './MovieTrailerModal'
-import MovieReviewModal from '../Action/MovieReviewModal'
 import MovieCrew from './MovieCrew'
 import MovieCast from './MovieCast'
 import MovieComments from './MovieComments'
 import styles from '../../../styles/Movie/Detail/MovieDetailTablet.module.css'
+import MovieShareModal from '../Action/MovieShareModal'
+import axios from 'axios'
+import api from '../../../api'
 
 const MovieDetailTablet = (props) => {
-    const [reviewVisible, setReviewVisible] = useState(false)    
+    const [shareVisible, setShareVisible] = useState(false)    
     const [trailerVisible, setTrailerVisible] = useState(false)
+    const [directors, setDirectors] = useState()
+
+    useEffect(() => {
+        if (props.movie && directors === undefined) {
+            axios({
+                method: 'GET',
+                url: `${api.moviecrew}?movie=${props.movie.id}&role=2`
+            })
+            .then(res => {        
+                setDirectors(res.data.results)                                             
+            })
+            .catch(err => {
+                console.log(err)                        
+            })
+        }
+    }, [props.movie])
 
     function getReleaseDate (releasedate) {
         if (releasedate === undefined) {
@@ -31,11 +49,6 @@ const MovieDetailTablet = (props) => {
     function onBlur() { }
 
     function onMouseDown() { }
-
-    function finishReview() {
-        setReviewVisible(false)
-        props.reload()
-    }
 
     return (
         <div className={styles.tablet}> 
@@ -76,11 +89,11 @@ const MovieDetailTablet = (props) => {
                                         <Col span={12}>
                                             <div className={styles.label}>Найруулагч</div>
                                             <div className={styles.value}>
-                                                {props.director.map(item => (
+                                                {directors ? directors.map(item => (
                                                     <Link key={item.artist.id} href={`/artists/${item.artist.id}`}>
                                                         <a target="_blank">{item.artist.name} </a>
                                                     </Link>
-                                                ))}
+                                                )) : <></>}
                                             </div>
                                         </Col>
                                         <Col span={12}>
@@ -109,10 +122,10 @@ const MovieDetailTablet = (props) => {
                     </Col>
                     <Col span={12}>
                         <div className={styles.action}>
-                            <div><MovieWatchedButton onBlur={onBlur} movie={props.movie} user={props.user} token={props.token} placement="top" size="large" /></div>
-                            <div><MovieLikeButton onBlur={onBlur} movie={props.movie} user={props.user} token={props.token} placement="top" size="large" /></div>                                 
-                            <div><MovieWatchlistButton onBlur={onBlur} movie={props.movie} user={props.user} token={props.token} placement="top" size="large" /></div>
-                            <div><MovieRateButton onMouseDown={onMouseDown} movie={props.movie} user={props.user} token={props.token} placement="top" size="large" /></div>                            
+                            <div><MovieWatchedButton onBlur={onBlur} movie={props.movie} session={props.session} logs={props.logs} placement="top" size="large" /></div>
+                            <div><MovieLikeButton onBlur={onBlur} movie={props.movie} session={props.session} logs={props.logs} placement="top" size="large" /></div>                                 
+                            <div><MovieWatchlistButton onBlur={onBlur} movie={props.movie} session={props.session} logs={props.logs} placement="top" size="large" /></div>
+                            <div><MovieRateButton onMouseDown={onMouseDown} movie={props.movie} session={props.session} logs={props.logs} placement="top" size="large" /></div>                            
                             <div><MovieShareButton path={props.path} /></div>                            
                         </div>
                     </Col>
@@ -121,8 +134,8 @@ const MovieDetailTablet = (props) => {
                         {trailerVisible ? <MovieTrailerModal title={props.movie.title} trailer={props.movie.trailer} hide={() => setTrailerVisible(false)} /> : <></>}
                     </Col>
                     <Col span={6}>
-                        <Button className={styles.textButton} block type='default' size="default" icon={<MessageOutlined />} onClick={() => setReviewVisible(true)}>Сэтгэгдэл</Button>
-                        {reviewVisible ? <MovieReviewModal movie={props.movie} user={props.user} token={props.token} hide={() => setReviewVisible(false)} finish={() => finishReview()} /> : <></>}
+                        <Button className={styles.textButton} block type='default' size="default" icon={<ShareAltOutlined />} onClick={() => setShareVisible(true)}>Share</Button>
+                        {shareVisible ? <MovieShareModal url={props.path} hide={() => setShareVisible(false)} /> : <></>}  
                     </Col>
                 </Row>                             
                 <div className={styles.container}>
