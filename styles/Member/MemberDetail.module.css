@@ -8,6 +8,7 @@
     border: 1px solid #e5e5e5;
     border-radius: 4px;
     margin-bottom: 8px;
+    height: 100%;
 }
 
 .memberDetail .container .memberInfo {
@@ -25,4 +26,15 @@
 
 .memberDetail .container .following .username {    
     font-weight: bold;    
+}
+
+.memberDetail .container .avgScore {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.memberDetail .memberMovie {
+    margin-top: 12px;
 }

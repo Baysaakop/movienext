@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Row, Col, Typography, Space, Tag, Button, Avatar } from 'antd'
 import Image from 'next/image'
 import dayjs from 'dayjs'
@@ -16,10 +16,28 @@ import MovieCrew from './MovieCrew'
 import MovieCast from './MovieCast'
 import MovieComments from './MovieComments'
 import styles from '../../../styles/Movie/Detail/MovieDetailMobile.module.css'
+import axios from 'axios'
+import api from '../../../api'
 
 const MovieDetailMobile = (props) => {
     const [reviewVisible, setReviewVisible] = useState(false)    
-    const [trailerVisible, setTrailerVisible] = useState(false)
+    const [trailerVisible, setTrailerVisible] = useState(false)    
+    const [directors, setDirectors] = useState()
+
+    useEffect(() => {
+        if (props.movie && directors === undefined) {
+            axios({
+                method: 'GET',
+                url: `${api.moviecrew}?movie=${props.movie.id}&role=2`
+            })
+            .then(res => {        
+                setDirectors(res.data.results)                                             
+            })
+            .catch(err => {
+                console.log(err)                        
+            })
+        }
+    }, [props.movie])
 
     function getReleaseDate (releasedate) {
         if (releasedate === undefined) {
@@ -63,12 +81,12 @@ const MovieDetailMobile = (props) => {
                             </Space>
                             <div className={styles.bottom}>
                                 <div className={styles.label}>Найруулагч</div>
-                                <div className={styles.value}>
-                                    {props.director.map(item => (
+                                <div className={styles.value}>                                    
+                                    {directors ? directors.map(item => (
                                         <Link key={item.artist.id} href={`/artists/${item.artist.id}`}>
                                             <a target="_blank">{item.artist.name} </a>
                                         </Link>
-                                    ))}
+                                    )) : <></>}
                                 </div>
                             </div>         
                         </div>
@@ -108,10 +126,10 @@ const MovieDetailMobile = (props) => {
                 <Row gutter={[8, 8]} className={styles.rowContainer}>
                     <Col span={24}>
                         <div className={styles.action}>
-                            <div><MovieWatchedButton onBlur={onBlur} movie={props.movie} user={props.user} token={props.token} placement="top" size="large" /></div>
-                            <div><MovieLikeButton onBlur={onBlur} movie={props.movie} user={props.user} token={props.token} placement="top" size="large" /></div>                                 
-                            <div><MovieWatchlistButton onBlur={onBlur} movie={props.movie} user={props.user} token={props.token} placement="top" size="large" /></div>
-                            <div><MovieRateButton onMouseDown={onMouseDown} movie={props.movie} user={props.user} token={props.token} placement="top" size="large" /></div>                            
+                            <div><MovieWatchedButton onBlur={onBlur} movie={props.movie} session={props.session} logs={props.logs} placement="top" size="large" /></div>
+                            <div><MovieLikeButton onBlur={onBlur} movie={props.movie} session={props.session} logs={props.logs} placement="top" size="large" /></div>                                 
+                            <div><MovieWatchlistButton onBlur={onBlur} movie={props.movie} session={props.session} logs={props.logs} placement="top" size="large" /></div>
+                            <div><MovieRateButton onMouseDown={onMouseDown} movie={props.movie} session={props.session} logs={props.logs} placement="top" size="large" /></div>                            
                             <div><MovieShareButton path={props.path} /></div>                            
                         </div>
                     </Col>
@@ -119,10 +137,10 @@ const MovieDetailMobile = (props) => {
                         <Button block disabled={props.movie.trailer === undefined || props.movie.trailer === null || props.movie.trailer === ''} type="primary" size="default" icon={<PlayCircleOutlined />} onClick={() => setTrailerVisible(true)}>Трейлер</Button>
                         {trailerVisible ? <MovieTrailerModal title={props.movie.title} trailer={props.movie.trailer} hide={() => setTrailerVisible(false)} /> : <></>}
                     </Col>
-                    <Col span={12}>
+                    {/* <Col span={12}>
                         <Button block type='default' size="default" icon={<MessageOutlined />} onClick={() => setReviewVisible(true)}>Сэтгэгдэл</Button>
                         {reviewVisible ? <MovieReviewModal movie={props.movie} user={props.user} token={props.token} hide={() => setReviewVisible(false)} finish={() => finishReview()} /> : <></>}
-                    </Col>
+                    </Col> */}
                 </Row>
                 <div className={styles.container}>
                     <div className={styles.whereToWatch}>

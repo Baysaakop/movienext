@@ -1,5 +1,5 @@
 import { GlobalOutlined, FacebookFilled, InstagramFilled, YoutubeFilled, TwitterOutlined, MediumOutlined } from '@ant-design/icons'
-import { Button, Space } from 'antd'
+import { Button, Space, Typography } from 'antd'
 import React from 'react'
 
 const SocialMediaRow = ({ icon, href, text }) => {
@@ -16,6 +16,7 @@ const SocialMediaRow = ({ icon, href, text }) => {
 const SocialMedia = ({ member }) => {
     return (
         <div>
+            <Typography.Title level={5}>Сошиал сувгууд</Typography.Title>
             { member.website ? (
                 <SocialMediaRow icon={<GlobalOutlined />} href={member.website} text={member.website} />
             ) : (<></>)}            

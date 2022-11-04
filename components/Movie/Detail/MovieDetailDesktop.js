@@ -16,6 +16,7 @@ import MovieCrew from './MovieCrew'
 import MovieCast from './MovieCast'
 import MovieComments from './MovieComments'
 import styles from '../../../styles/Movie/Detail/MovieDetailDesktop.module.css'
+import MovieActivities from './MovieActivities'
 
 const MovieDetailDesktop = (props) => {
     const [reviewVisible, setReviewVisible] = useState(false)    
@@ -51,44 +52,45 @@ const MovieDetailDesktop = (props) => {
             <div className={styles.info}>
                 <Row gutter={[16, 16]} className={styles.rowContainer}>
                     <Col sm={10} md={8} lg={7} xl={7} xxl={6}>
-                        <Image className={styles.poster} src={props.movie.poster !== null ? props.movie.poster : "/blank.png"} width={200} height={300} layout='responsive' />                        
-                        <div className={styles.action}>
-                            <div><MovieWatchedButton onBlur={onBlur} movie={props.movie} user={props.user} token={props.token} placement="top" size="large" /></div>
-                            <div><MovieLikeButton onBlur={onBlur} movie={props.movie} user={props.user} token={props.token} placement="top" size="large" /></div>                                 
-                            <div><MovieWatchlistButton onBlur={onBlur} movie={props.movie} user={props.user} token={props.token} placement="top" size="large" /></div>
-                            <div><MovieRateButton onMouseDown={onMouseDown} movie={props.movie} user={props.user} token={props.token} placement="top" size="large" /></div>                            
-                            {/* <div><MovieShareButton path={props.path} /></div>                             */}
+                        <div className={styles.left}>
+                            <Image className={styles.poster} src={props.movie.poster !== null ? props.movie.poster : "/blank.png"} width={200} height={300} layout='responsive' />                        
+                            <div className={styles.action}>
+                                <div><MovieWatchedButton onBlur={onBlur} movie={props.movie} user={props.user} token={props.token} placement="top" size="large" /></div>
+                                <div><MovieLikeButton onBlur={onBlur} movie={props.movie} user={props.user} token={props.token} placement="top" size="large" /></div>                                 
+                                <div><MovieWatchlistButton onBlur={onBlur} movie={props.movie} user={props.user} token={props.token} placement="top" size="large" /></div>
+                                <div><MovieRateButton onMouseDown={onMouseDown} movie={props.movie} user={props.user} token={props.token} placement="top" size="large" /></div>                                                            
+                            </div>
+                            <div className={styles.buttons}>
+                                {/* Review Button */}
+                                <Button block type='default' size="default" icon={<MessageOutlined />} onClick={() => setReviewVisible(true)}>Сэтгэгдэл</Button>
+                                {reviewVisible ? <MovieReviewModal movieID={props.movie.id} user={props.user} token={props.token} hide={() => setReviewVisible(false)} finish={() => finishReview()} /> : <></>}
+                                {/* Share Button */}
+                                <Button block type='default' size="default" icon={<ShareAltOutlined />} onClick={() => setShareVisible(true)}>Хуваалцах</Button>
+                                {shareVisible ? <MovieShareModal url={props.path} hide={() => setShareVisible(false)} /> : <></>}
+                                {/* Trailer Button */}
+                                <Button block disabled={props.movie.trailer === undefined || props.movie.trailer === null || props.movie.trailer === ''} type="primary" size="default" icon={<PlayCircleOutlined />} onClick={() => setTrailerVisible(true)}>Трейлер</Button>
+                                {trailerVisible ? <MovieTrailerModal title={props.movie.title} trailer={props.movie.trailer} hide={() => setTrailerVisible(false)} /> : <></>}                            
+                            </div>
+                            <List
+                                bordered
+                                header={<Typography.Title level={5} style={{ margin: 0 }}>Үзэх боломжтой суваг</Typography.Title>}
+                                dataSource={props.movie.platforms}
+                                size="small"
+                                style={{ background: '#fff' }}
+                                renderItem={item => (
+                                    <List.Item key={item.id}>
+                                        <Link href={item.url}>
+                                            <a>
+                                                <Space size={16} wrap>
+                                                    <Avatar size="default" src={item.platform.logo} />
+                                                    <div>{item.platform.name}</div>
+                                                </Space>
+                                            </a>
+                                        </Link>
+                                    </List.Item>
+                                )}
+                            />
                         </div>
-                        <div className={styles.buttons}>
-                            {/* Review Button */}
-                            <Button block type='default' size="default" icon={<MessageOutlined />} onClick={() => setReviewVisible(true)}>Сэтгэгдэл</Button>
-                            {reviewVisible ? <MovieReviewModal movieID={props.movie.id} user={props.user} token={props.token} hide={() => setReviewVisible(false)} finish={() => finishReview()} /> : <></>}
-                            {/* Share Button */}
-                            <Button block type='default' size="default" icon={<ShareAltOutlined />} onClick={() => setShareVisible(true)}>Хуваалцах</Button>
-                            {shareVisible ? <MovieShareModal url={props.path} hide={() => setShareVisible(false)} /> : <></>}
-                            {/* Trailer Button */}
-                            <Button block disabled={props.movie.trailer === undefined || props.movie.trailer === null || props.movie.trailer === ''} type="primary" size="default" icon={<PlayCircleOutlined />} onClick={() => setTrailerVisible(true)}>Трейлер</Button>
-                            {trailerVisible ? <MovieTrailerModal title={props.movie.title} trailer={props.movie.trailer} hide={() => setTrailerVisible(false)} /> : <></>}                            
-                        </div>
-                        <List
-                            bordered
-                            header={<Typography.Title level={5} style={{ margin: 0 }}>Үзэх боломжтой суваг</Typography.Title>}
-                            dataSource={props.movie.platforms}
-                            size="small"
-                            style={{ background: '#fff' }}
-                            renderItem={item => (
-                                <List.Item key={item.id}>
-                                    <Link href={item.url}>
-                                        <a>
-                                            <Space size={16} wrap>
-                                                <Avatar size="default" src={item.platform.logo} />
-                                                <div>{item.platform.name}</div>
-                                            </Space>
-                                        </a>
-                                    </Link>
-                                </List.Item>
-                            )}
-                        />
                     </Col>
                     <Col sm={14} md={16} lg={17} xl={17} xxl={18}>
                         <div className={styles.container}>
@@ -151,6 +153,10 @@ const MovieDetailDesktop = (props) => {
                         <div className={styles.container}>
                             <div className={styles.label}>Жүжигчид</div>
                             <MovieCast id={props.movie.id} />
+                        </div>
+                        <div className={styles.container}>
+                            <div className={styles.label}>Найзууд</div>
+                            <MovieActivities id={props.movie.id} />
                         </div>
                         <div className={styles.container}>
                             <div className={styles.label}>Сэтгэгдэл</div>

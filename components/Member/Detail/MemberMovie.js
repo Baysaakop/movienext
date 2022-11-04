@@ -5,6 +5,7 @@ import api from '../../../api'
 import { CheckOutlined, ClockCircleOutlined, HeartOutlined, StarOutlined } from '@ant-design/icons'
 import { List, Segmented } from 'antd'
 import MovieCard from '../../Movie/MovieCard'
+import styles from '../../../styles/Member/MemberDetail.module.css'
 
 const MemberMovie = (props) => {
     const [type, setType] = useState('watched')
@@ -44,7 +45,7 @@ const MemberMovie = (props) => {
     }
 
     return (
-        <div>
+        <div className={styles.memberMovie}>
             <Segmented 
                 block
                 defaultValue={type}
@@ -79,6 +80,7 @@ const MemberMovie = (props) => {
                     xl: 5,
                     xxl: 6,
                 }}
+                pagination={{ pageSize: 30, size: 'small' }}
                 dataSource={getMovies()}                
                 renderItem={movie => (
                     <List.Item key={movie.id}>                            

@@ -75,11 +75,13 @@ const FollowButton = (props) => {
                 <Popconfirm title="Дагахаа болих уу?" onConfirm={() => handleFollow(props.member, false)} okText="Тийм" cancelText="Үгүй">
                     <Button                                                                               
                         shape='round' 
-                        type='default'     
+                        type='primary'     
                         icon={<TeamOutlined />} 
                     />
                 </Popconfirm>
-            ) : user && user.id !== props.member.id ? (
+            ) : user && user.id === props.member.id ? (
+                <></>
+            ) : (
                 <Popconfirm title="Дагах уу?" onConfirm={() => handleFollow(props.member, true)} okText="Тийм" cancelText="Үгүй">
                     <Button                                                     
                         shape='round' 
@@ -87,8 +89,6 @@ const FollowButton = (props) => {
                         icon={<UsergroupAddOutlined />}                         
                     />
                 </Popconfirm>
-            ) : (
-                <></>
             )}                     
         </div>
     )

@@ -6,6 +6,8 @@ import GeneralStats from './GeneralStats'
 import SocialMedia from './SocialMedia'
 import Following from './Following'
 import Followers from './Followers'
+import MemberAverageScore from './MemberAverageScore'
+import MemberAvatar from './MemberAvatar'
 
 const MemberDetailMobile = (props) => {    
 
@@ -14,15 +16,9 @@ const MemberDetailMobile = (props) => {
             <div className={styles.container}>
                 <div className={styles.memberInfo}>
                     <Space size={8}>
-                        {props.member.avatar ? 
-                            <Avatar size={48} src={props.member.avatar} />
-                        :
-                            <Avatar size={48} style={{ background: '#28202f' }}>
-                                {props.member.username.charAt(0).toUpperCase()}
-                            </Avatar>                         
-                        }
+                        <MemberAvatar member={props.member} size={48} />
                         <div>
-                            <Typography.Title level={5} style={{ margin: 0 }}>{props.member.username}</Typography.Title>                            
+                            <Typography.Title level={4} style={{ margin: 0 }}>{props.member.username}</Typography.Title>                            
                             <Typography.Text italic>{props.member.biography}</Typography.Text>
                         </div>                                             
                     </Space>
@@ -33,17 +29,18 @@ const MemberDetailMobile = (props) => {
                 <SocialMedia member={props.member} />
             </div>
             <div className={styles.container}>                
+                <MemberAverageScore member={props.member} />
+            </div>
+            <div className={styles.container}>                
                 <GeneralStats member={props.member} />
             </div>
-            <MemberMovie member={props.member} />
-            <div className={styles.container}>         
-                <Typography.Title level={5}>Дагаж буй</Typography.Title>       
+            <div className={styles.container}>                         
                 <Following member={props.member} />
             </div>
-            <div className={styles.container}>              
-                <Typography.Title level={5}>Дагагчид</Typography.Title>         
+            <div className={styles.container}>                              
                 <Followers member={props.member} />
             </div>
+            <MemberMovie member={props.member} />            
         </div>
     )
 }

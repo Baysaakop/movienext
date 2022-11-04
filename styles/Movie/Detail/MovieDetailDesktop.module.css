@@ -36,6 +36,12 @@
     padding: 0 48px;
 }
 
+.desktop .info .rowContainer .left {
+    position: -webkit-sticky; /* Safari */
+    position: sticky;
+    top: 76px;
+}
+
 .desktop .info .rowContainer .poster {
     border-radius: 4px;
 }

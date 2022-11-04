@@ -1,17 +1,18 @@
-import { Form, Button, Result, Typography, Input, message } from 'antd'
+import { Form, Button, Typography, Input, message } from 'antd'
 import axios from 'axios'
-import { signIn, useSession } from 'next-auth/react'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import api from '../../api'
 import { FacebookFilled, GlobalOutlined, InstagramOutlined, MediumOutlined, TwitterOutlined, YoutubeFilled } from '@ant-design/icons';
 import Router from 'next/router'
+import styles from '../../styles/Settings.module.css'
+import Loading from '../Loading'
 
-const SettingsSocial = () => {
+const SettingsSocial = ({ session }) => {
     const [form] = Form.useForm()
     const [user, setUser] = useState()
-    const { data: session, status } = useSession()
-
-    if (status === "authenticated" && user === undefined) {        
+    const [loading, setLoading] = useState(false)
+    
+    useEffect(() => {
         axios({
             method: 'GET',
             url: `${api.userdetail}/${session.id}/`
@@ -22,26 +23,28 @@ const SettingsSocial = () => {
         .catch(err => {
             console.log(err)
         })
-    }   
+    }, [session])  
 
     function onFinish(values) {
+        console.log(values)
+        setLoading(true)
         var formData = new FormData()
-        if (values.website && values.website !== user.website) {
+        if (values.website != null && values.website !== user.website) {
             formData.append('username', values.username)
         }
-        if (values.facebook && values.facebook !== user.facebook) {
+        if (values.facebook != null && values.facebook !== user.facebook) {
             formData.append('facebook', values.facebook)
         }
-        if (values.instagram && values.instagram !== user.instagram) {
+        if (values.instagram != null && values.instagram !== user.instagram) {
             formData.append('instagram', values.instagram)
         }
-        if (values.youtube && values.youtube !== user.youtube) {
+        if (values.youtube != null && values.youtube !== user.youtube) {
             formData.append('youtube', values.youtube)
         }
-        if (values.twitter && values.twitter !== user.twitter) {
+        if (values.twitter != null && values.twitter !== user.twitter) {
             formData.append('twitter', values.twitter)
         }
-        if (values.medium && values.medium !== user.medium) {
+        if (values.medium != null && values.medium !== user.medium) {
             formData.append('medium', values.medium)
         }
         axios({
@@ -55,20 +58,21 @@ const SettingsSocial = () => {
         })
         .then(res => {            
             if (res.status === 200) {
-                message.success("Амжилттай.")
+                setLoading(false)
                 Router.reload()                                
             }            
         })
         .catch(err => {
             console.log(err)
+            setLoading(false)
             message.error("Алдаа гарлаа. Хуудсыг refresh хийнэ үү.")
         })
     }
 
-   if (user) {
+   if (user && loading === false) {
         return (
-            <div style={{ textAlign: 'center', width: '400px', padding: '16px', border: '1px solid #c5c5c5', borderRadius: '4px' }}>
-                <Typography.Title level={3}>Сошиал хаягууд</Typography.Title>        
+            <div className={styles.container}>
+                <Typography.Title level={4}>Сошиал хаягууд</Typography.Title>        
                 <Form 
                     layout="vertical" 
                     form={form} 
@@ -106,14 +110,7 @@ const SettingsSocial = () => {
         )        
     } else {        
         return (
-            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '80vh', background: '#fff', border: '1px solid #e5e5e5', borderRadius: '4px' }}>
-                <Result
-                    status="403"
-                    title="403"
-                    subTitle="Энэ хуудсыг үзэхийн тулд эхлээд нэвтрэх шаардлагатай."
-                    extra={<Button type="primary" onClick={() => signIn()}>Нэвтрэх</Button>}
-                />
-            </div>
+            <Loading />
         )
     }
 }

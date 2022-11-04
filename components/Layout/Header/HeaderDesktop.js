@@ -42,7 +42,7 @@ const HeaderDesktop = () => {
                         ) : (
                             <></>
                         )}
-                        <Dropdown overlay={<AvatarDropDown id={session.id} />} placement="bottomRight" trigger={['click']}>
+                        <Dropdown overlay={<AvatarDropDown id={session.id} />} placement="bottomRight">
                             <a>
                                 {session.avatar ?
                                     <Avatar                                            

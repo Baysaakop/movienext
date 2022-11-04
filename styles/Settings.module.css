@@ -1,0 +1,21 @@
+.settings {
+    padding: 12px;
+}
+
+.error403 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+    background: #fff;
+    border: 1px solid #e5e5e5;
+    border-radius: 4px;
+}
+
+.container {
+    background: #fff;
+    border: 1px solid #e5e5e5;
+    border-radius: 4px;
+    padding: 12px;    
+    text-align: center;
+}
