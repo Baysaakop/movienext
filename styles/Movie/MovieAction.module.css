@@ -1,0 +1,49 @@
+.detail .action {
+    background-color: #fff;   
+    border: 1px solid #e5e5e5;
+    border-radius: 4px;
+    padding: 8px 4px;   
+    display: flex;
+    justify-content: space-around;
+    align-items: center;    
+}
+
+.detail .action div {    
+    transition: 0.3s ease-in-out;        
+    text-align: center;
+}
+
+.detail .action div button:hover {    
+    background: rgba(128, 128, 128, 0.25);
+}
+
+.detail .log {
+    margin-bottom: 8px;
+}
+
+@media screen and (min-width: 1200px) {
+    .detail .action {
+        margin-bottom: 8px;
+    }
+}
+
+.card {
+    height: 100%;
+}
+
+.card .action {            
+    display: flex; 
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    height: 100%;
+}
+
+.card .action button {    
+    margin-top: 8px;
+    transition: 0.3s ease-in-out;    
+}
+
+.card .action button:hover {    
+    background: rgba(128, 128, 128, 0.25);
+}

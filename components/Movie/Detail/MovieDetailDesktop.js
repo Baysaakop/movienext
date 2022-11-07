@@ -5,12 +5,7 @@ import dayjs from 'dayjs'
 import Image from 'next/image'
 import Link from 'next/link'
 import MovieScore from '../MovieScore'
-import MovieWatchedButton from '../Action/MovieWatchedButton'
-import MovieLikeButton from '../Action/MovieLikeButton'
-import MovieWatchlistButton from '../Action/MovieWatchlistButton'
-import MovieRateButton from '../Action/MovieRateButton'
 import MovieTrailerModal from './MovieTrailerModal'
-import MovieReviewModal from '../Action/MovieReviewModal'
 import MovieShareModal from '../Action/MovieShareModal'
 import MovieCrew from './MovieCrew'
 import MovieCast from './MovieCast'
@@ -19,6 +14,7 @@ import styles from '../../../styles/Movie/Detail/MovieDetailDesktop.module.css'
 import MovieActivities from './MovieActivities'
 import axios from 'axios'
 import api from '../../../api'
+import MovieAction from '../Action/MovieAction'
 
 const MovieDetailDesktop = (props) => {
     const [shareVisible, setShareVisible] = useState(false)    
@@ -66,12 +62,7 @@ const MovieDetailDesktop = (props) => {
                     <Col sm={10} md={8} lg={7} xl={7} xxl={6}>
                         <div className={styles.left}>
                             <Image className={styles.poster} src={props.movie.poster !== null ? props.movie.poster : "/blank.png"} width={200} height={300} layout='responsive' />                        
-                            <div className={styles.action}>
-                            <div><MovieWatchedButton onBlur={onBlur} movie={props.movie} session={props.session} logs={props.logs} placement="top" size="large" /></div>
-                            <div><MovieLikeButton onBlur={onBlur} movie={props.movie} session={props.session} logs={props.logs} placement="top" size="large" /></div>                                 
-                            <div><MovieWatchlistButton onBlur={onBlur} movie={props.movie} session={props.session} logs={props.logs} placement="top" size="large" /></div>
-                            <div><MovieRateButton onMouseDown={onMouseDown} movie={props.movie} session={props.session} logs={props.logs} placement="top" size="large" /></div>                            
-                            </div>
+                            <MovieAction movie={props.movie} session={props.session} container="detail" />
                             <div className={styles.buttons}>
                                 {/* Review Button */}
                                 {/* <Button block type='default' size="default" icon={<MessageOutlined />} onClick={() => setReviewVisible(true)}>Сэтгэгдэл</Button>

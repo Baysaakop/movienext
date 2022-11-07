@@ -78,27 +78,6 @@
     font-size: 16px;
 }
 
-.desktop .info .action {
-    background-color: #fff;   
-    border: 1px solid #e5e5e5;
-    border-radius: 4px;
-    padding: 8px 4px;   
-    margin-bottom: 8px; 
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-}
-
-.desktop .info .action div {    
-    width: 33%;
-    transition: 0.3s ease-in-out;        
-    text-align: center;
-}
-
-.desktop .info .action div button:hover {    
-    background: rgba(128, 128, 128, 0.25);
-}
-
 .desktop .info .buttons button {
     margin-bottom: 8px;
 }

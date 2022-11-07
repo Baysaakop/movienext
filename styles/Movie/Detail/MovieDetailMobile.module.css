@@ -21,7 +21,7 @@
 }
 
 .mobile .info {
-    padding: 0 16px 8px 16px;
+    padding: 8px 16px 8px 16px;
 }
 
 .mobile .info .rowContainer {
@@ -58,26 +58,6 @@
     bottom: 0;
     left: 0;
     padding: 8px;
-}
-
-.mobile .info .action {
-    background-color: #fff;   
-    border: 1px solid #e5e5e5;
-    border-radius: 4px;
-    padding: 8px 4px;    
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-}
-
-.mobile .info .action div {    
-    width: 33%;
-    transition: 0.3s ease-in-out;        
-    text-align: center;
-}
-
-.mobile .info .action div button:hover {    
-    background: rgba(128, 128, 128, 0.25);
 }
 
 .mobile .info .container .whereToWatch {

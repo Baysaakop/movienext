@@ -1,42 +1,31 @@
-import { Grid, Button, Drawer, Rate, Tooltip } from "antd"
+import { Button, Drawer, Rate, Tooltip } from "antd"
 import Image from "next/image"
 import Link from "next/link"
 import MovieScore from "./MovieScore"
 import { PlusOutlined } from '@ant-design/icons'
-import { useState } from "react"
-import MovieLikeButton from "./Action/MovieLikeButton"
-import MovieWatchedButton from "./Action/MovieWatchedButton"
-import MovieWatchlistButton from "./Action/MovieWatchlistButton"
-import MovieRateButton from "./Action/MovieRateButton"
+import { useEffect, useState } from "react"
 import dayjs from "dayjs"
 import styles from '../../styles/Movie/MovieList.module.css'
-
-const { useBreakpoint } = Grid
+import MovieAction from "./Action/MovieAction"
 
 const MovieCard = (props) => {
-    const screens = useBreakpoint()
     const [drawerOpen, setDrawerOpen] = useState(false)    
-    const [action, setAction] = useState(false)
+
+    useEffect(() => {
+        if (props.openCard && props.openCard === props.movie.id) {
+            setDrawerOpen(true)
+        } else {
+            setDrawerOpen(false)
+        }
+    }, [props.openCard])
 
     function openDrawer () {        
-        setDrawerOpen(true)
+        props.setOpenCard(props.movie.id)
     }   
 
     function closeDrawer () {        
-        setDrawerOpen(false)
+        props.setOpenCard(undefined)
     }   
-
-    function onBlur () {
-        if (action == false) {
-            setDrawerOpen(false)
-        } else {
-            setAction(false)
-        }
-    }
-
-    function onMouseDown () {
-        setAction(true)
-    }
 
     return (        
         <div>        
@@ -79,30 +68,16 @@ const MovieCard = (props) => {
                         onClick={openDrawer} 
                     />                
                 </div>        
-                <Drawer                                
+                <Drawer                                                    
                     placement="right"
-                    closable={false}
-                    onBlur={onBlur}
+                    closable={false}                    
                     onClose={closeDrawer}
                     visible={drawerOpen}
                     getContainer={false}
                     width={60}                
                     style={{ position: 'absolute' }}
                 >
-                    <div className={styles.drawer}> 
-                        <div onMouseDown={onMouseDown}>
-                            <MovieWatchedButton onBlur={onBlur} movie={props.movie} session={props.session} logs={props.logs} placement="right" size={screens.xs ? "default" : "large"} />                            
-                        </div>               
-                        <div onMouseDown={onMouseDown}>
-                            <MovieLikeButton onBlur={onBlur} movie={props.movie} session={props.session} logs={props.logs} placement="right" size={screens.xs ? "default" : "large"} />                            
-                        </div>                                              
-                        <div onMouseDown={onMouseDown}>
-                            <MovieWatchlistButton onBlur={onBlur} movie={props.movie} session={props.session} logs={props.logs} placement="right" size={screens.xs ? "default" : "large"} />                            
-                        </div>
-                        <div onMouseDown={onMouseDown}>                            
-                            <MovieRateButton onMouseDown={onMouseDown} movie={props.movie} session={props.session} logs={props.logs} placement="right" size={screens.xs ? "default" : "large"} />                        
-                        </div>                                                                                           
-                    </div>
+                    <MovieAction movie={props.movie} session={props.session} container="card" />
                 </Drawer> 
             </div>   
             { props.score ? (

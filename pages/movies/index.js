@@ -15,6 +15,7 @@ const fetcher = url => axios.get(url).then(res => res.data)
 const MovieList = () => {    
     const router = useRouter()    
     const [logs, setLogs] = useState()
+    const [openCard, setOpenCard] = useState()
     const {search, genre, decade, year, scoreTo, order, page} = router.query
 
     const { data: session, status } = useSession()   
@@ -179,7 +180,9 @@ const MovieList = () => {
                                     <MovieCard 
                                         movie={movie} 
                                         session={session}                                        
-                                        logs={logs}                                        
+                                        logs={logs}       
+                                        openCard={openCard}             
+                                        setOpenCard={(id) => setOpenCard(id)}
                                     />
                                 </List.Item>
                             )}

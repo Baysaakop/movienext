@@ -64,23 +64,6 @@
     opacity: 0.5;
 }     
 
-.movieCard .drawer {            
-    display: flex; 
-    flex-direction: column;
-    justify-content: space-evenly;
-    align-items: center;
-    height: 100%;
-}
-
-.movieCard .drawer button {    
-    margin-top: 8px;
-    transition: 0.3s ease-in-out;    
-}
-
-.movieCard .drawer button:hover {    
-    background: rgba(128, 128, 128, 0.25);
-}
-
 .movieFilter {
     margin-bottom: 16px;
     background: #fff;

@@ -4,11 +4,6 @@ import Image from 'next/image'
 import dayjs from 'dayjs'
 import Link from 'next/link'
 import MovieScore from '../MovieScore'
-import MovieWatchedButton from '../Action/MovieWatchedButton'
-import MovieLikeButton from '../Action/MovieLikeButton'
-import MovieWatchlistButton from '../Action/MovieWatchlistButton'
-import MovieRateButton from '../Action/MovieRateButton'
-import MovieShareButton from '../Action/MovieShareButton'
 import { PlayCircleOutlined, ShareAltOutlined } from '@ant-design/icons'
 import MovieTrailerModal from './MovieTrailerModal'
 import MovieCrew from './MovieCrew'
@@ -18,6 +13,7 @@ import styles from '../../../styles/Movie/Detail/MovieDetailMobile.module.css'
 import axios from 'axios'
 import api from '../../../api'
 import MovieShareModal from '../Action/MovieShareModal'
+import MovieAction from '../Action/MovieAction'
 
 const MovieDetailMobile = (props) => {
     const [shareVisible, setShareVisible] = useState(false)    
@@ -45,10 +41,6 @@ const MovieDetailMobile = (props) => {
         }
         return dayjs(releasedate).year().toString() + " он"
     }   
-
-    function onBlur() { }
-
-    function onMouseDown() { }
 
     return (
         <div className={styles.mobile}> 
@@ -120,13 +112,7 @@ const MovieDetailMobile = (props) => {
                 </div>                
                 <Row gutter={[8, 8]} className={styles.rowContainer}>
                     <Col span={24}>
-                        <div className={styles.action}>
-                            <div><MovieWatchedButton onBlur={onBlur} movie={props.movie} session={props.session} logs={props.logs} placement="top" size="large" /></div>
-                            <div><MovieLikeButton onBlur={onBlur} movie={props.movie} session={props.session} logs={props.logs} placement="top" size="large" /></div>                                 
-                            <div><MovieWatchlistButton onBlur={onBlur} movie={props.movie} session={props.session} logs={props.logs} placement="top" size="large" /></div>
-                            <div><MovieRateButton onMouseDown={onMouseDown} movie={props.movie} session={props.session} logs={props.logs} placement="top" size="large" /></div>                            
-                            <div><MovieShareButton path={props.path} /></div>                            
-                        </div>
+                        <MovieAction movie={props.movie} session={props.session} container="detail" />
                     </Col>
                     <Col span={12}>                        
                         <Button block disabled={props.movie.trailer === undefined || props.movie.trailer === null || props.movie.trailer === ''} type="primary" size="default" icon={<PlayCircleOutlined />} onClick={() => setTrailerVisible(true)}>Трейлер</Button>
