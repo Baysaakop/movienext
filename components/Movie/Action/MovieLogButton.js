@@ -1,36 +1,38 @@
-import { HeartOutlined, PlusOutlined } from "@ant-design/icons"
-import { Button, message, notification, Tooltip } from "antd"
-import axios from "axios"
-import api from "../../../api"
+import { PlusOutlined } from "@ant-design/icons"
+import { Button } from "antd"
+import { useState } from "react"
+import MovieLogModal from "./MovieLogModal"
 
 const MovieLogButton = (props) => {          
 
-    // if (props.log) {
-    //     return (
-    //         <Tooltip title="Таалагдсан" placement={props.placement}>
-    //             <Button 
-    //                 size={props.size}
-    //                 shape="circle" 
-    //                 type="primary" 
-    //                 icon={<HeartOutlined />}   
-    //                 onClick={onRemove}      
-    //                 style={{ background: '#ff5252', border: 0 }}
-    //             />
-    //         </Tooltip>
-    //     )            
-    // }
+    const [visible, setVisible] = useState(false)
+
+    function updateLog (data) {
+        props.updateLog(data)
+    }
+
     return (
-        <Tooltip title="Тэмдэглэх" placement={props.placement}>
+        <div>
             <Button 
                 block={props.block}
                 size={props.size}
                 shape={props.shape}
                 type="dashed" 
-                icon={<PlusOutlined />}                   
+                icon={<PlusOutlined />}             
+                onClick={() => setVisible(true)}      
             >
                 {props.text}
             </Button>        
-        </Tooltip>
+            { visible ? 
+                <MovieLogModal 
+                    movie={props.movie} 
+                    session={props.session} 
+                    log={props.log} 
+                    onHide={() => setVisible(false)} 
+                    updateLog={(data) => updateLog(data)}
+                /> : <></>
+            }
+        </div>
     )        
 }
 

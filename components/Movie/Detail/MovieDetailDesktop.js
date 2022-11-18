@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Col, Row, Space, Tag, Typography, Button, List, Avatar } from 'antd'
-import { MessageOutlined, PlayCircleOutlined, ShareAltOutlined } from '@ant-design/icons'
-import dayjs from 'dayjs'
+import { PlayCircleOutlined, ShareAltOutlined } from '@ant-design/icons'
+import moment from 'moment'
 import Image from 'next/image'
 import Link from 'next/link'
 import MovieScore from '../MovieScore'
@@ -9,12 +9,13 @@ import MovieTrailerModal from './MovieTrailerModal'
 import MovieShareModal from '../Action/MovieShareModal'
 import MovieCrew from './MovieCrew'
 import MovieCast from './MovieCast'
-import MovieComments from './MovieComments'
 import styles from '../../../styles/Movie/Detail/MovieDetailDesktop.module.css'
-import MovieActivities from './MovieActivities'
 import axios from 'axios'
 import api from '../../../api'
 import MovieAction from '../Action/MovieAction'
+import MovieFriendsWatched from './Log/MovieFriendsWatched'
+import MovieFriendsWatchlist from './Log/MovieFriendsWatchlist'
+import MovieReviews from './Log/MovieReviews'
 
 const MovieDetailDesktop = (props) => {
     const [shareVisible, setShareVisible] = useState(false)    
@@ -40,12 +41,8 @@ const MovieDetailDesktop = (props) => {
         if (releasedate === undefined) {
             return 'Тодорхойгүй'
         }
-        return dayjs(releasedate).year().toString() + " он"
+        return moment(releasedate).year().toString() + " он"
     }   
-
-    function onBlur() { }
-
-    function onMouseDown() { }
 
     return (
         <div className={styles.desktop}>
@@ -63,10 +60,7 @@ const MovieDetailDesktop = (props) => {
                         <div className={styles.left}>
                             <Image className={styles.poster} src={props.movie.poster !== null ? props.movie.poster : "/blank.png"} width={200} height={300} layout='responsive' />                        
                             <MovieAction movie={props.movie} session={props.session} container="detail" />
-                            <div className={styles.buttons}>
-                                {/* Review Button */}
-                                {/* <Button block type='default' size="default" icon={<MessageOutlined />} onClick={() => setReviewVisible(true)}>Сэтгэгдэл</Button>
-                                {reviewVisible ? <MovieReviewModal movieID={props.movie.id} user={props.user} token={props.token} hide={() => setReviewVisible(false)} finish={() => finishReview()} /> : <></>} */}
+                            <div className={styles.buttons}>                                                              
                                 {/* Share Button */}
                                 <Button block type='default' size="default" icon={<ShareAltOutlined />} onClick={() => setShareVisible(true)}>Share</Button>
                                 {shareVisible ? <MovieShareModal url={props.path} hide={() => setShareVisible(false)} /> : <></>}
@@ -117,7 +111,7 @@ const MovieDetailDesktop = (props) => {
                                 <Col span={16}>
                                     <Row gutter={[16, 8]}>
                                         <Col span={12}>
-                                            <div className={styles.label}>Найруулагч</div>
+                                            <Typography.Title level={5} style={{ margin: 0 }}>Найруулагч</Typography.Title>                                            
                                             <div className={styles.value}>
                                                 {directors ? directors.map(item => (
                                                     <Link key={item.artist.id} href={`/artists/${item.artist.id}`}>
@@ -127,13 +121,13 @@ const MovieDetailDesktop = (props) => {
                                             </div>
                                         </Col>
                                         <Col span={12}>
-                                            <div className={styles.label}>Кино студи</div>
+                                            <Typography.Title level={5} style={{ margin: 0 }}>Кино студи</Typography.Title>                                                                 
                                             <div className={styles.value}>
                                                 {props.movie.productions && props.movie.productions.length > 0 ? props.movie.productions[0].name : ''}
                                             </div>
                                         </Col>
                                         <Col span={24}>
-                                            <div className={styles.label}>Агуулга</div>
+                                            <Typography.Title level={5} style={{ margin: 0 }}>Агуулга</Typography.Title>                                           
                                             <Typography.Paragraph ellipsis={{ rows: 4, expandable: true, symbol: 'цааш' }} style={{ marginBottom: '0' }}>
                                                 {props.movie.description}
                                             </Typography.Paragraph>
@@ -141,7 +135,7 @@ const MovieDetailDesktop = (props) => {
                                     </Row>
                                 </Col>
                                 <Col span={8}>
-                                    <div className={styles.label} style={{ marginBottom: '16px' }}>Үнэлгээ</div>                   
+                                    <Typography.Title level={5}>Үнэлгээ</Typography.Title>                                                   
                                     <MovieScore score={props.movie.avg_score} size="large" />
                                     <div style={{ marginTop: '8px', textAlign: 'center' }}>
                                         {props.movie.avg_score === 0 ? '/Саналын тоо хангалтгүй/' : `Нийт ${props.movie.score_count} санал`}
@@ -149,22 +143,11 @@ const MovieDetailDesktop = (props) => {
                                 </Col>
                             </Row>                                                        
                         </div>
-                        <div className={styles.container}>
-                            <div className={styles.label}>Уран бүтээлчид</div>
-                            <MovieCrew id={props.movie.id} />
-                        </div>
-                        <div className={styles.container}>
-                            <div className={styles.label}>Жүжигчид</div>
-                            <MovieCast id={props.movie.id} />
-                        </div>
-                        <div className={styles.container}>
-                            <div className={styles.label}>Найзууд</div>
-                            <MovieActivities id={props.movie.id} />
-                        </div>
-                        <div className={styles.container}>
-                            <div className={styles.label}>Сэтгэгдэл</div>
-                            <MovieComments id={props.movie.id} />
-                        </div>
+                        <MovieCrew id={props.movie.id} />
+                        <MovieCast id={props.movie.id} />
+                        <MovieFriendsWatched id={props.movie.id} session={props.session} />
+                        <MovieFriendsWatchlist id={props.movie.id} session={props.session} />
+                        <MovieReviews id={props.movie.id} session={props.session} />
                     </Col>
                 </Row>
             </div>

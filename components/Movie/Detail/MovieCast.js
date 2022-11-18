@@ -1,10 +1,11 @@
-import { Grid, Carousel, List, Button, Avatar } from 'antd'
+import { Grid, List, Avatar, Typography, Carousel, Empty, Card, Button, Space } from 'antd'
 import axios from 'axios';
 import api from '../../../api';
 import Link from 'next/link'
-import { useEffect, useState, useRef } from 'react';
-import { LeftOutlined, RightOutlined } from '@ant-design/icons';
+import { useEffect, useRef, useState } from 'react';
 import styles from '../../../styles/Movie/Detail/MovieCastCrew.module.css'
+import Image from 'next/image';
+import { LeftOutlined, RightOutlined } from '@ant-design/icons';
 
 const { useBreakpoint } = Grid
 
@@ -12,15 +13,13 @@ const MovieCast = ({ id }) => {
     const ref = useRef()
     const screens = useBreakpoint()
     const [data, setData] = useState([])
-    const [total, setTotal] = useState(0)    
 
     useEffect(() => {
         axios({
             method: 'GET',
-            url: `${api.moviecast}?movie=${id}`
+            url: `${api.moviecast}?movie=${id}&first=8`
         })
-        .then(res => {                        
-            setTotal(res.data.count)
+        .then(res => {                   
             setData(res.data.results)
         })
         .catch(err => {
@@ -37,66 +36,77 @@ const MovieCast = ({ id }) => {
             return 5
         } else if (screens.md) {
             return 6
+        } else if (screens.sm) {
+            return 6
         } else {
-            return 4
+            return 3
         }
+    }  
+
+    function getPageCount(total) {
+        return Math.ceil(total / getPageSize())
     }
 
-    function getPageCount() {
-        return Math.ceil(total / getPageSize())
-    }    
-
-    return (            
+    return (
         <div>            
             <div className={styles.container}>
-                <Carousel ref={ref} dots={false}>
-                    {[...Array(getPageCount())].map((x, i) =>
-                        <List
-                            key={i}
-                            grid={{ gutter: 16, column: getPageSize() }}        
-                            dataSource={data.slice(i * getPageSize(), (i+1) * getPageSize())}                              
-                            renderItem={item => (
-                                <List.Item key={item.id} className={styles.listItem}>
-                                    <Link href={`/artists/${item.artist.id}`}>
-                                        <a>                    
-                                            <Avatar className={styles.artistAvatar} shape='circle' size={64} src={item.artist.image ? item.artist.image : "/blank.png"} />
-                                            <div className={styles.artistName}>{item.artist.name}</div>
-                                            <div className={styles.artistRole}>{item.role_name}</div>                                                               
-                                        </a>
-                                    </Link>
-                                </List.Item>
-                            )}
-                        />
-                    )}                
-                </Carousel>     
-                { screens.xl ? (
-                    getPageCount() > 1 ? ([
-                        <Button       
-                            key={0}
-                            icon={<LeftOutlined />}                  
-                            type="default"                                        
-                            size="large"
-                            shape="circle"
-                            className={styles.leftArrow}  
-                            onClick={() => ref.current.prev()}
-                        />,                      
-                        <Button       
-                            key={1}
-                            icon={<RightOutlined />}                  
-                            type="default"                        
-                            size="large"
-                            shape="circle"
-                            className={styles.rightArrow}      
-                            onClick={() => ref.current.next()}
-                        />
-                    ]) : ( 
-                        <></> 
-                    )
+                <div className={styles.header}>                                        
+                    <Typography.Title level={5} style={{ margin: 0 }}>Жүжигчид</Typography.Title>
+                    <div>
+                        {getPageCount(data.length) > 1 ? (
+                            <Space>
+                                <Button       
+                                    key={0}
+                                    icon={<LeftOutlined />}                  
+                                    type="default"                                        
+                                    size="small"
+                                    shape="circle"                         
+                                    onClick={() => ref.current.prev()}
+                                />              
+                                <Button       
+                                    key={1}
+                                    icon={<RightOutlined />}                  
+                                    type="default"                        
+                                    size="small"
+                                    shape="circle"                   
+                                    onClick={() => ref.current.next()}
+                                />
+                            </Space>
+                        ) : ( 
+                            <></> 
+                        )}
+                    </div>
+                </div>     
+                { data.length > 0 ? (
+                    <Carousel ref={ref} dots={false}>
+                        {[...Array(getPageCount(data.length))].map((x, i) =>
+                            <List                            
+                                key={i}    
+                                className={styles.slider}
+                                grid={{ gutter: 16, column: getPageSize() }}                        
+                                dataSource={data.slice(i * getPageSize(), (i+1) * getPageSize())}                              
+                                renderItem={item => (
+                                    <List.Item key={item.id} className={styles.sliderItem}>                        
+                                        <Link href={`/artists/${item.artist.id}`}>
+                                            <Card
+                                                hoverable
+                                                cover={<Image alt={item.artist.name} src={item.artist.image ? item.artist.image : "/blank.jpg"} width={100} height={150} layout="responsive" />}
+                                                size="small"
+                                            >
+                                                <div className={styles.artistName}>{item.artist.name}</div>
+                                                <div className={styles.artistRole}>{item.role_name}</div>          
+                                            </Card>
+                                        </Link>
+                                    </List.Item>
+                                )}
+                            />                               
+                        )}                        
+                    </Carousel>  
                 ) : (
-                    <></>
+                    <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
                 )}                         
-            </div>   
-        </div>     
+            </div>     
+        </div>   
     )
 }
 

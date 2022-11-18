@@ -4,7 +4,7 @@ import Link from "next/link"
 import MovieScore from "./MovieScore"
 import { PlusOutlined } from '@ant-design/icons'
 import { useEffect, useState } from "react"
-import dayjs from "dayjs"
+import moment from "moment"
 import styles from '../../styles/Movie/MovieList.module.css'
 import MovieAction from "./Action/MovieAction"
 
@@ -32,7 +32,7 @@ const MovieCard = (props) => {
             <div className={styles.movieCard}>
                 <Link href={`/movies/${props.movie.id}`} target="_blank">                    
                     <a>
-                        <Tooltip title={`${props.movie.title} (${props.movie.releasedate ? dayjs(props.movie.releasedate).year() : ''})`}>
+                        <Tooltip title={`${props.movie.title} (${props.movie.releasedate ? moment(props.movie.releasedate).year() : ''})`}>
                             <Image 
                                 alt={props.movie.title}
                                 src={props.movie.poster !== null ? props.movie.poster : "/blank.png"}
@@ -48,7 +48,7 @@ const MovieCard = (props) => {
                         <a>
                             <div className={styles.titleContainer}>
                                 <div className={styles.title}>
-                                    {`${props.movie.title} (${props.movie.releasedate ? dayjs(props.movie.releasedate).year() : ''})`}
+                                    {`${props.movie.title} (${props.movie.releasedate ? moment(props.movie.releasedate).year() : ''})`}
                                 </div>
                             </div>
                         </a>           

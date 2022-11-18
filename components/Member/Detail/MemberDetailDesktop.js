@@ -40,7 +40,7 @@ const MemberDetailDesktop = (props) => {
                 </Col>
                 <Col span={12}> 
                     <div className={styles.container}>                
-                        <MemberAverageScore member={props.member} />
+                        {/* <MemberAverageScore member={props.member} /> */}
                     </div>
                 </Col>
                 <Col span={12}> 

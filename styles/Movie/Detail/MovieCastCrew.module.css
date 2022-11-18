@@ -1,11 +1,30 @@
 .container {
     margin-top: 8px;
     position: relative;    
+    background: #fff;
+    border: 1px solid #e5e5e5;
+    border-radius: 4px;
+    padding: 8px 12px 0px 12px;
 }
 
-.container .listItem {
+.container .slider {
+    padding: 4px 8px;
+}
+
+.container .sliderItem {
     text-align: center;
-    margin-bottom: 0%;
+    margin-bottom: 0%;    
+}
+
+.container .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;        
+    margin-bottom: 8px;
+}
+
+.container .header .label {
+    font-weight: bold;    
 }
 
 .container .artistAvatar {
@@ -45,8 +64,6 @@
     opacity: 0.5;
 }
 
-@media screen and (min-width: 1200px) {
-    .container {
-        padding: 0 16px;
-    }
+.container .reviews {
+    margin: 0 8px 24px 8px;
 }

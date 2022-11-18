@@ -1,19 +1,21 @@
 import { useEffect, useState } from 'react'
 import { Row, Col, Typography, Space, Tag, Button, Avatar } from 'antd'
 import Image from 'next/image'
-import dayjs from 'dayjs'
+import moment from 'moment'
 import Link from 'next/link'
 import MovieScore from '../MovieScore'
 import { PlayCircleOutlined, ShareAltOutlined } from '@ant-design/icons'
 import MovieTrailerModal from './MovieTrailerModal'
 import MovieCrew from './MovieCrew'
 import MovieCast from './MovieCast'
-import MovieComments from './MovieComments'
 import styles from '../../../styles/Movie/Detail/MovieDetailMobile.module.css'
 import axios from 'axios'
 import api from '../../../api'
 import MovieShareModal from '../Action/MovieShareModal'
 import MovieAction from '../Action/MovieAction'
+import MovieFriendsWatched from './Log/MovieFriendsWatched'
+import MovieFriendsWatchlist from './Log/MovieFriendsWatchlist'
+import MovieReviews from './Log/MovieReviews'
 
 const MovieDetailMobile = (props) => {
     const [shareVisible, setShareVisible] = useState(false)    
@@ -39,7 +41,7 @@ const MovieDetailMobile = (props) => {
         if (releasedate === undefined) {
             return 'Тодорхойгүй'
         }
-        return dayjs(releasedate).year().toString() + " он"
+        return moment(releasedate).year().toString() + " он"
     }   
 
     return (
@@ -67,7 +69,7 @@ const MovieDetailMobile = (props) => {
                                 <div>⏲{props.movie.duration} мин</div>
                             </Space>
                             <div className={styles.bottom}>
-                                <div className={styles.label}>Найруулагч</div>
+                                <Typography.Title level={5} style={{ margin: 0 }}>Найруулагч</Typography.Title> 
                                 <div className={styles.value}>                                    
                                     {directors ? directors.map(item => (
                                         <Link key={item.artist.id} href={`/artists/${item.artist.id}`}>
@@ -81,8 +83,8 @@ const MovieDetailMobile = (props) => {
                 </Row>
                 <div className={styles.container}>
                     <Row gutter={[8, 16]}>
-                        <Col span={12}>
-                            <div className={styles.label}>Төрөл жанр</div>
+                        <Col span={12}>                            
+                            <Typography.Title level={5} style={{ margin: 0 }}>Төрөл жанр</Typography.Title> 
                             <div className={styles.value}>
                                 <Space size={[0, 4]} wrap>
                                     {props.movie.genres.map(genre => (
@@ -92,17 +94,17 @@ const MovieDetailMobile = (props) => {
                             </div>
                         </Col>
                         <Col span={12}>
-                            <div className={styles.label}>Кино студи</div>
+                            <Typography.Title level={5} style={{ margin: 0 }}>Кино студи</Typography.Title> 
                             {props.movie.productions && props.movie.productions.length > 0 ? props.movie.productions[0].name : ''}
                         </Col>
                         <Col span={24}>         
-                            <div className={styles.label}>Агуулга</div>                   
+                            <Typography.Title level={5} style={{ margin: 0 }}>Агуулга</Typography.Title>                               
                             <Typography.Paragraph ellipsis={{ rows: 4, expandable: true, symbol: 'цааш' }}>
                                 {props.movie.description}
                             </Typography.Paragraph>
                         </Col>
                         <Col span={24}>         
-                            <div className={styles.label} style={{ marginBottom: '16px' }}>Үнэлгээ</div>                   
+                            <Typography.Title level={5}>Үнэлгээ</Typography.Title>              
                             <MovieScore score={props.movie.avg_score} size="large" />
                             <div style={{ marginTop: '8px', textAlign: 'center' }}>
                                 {props.movie.avg_score === 0 ? '/Саналын тоо хангалтгүй/' : `Нийт ${props.movie.score_count} санал`}
@@ -125,7 +127,7 @@ const MovieDetailMobile = (props) => {
                 </Row>
                 <div className={styles.container}>
                     <div className={styles.whereToWatch}>
-                        <div className={styles.label}>Үзэх боломжтой суваг</div>
+                        <Typography.Title level={5} style={{ margin: 0 }}>Үзэх боломжтой суваг</Typography.Title> 
                         <Space size={4}>
                             {props.movie.platforms.map(item => (
                                 <Link key={item.id} href={item.url}>
@@ -137,18 +139,11 @@ const MovieDetailMobile = (props) => {
                         </Space>
                     </div>
                 </div>             
-                <div className={styles.container}>
-                    <div className={styles.label}>Уран бүтээлчид</div>
-                    <MovieCrew id={props.movie.id} />
-                </div>
-                <div className={styles.container}>
-                    <div className={styles.label}>Жүжигчид</div>
-                    <MovieCast id={props.movie.id} />
-                </div>
-                <div className={styles.container}>
-                    <div className={styles.label}>Сэтгэгдэл</div>
-                    <MovieComments id={props.movie.id} />
-                </div>
+                <MovieCrew id={props.movie.id} />
+                <MovieCast id={props.movie.id} />
+                <MovieFriendsWatched id={props.movie.id} session={props.session} />
+                <MovieFriendsWatchlist id={props.movie.id} session={props.session} />         
+                <MovieReviews id={props.movie.id} session={props.session} />       
             </div>
         </div>
     )

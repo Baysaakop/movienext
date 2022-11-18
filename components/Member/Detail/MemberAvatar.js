@@ -2,7 +2,7 @@ import { Avatar } from 'antd'
 
 const MemberAvatar = ({ member, size }) => {
     return (
-        <div>
+        <>
             {member.avatar ? 
                 <Avatar size={size} src={member.avatar} />
             :
@@ -10,8 +10,9 @@ const MemberAvatar = ({ member, size }) => {
                     {member.username.charAt(0).toUpperCase()}
                 </Avatar>                         
             }
-        </div>
+        </>
     )
 }
+
 
 export default MemberAvatar

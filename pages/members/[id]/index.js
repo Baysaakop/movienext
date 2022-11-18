@@ -16,7 +16,7 @@ const MemberDetail = () => {
     const router = useRouter()
     const { id } = router.query 
 
-    const { data: member } = useSWR(`${api.userdetail}/${id}`, fetcher);         
+    const { data: member } = useSWR(`${api.userdetail}/${id}`, fetcher);            
 
     return (
         <div>
