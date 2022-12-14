@@ -33,7 +33,7 @@ const Sider = () => {
                 <Typography.Title level={5}>Бидэнтэй холбогдох:</Typography.Title>
                 <Descriptions column={1} size="small">
                     <Descriptions.Item label="E-mail">movieplus@gmail.com</Descriptions.Item>
-                    <Descriptions.Item label="Утас">+976 9975-0533</Descriptions.Item>
+                    <Descriptions.Item label="Утас">+976 9876-5432</Descriptions.Item>
                 </Descriptions>
             </div>  
             <Divider style={{ margin: '16px 0' }} />

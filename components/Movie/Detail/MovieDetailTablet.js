@@ -4,7 +4,7 @@ import Image from 'next/image'
 import moment from 'moment'
 import Link from 'next/link'
 import MovieScore from '../MovieScore'
-import { PlayCircleOutlined, ShareAltOutlined } from '@ant-design/icons'
+import { EditOutlined, PlayCircleOutlined, ShareAltOutlined } from '@ant-design/icons'
 import MovieTrailerModal from './MovieTrailerModal'
 import MovieCrew from './MovieCrew'
 import MovieCast from './MovieCast'
@@ -62,7 +62,12 @@ const MovieDetailTablet = (props) => {
                     <Col span={17}>
                         <div className={styles.container}>
                             <div className={styles.title}>
-                                {props.movie.title}                                                                      
+                                <div>{props.movie.title}</div>                                                                      
+                                <div>
+                                    {props.session && props.session.role === 1 ? 
+                                        <Button href={`/admin/editmovie/${props.movie.id}`} type='link' icon={<EditOutlined />}>Засах</Button> : ""
+                                    }
+                                </div>     
                             </div>                                                                              
                             <Row gutter={[16, 8]}>
                                 <Col span={24}>

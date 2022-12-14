@@ -1,4 +1,4 @@
-import { CheckOutlined, ClockCircleOutlined, HeartOutlined, StarOutlined, TeamOutlined, UserAddOutlined } from '@ant-design/icons'
+import { ClockCircleOutlined, EyeOutlined, HeartOutlined, StarOutlined, TeamOutlined, UserAddOutlined } from '@ant-design/icons'
 import { Row, Col, Typography } from 'antd'
 import styles from '../../../styles/Member/MemberDetail.module.css'
 
@@ -14,15 +14,12 @@ const StatRow = ({icon, label, value}) => {
 }
 
 const GeneralStats = ({ member }) => {
-
-    console.log(member)
-
     return (
         <div>
             <Typography.Title level={5}>Статистик</Typography.Title>
             <Row gutter={[24, 4]}>
                 <Col xs={24} sm={24} md={12}>
-                    <StatRow icon={<CheckOutlined />} label="Үзсэн" value={member.movies_watched_count} />
+                    <StatRow icon={<EyeOutlined />} label="Үзсэн" value={member.movies_watched_count} />
                 </Col>            
                 <Col xs={24} sm={24} md={12}>
                     <StatRow icon={<HeartOutlined />} label="Таалагдсан" value={member.movies_like_count} />

@@ -1,8 +1,9 @@
-import { Row, Col, Typography, Space } from 'antd'
+import { Row, Col, Typography, Space, Button } from 'antd'
 import dayjs from 'dayjs'
 import Image from 'next/image'
 import Filmography from '../Filmography'
 import styles from '../../../styles/Artist/ArtistDetail.module.css'
+import { EditOutlined } from '@ant-design/icons'
 
 const ArtistDetailTablet = (props) => {
     return (
@@ -13,7 +14,14 @@ const ArtistDetailTablet = (props) => {
                 </Col>
                 <Col span={18}>
                     <div className={styles.container}>                            
-                        <div className={styles.title}>{props.artist.name}</div>
+                        <div className={styles.title}>
+                            <div>{props.artist.name}</div>
+                            <div>                                                                
+                                {props.session && props.session.role === 1 ? 
+                                    <Button href={`/admin/editartist/${props.artist.id}`} type='link' icon={<EditOutlined />}>Засах</Button> : ""
+                                }
+                            </div>    
+                        </div>
                         <Space size={16} wrap>
                             <div>
                                 <div className={styles.label}>Мэргэжил</div>

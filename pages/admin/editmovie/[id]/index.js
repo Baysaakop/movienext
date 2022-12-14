@@ -1,6 +1,6 @@
 import { Button, Result, Segmented, Typography } from 'antd'
 import axios from 'axios'
-import dayjs from 'dayjs'
+import moment from 'moment'
 import { signIn, useSession } from 'next-auth/react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -51,7 +51,7 @@ const EditMovie = () => {
                     <div style={{ background: '#fff', border: '1px solid #e5e5e5', borderRadius: '4px', padding: '16px' }}>
                         <Typography.Title level={4}>Кино засах - 
                             <Link href={`/movies/${movie.id}`}>
-                                <a> {movie.title} ({dayjs(movie.releasedate).year()})</a>
+                                <a> {movie.title} ({moment(movie.releasedate).year()})</a>
                             </Link>
                         </Typography.Title>
                         <Segmented 

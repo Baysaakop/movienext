@@ -80,7 +80,7 @@ const MovieCard = (props) => {
                     <MovieAction movie={props.movie} session={props.session} container="card" />
                 </Drawer> 
             </div>   
-            { props.score ? (
+            { props.score && parseInt(props.score) > 0 ? (
                 <div>
                     <Rate allowHalf disabled count={5} defaultValue={props.score / 2} style={{ fontSize: '12px', color: '#3c3c3c' }} />
                 </div>

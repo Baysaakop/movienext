@@ -47,6 +47,9 @@
     font-size: 22px;    
     border-bottom: 1px solid #e5e5e5;
     margin-bottom: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .tablet .info .container .label {

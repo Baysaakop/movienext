@@ -72,7 +72,7 @@ const ArtistList = () => {
     return (
         <div className={styles.artistList}>
             <div>
-                <Typography.Title level={4} style={{ margin: 0 }}>Уран бүтээлчид</Typography.Title>            
+                <Typography.Title level={4} style={{ margin: 0 }}>Уран бүтээлчид {artists ? `(${artists.count})` : ''}</Typography.Title>            
                 <Divider style={{ margin: '8px 0' }} />
             </div>
             { error ? (

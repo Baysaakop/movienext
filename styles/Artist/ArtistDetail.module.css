@@ -20,6 +20,9 @@
 .container .title {
     font-weight: bold;    
     border-bottom: 1px solid #e5e5e5;    
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .container .label {
@@ -38,7 +41,7 @@
 .mobile .container .title {
     font-weight: bold;
     font-size: 18px;    
-    border-bottom: 1px solid #e5e5e5;    
+    border-bottom: 1px solid #e5e5e5;        
 }
 
 .tablet .container {

@@ -1,7 +1,8 @@
 import { Button, Result, Segmented, Typography } from 'antd'
 import axios from 'axios'
-import dayjs from 'dayjs'
+import moment from 'moment'
 import { signIn, useSession } from 'next-auth/react'
+import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React, { useState } from 'react'
 import useSWR from 'swr'
@@ -46,7 +47,11 @@ const EditArtist = () => {
             return (
                 artist ?
                     <div style={{ background: '#fff', border: '1px solid #e5e5e5', borderRadius: '4px', padding: '16px' }}>
-                        <Typography.Title level={4}>Кино засах - {artist.name}</Typography.Title>
+                        <Typography.Title level={4}>Уран бүтээлч засах - 
+                            <Link href={`/artists/${artist.id}`}>
+                                <a> {artist.name} ({moment(artist.releasedate).year()})</a>
+                            </Link>
+                        </Typography.Title>
                         <Segmented 
                             block
                             defaultValue={page}

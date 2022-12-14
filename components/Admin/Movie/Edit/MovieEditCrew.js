@@ -1,12 +1,10 @@
-import { Typography, Input, Radio, Space, Divider, List, Col, Row, Button, Avatar } from 'antd'
+import { Space, List, Col, Row, Button, Avatar } from 'antd'
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { PlusOutlined } from '@ant-design/icons'
 import api from '../../../../api'
 import MovieCrewModalCreate from '../MovieCrewModalCreate'
 import MovieCrewModalUpdate from '../MovieCrewModalUpdate'
-
-const { Search } = Input
 
 const MovieEditCrew = (props) => {
     const [data, setData] = useState()

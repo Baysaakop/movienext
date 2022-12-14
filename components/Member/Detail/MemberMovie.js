@@ -1,47 +1,53 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSession } from 'next-auth/react'
 import axios from 'axios'
 import api from '../../../api'
-import { CheckOutlined, ClockCircleOutlined, HeartOutlined, StarOutlined } from '@ant-design/icons'
+import { ClockCircleOutlined, EyeOutlined, HeartOutlined, StarOutlined } from '@ant-design/icons'
 import { List, Segmented } from 'antd'
 import MovieCard from '../../Movie/MovieCard'
 import styles from '../../../styles/Member/MemberDetail.module.css'
 
-const MemberMovie = (props) => {
+const MemberMovie = ({ member }) => {
     const [type, setType] = useState('watched')
-    const [user, setUser] = useState()
+    //const [user, setUser] = useState()    
+    const [memberLogs, setMemberLogs] = useState()
+    const [userLogs, setUserLogs] = useState()
+    const [openCard, setOpenCard] = useState()    
+
+    useEffect(() => {
+        getMovies()
+    }, [member, type])    
 
     const { data: session, status } = useSession()
 
-    if (status === "authenticated" && user === undefined) {        
+    if (status === "authenticated" && userLogs === undefined) {        
         axios({
             method: 'GET',
-            url: `${api.userdetail}/${session.id}/`
+            url: `${api.movielogs}?user=${session.id}`
         })
-        .then(res => {                       
-            setUser(res.data)
+        .then(res => {                                   
+            setUserLogs(res.data.results)
         })
-        .catch(err => {
+        .catch(err => {            
             console.log(err)
         })
     }
 
+    function getMovies() {
+        axios({
+            method: 'GET',
+            url: `${api.movielogs}?user=${member.id}&${type}=true`
+        })
+        .then(res => {
+            setMemberLogs(res.data.results)
+        })
+        .catch(err => {
+            console.log(err)
+        })     
+    }
+    
     function onSegmentChange(val) {        
         setType(val)
-    }
-
-    function getMovies() {
-        if (type === 'watched') {
-            return props.member.movies_watched
-        } else if (type === 'like') {
-            return props.member.movies_like
-        } else if (type === 'watchlist') {
-            return props.member.movies_watchlist
-        } else if (type === 'rated') {
-            return props.member.movies_rated
-        } else {
-            return []
-        }
     }
 
     return (
@@ -52,7 +58,7 @@ const MemberMovie = (props) => {
                 options={[
                     {
                         value: 'watched',
-                        icon: <CheckOutlined />,
+                        icon: <EyeOutlined />,
                     }, 
                     {
                         value: 'like',
@@ -81,14 +87,17 @@ const MemberMovie = (props) => {
                     xxl: 6,
                 }}
                 pagination={{ pageSize: 30, size: 'small' }}
-                dataSource={getMovies()}                
-                renderItem={movie => (
-                    <List.Item key={movie.id}>                            
-                        { type === 'rated' ? (
-                            <MovieCard movie={movie.movie} score={movie.score} user={user} token={session ? session.token : undefined} />
-                        ) : (
-                            <MovieCard movie={movie} user={user} token={session ? session.token : undefined} />
-                        )}                       
+                dataSource={memberLogs}                
+                renderItem={item => (
+                    <List.Item key={item.id}>                 
+                        <MovieCard 
+                            movie={item.movie} 
+                            session={session}                                        
+                            logs={userLogs}       
+                            openCard={openCard}             
+                            setOpenCard={(id) => setOpenCard(id)}      
+                            score={type === 'rated' ? item.score : 0}                      
+                        />
                     </List.Item>
                 )}
             />

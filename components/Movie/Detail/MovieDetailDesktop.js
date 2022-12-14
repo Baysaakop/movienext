@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Col, Row, Space, Tag, Typography, Button, List, Avatar } from 'antd'
-import { PlayCircleOutlined, ShareAltOutlined } from '@ant-design/icons'
+import { ClockCircleOutlined, EditOutlined, EyeOutlined, HeartOutlined, PlayCircleOutlined, ShareAltOutlined } from '@ant-design/icons'
 import moment from 'moment'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -42,7 +42,17 @@ const MovieDetailDesktop = (props) => {
             return 'Тодорхойгүй'
         }
         return moment(releasedate).year().toString() + " он"
-    }   
+    }       
+
+    function formatCount(count) {
+        if (count >= 1000000) {
+            return (count / 1000000).toFixed(1).toString() + "M";
+        } else if (count >= 1000) {
+            return (count / 1000).toFixed(1).toString() + "K";
+        } else {
+            return count.toString();
+        }
+    }
 
     return (
         <div className={styles.desktop}>
@@ -68,6 +78,17 @@ const MovieDetailDesktop = (props) => {
                                 <Button block disabled={props.movie.trailer === undefined || props.movie.trailer === null || props.movie.trailer === ''} type="primary" size="default" icon={<PlayCircleOutlined />} onClick={() => setTrailerVisible(true)}>Трейлер</Button>
                                 {trailerVisible ? <MovieTrailerModal title={props.movie.title} trailer={props.movie.trailer} hide={() => setTrailerVisible(false)} /> : <></>}                            
                             </div>
+                            {/* <div className={styles.stats}>
+                                <div>
+                                    <EyeOutlined /> {formatCount(props.movie.watched_count)}
+                                </div>                                
+                                <div>
+                                    <HeartOutlined /> {formatCount(props.movie.like_count)}
+                                </div>
+                                <div>
+                                    <ClockCircleOutlined /> {formatCount(props.movie.watchlist_count)}
+                                </div>
+                            </div> */}
                             <List
                                 bordered
                                 header={<Typography.Title level={5} style={{ margin: 0 }}>Үзэх боломжтой суваг</Typography.Title>}
@@ -92,7 +113,12 @@ const MovieDetailDesktop = (props) => {
                     <Col sm={14} md={16} lg={17} xl={17} xxl={18}>
                         <div className={styles.container}>
                             <div className={styles.title}>
-                                {props.movie.title}                                                                      
+                                <div>{props.movie.title}</div>
+                                <div>
+                                    {props.session && props.session.role === 1 ? 
+                                        <Button href={`/admin/editmovie/${props.movie.id}`} type='link' icon={<EditOutlined />}>Засах</Button> : ""
+                                    }
+                                </div>                                                                   
                             </div>     
                             <Row gutter={[16, 8]}>
                                 <Col span={24}>

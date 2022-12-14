@@ -17,7 +17,7 @@ const MovieCrew = ({ id }) => {
     useEffect(() => {
         axios({
             method: 'GET',
-            url: `${api.moviecrew}?movie=${id}&first=8`
+            url: `${api.moviecrew}?movie=${id}`
         })
         .then(res => {                   
             setData(res.data.results)
@@ -90,7 +90,7 @@ const MovieCrew = ({ id }) => {
                                         <Link href={`/artists/${item.artist.id}`}>
                                             <Card
                                                 hoverable
-                                                cover={<Image alt={item.artist.name} src={item.artist.image ? item.artist.image : "/blank.jpg"} width={100} height={150} layout="responsive" />}
+                                                cover={<Image alt={item.artist.name} src={item.artist.image ? item.artist.image : "/blank.png"} width={100} height={150} layout="responsive" />}
                                                 size="small"
                                             >
                                                 <div className={styles.artistName}>{item.artist.name}</div>

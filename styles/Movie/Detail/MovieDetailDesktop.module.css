@@ -60,6 +60,9 @@
     font-size: 24px;    
     border-bottom: 1px solid #e5e5e5;
     margin-bottom: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .desktop .info .container .value {
@@ -80,4 +83,11 @@
 
 .desktop .info .buttons button {
     margin-bottom: 8px;
+}
+
+.desktop .info .stats {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-bottom: 4px;
 }

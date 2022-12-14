@@ -1,4 +1,4 @@
-import { CheckOutlined } from "@ant-design/icons"
+import { CheckOutlined, EyeOutlined } from "@ant-design/icons"
 import { Button, message, notification, Tooltip } from "antd"
 import axios from "axios"
 import api from "../../../api"
@@ -89,7 +89,7 @@ const MovieWatchedButton = (props) => {
                         size={props.size}
                         shape="circle" 
                         type="primary" 
-                        icon={<CheckOutlined />}   
+                        icon={<EyeOutlined />}   
                         onClick={onRemove}      
                         style={{ background: '#44bd32', border: 0 }}
                     />
@@ -103,7 +103,7 @@ const MovieWatchedButton = (props) => {
                 size={props.size}
                 shape="circle" 
                 type="text" 
-                icon={<CheckOutlined />}   
+                icon={<EyeOutlined />}   
                 onClick={onAdd}      
             />        
         </Tooltip>

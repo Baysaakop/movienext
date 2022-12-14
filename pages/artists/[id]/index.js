@@ -42,11 +42,13 @@ const ArtistDetail = () => {
                     <ArtistDetailTablet
                         artist={artist}
                         path={router.asPath}
+                        session={session}      
                     />
                 ) : (
                     <ArtistDetailMobile 
                         artist={artist}
                         path={router.asPath}
+                        session={session}      
                     />
                 )                
             ) : (
