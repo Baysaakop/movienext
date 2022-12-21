@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import api from '../../../api'
 import ImageUpload from '../../ImageUpload'
-import dayjs from 'dayjs'
+import moment from 'moment'
 import Router from 'next/router'
 
 const { Search } = Input
@@ -47,7 +47,7 @@ const ArtistUpdate = ({ token }) => {
             formData.append('lastname', values.lastname)
         }
         if (values.birthdate) {
-            formData.append('birthdate', dayjs(values.birthdate).format("YYYY-MM-DD"))
+            formData.append('birthdate', moment(values.birthdate).format("YYYY-MM-DD"))
         }
         if (values.gender) {
             formData.append('gender', values.gender)

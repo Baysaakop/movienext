@@ -1,8 +1,8 @@
 import { Row, Col, Typography } from 'antd'
-import dayjs from 'dayjs'
 import Image from 'next/image'
 import Filmography from '../Filmography'
 import styles from '../../../styles/Artist/ArtistDetail.module.css'
+import moment from 'moment'
 
 const ArtistDetailMobile = (props) => {
     return (
@@ -22,7 +22,7 @@ const ArtistDetailMobile = (props) => {
                         </div>       
                         <div className={styles.label}>Төрсөн өдөр</div>
                         <div className={styles.value}>
-                            {dayjs(props.artist.birthdate).format("YYYY-MM-DD")}
+                            {props.artist.birthdate ? moment(props.artist.birthdate).format("YYYY оны MM сарын DD") : '--Оруулаагүй--'}
                         </div>                                                                        
                     </div>
                 </Col>

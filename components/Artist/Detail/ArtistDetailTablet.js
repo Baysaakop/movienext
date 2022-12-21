@@ -1,9 +1,9 @@
 import { Row, Col, Typography, Space, Button } from 'antd'
-import dayjs from 'dayjs'
 import Image from 'next/image'
 import Filmography from '../Filmography'
 import styles from '../../../styles/Artist/ArtistDetail.module.css'
 import { EditOutlined } from '@ant-design/icons'
+import moment from 'moment'
 
 const ArtistDetailTablet = (props) => {
     return (
@@ -34,7 +34,7 @@ const ArtistDetailTablet = (props) => {
                             <div>
                                 <div className={styles.label}>Төрсөн өдөр</div>
                                 <div className={styles.value}>
-                                    {dayjs(props.artist.birthdate).format("YYYY-MM-DD")}
+                                    {props.artist.birthdate ? moment(props.artist.birthdate).format("YYYY оны MM сарын DD") : '--Оруулаагүй--'}
                                 </div>           
                             </div>
                         </Space>         

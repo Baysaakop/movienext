@@ -4,7 +4,7 @@ import Router from 'next/router'
 import React, { useState } from 'react'
 import api from '../../../../api'
 import ImageUpload from '../../../ImageUpload'
-import dayjs from 'dayjs'
+import moment from 'moment'
 
 const ArtistEditInfo = (props) => {
     const [form] = Form.useForm()
@@ -24,8 +24,8 @@ const ArtistEditInfo = (props) => {
         if (values.biography && values.biography !== props.artist.biography) {
             formData.append('biography', values.biography)
         }
-        if (values.birthdate && dayjs(values.birthdate).format("YYYY-MM-DD") !== props.artist.birthdate) {
-            formData.append('birthdate', dayjs(values.birthdate).format("YYYY-MM-DD"))
+        if (values.birthdate && moment(values.birthdate).format("YYYY-MM-DD") !== props.artist.birthdate) {
+            formData.append('birthdate', moment(values.birthdate).format("YYYY-MM-DD"))
         }
         if (values.gender && values.gender !== props.artist.gender) {
             formData.append('gender', values.gender)
@@ -62,7 +62,7 @@ const ArtistEditInfo = (props) => {
                     firstname: props.artist.firstname,                  
                     lastname: props.artist.lastname,                                
                     biography: props.artist.biography,
-                    birthdate: dayjs(props.artist.birthdate),
+                    birthdate: props.artist.birthdate ? moment(props.artist.birthdate) : undefined,
                     gender: props.artist.gender,
                 }}
             >
@@ -73,12 +73,12 @@ const ArtistEditInfo = (props) => {
                         </Form.Item>          
                     </Col>
                     <Col span={8}>
-                        <Form.Item name="lastname" label="Овог" rules={[{ required: true }]}>
+                        <Form.Item name="lastname" label="Овог">
                             <Input />
                         </Form.Item>          
                     </Col>
                     <Col span={8}>
-                        <Form.Item name="firstname" label="Нэр" rules={[{ required: true }]}>
+                        <Form.Item name="firstname" label="Нэр">
                             <Input />
                         </Form.Item>          
                     </Col>                    
