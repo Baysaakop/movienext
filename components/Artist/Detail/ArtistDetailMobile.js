@@ -17,7 +17,7 @@ const ArtistDetailMobile = (props) => {
                         <div className={styles.label}>Мэргэжил</div>
                         <div className={styles.value}>
                             {props.artist.occupations.map(occupation => (
-                                <span key={occupation.id}>{occupation.name} </span>
+                                <span key={occupation.id}>{occupation.name} | </span>
                             ))}    
                         </div>       
                         <div className={styles.label}>Төрсөн өдөр</div>
