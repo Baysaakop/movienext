@@ -70,7 +70,7 @@ const Filmography = ({ artist }) => {
                             <Link href={`/movies/${item.movie.id}`}>
                                 <a style={{ color: '#000' }}>{item.movie.title}</a>
                             </Link>
-                            {item.role_name ? <span> ({item.role_name})</span> : <></>}
+                            {/* {item.role_name ? <span> /{item.role_name}/</span> : <></>} */}
                         </Timeline.Item>
                     ))}
                 </Timeline>
